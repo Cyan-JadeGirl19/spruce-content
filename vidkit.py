@@ -31,48 +31,13 @@ def encode(frames_iter, size, path, fps=FPS, audio_wav=None, crf=21):
     p.stdin.close(); p.wait()
     return path
 
-# ---------------------------------------------------------------- audio: soft chimes
-def chime_wav(path, events, dur, rate=44100):
-    """events: list of (t, freq, dur, amp) — gentle bell tones + soft pad"""
-    n = int(dur * rate)
-    buf = [0.0] * n
-    for (t, f, d, a) in events:
-        s0 = int(t * rate); s1 = min(n, s0 + int(d * rate))
-        for i in range(s0, s1):
-            x = (i - s0) / rate
-            env = math.exp(-2.6 * x) * min(1, x * 220)
-            v = (math.sin(2*math.pi*f*x) * 0.62 +
-                 math.sin(2*math.pi*f*2*x) * 0.22 +
-                 math.sin(2*math.pi*f*3.01*x) * 0.08)
-            buf[i] += v * env * a
-    # normalize & fade out tail
-    m = max(1e-6, max(abs(v) for v in buf))
-    fade = int(rate * 1.2)
-    out = array.array('h')
-    for i, v in enumerate(buf):
-        g = 0.72 * v / m
-        if i > n - fade: g *= (n - i) / fade
-        out.append(int(max(-1, min(1, g)) * 32767))
-    with wave.open(path, 'w') as w:
-        w.setnchannels(1); w.setsampwidth(2); w.setframerate(rate)
-        w.writeframes(out.tobytes())
-    return path
-
-def twinkle_events(times, base=523.25, amps=None):
-    """C-major sparkle arpeggios at given times"""
-    scale = [base, base*1.25, base*1.5, base*2, base*2.5, base*2*1.25]
-    ev = []
-    for k, t in enumerate(times):
-        f = scale[k % len(scale)]
-        ev.append((t, f, 1.6, (amps[k] if amps else 0.5)))
-        ev.append((t + 0.06, f*1.5, 1.2, 0.18))
-    return ev
-
 # ---------------------------------------------------------------- pieces
-def kb_frame(bg_path, size, t, z0=1.08, z1=1.22, pan=(0, 0), brighten=1.0):
-    """ken-burns cover frame"""
+def kb_frame(bg_path, size, t, z0=1.08, z1=1.22, pan=(0, 0), brighten=1.0, grade=0.0):
+    """ken-burns cover frame, optional cinematic grade"""
     W, H = size
     im = bg_photo(bg_path, W, H, brighten=brighten, sat=1.05)
+    if grade:
+        im = cinema(im, strength=grade)
     z = z0 + (z1 - z0) * easeio(t)
     zw, zh = int(W * z), int(H * z)
     im = im.resize((zw, zh), Image.LANCZOS)
@@ -100,9 +65,14 @@ def text_layer(size, text, weight, px, color=CREAM, maxw_frac=0.84, lh=1.14, sha
         y += px * lh
     return layer, th
 
-def slide_fade(base, layer, t, a, b, dy=60, dx=0):
-    """paste layer with slide+fade between times a..b"""
+def slide_fade(base, layer, t, a, b, dy=60, dx=0, out=None):
+    """slide+fade in at a..b; optional fade-out out=(t0,t1,dy)"""
     e = ease(seg(t, a, b))
+    if out:
+        o = 1 - ease(seg(t, out[0], out[1]))
+        e = e * o
+        if e <= 0: return base
+        dy = dy + out[2] * (1 - o)
     if e <= 0: return base
     tmp = layer.copy()
     alpha = tmp.getchannel('A').point(lambda v: int(v * e))
@@ -180,3 +150,106 @@ def label_chip(img, text, cx, cy, fill, fg=WHITE):
     pill(d, box, fill)
     d.text((cx, cy - 2), text, font=f, fill=fg, anchor='mm')
     return img
+
+# ---------------------------------------------------------------- audio v2: twinkle soundtrack (stereo)
+def _bell(freq, dur, amp, rate=44100):
+    """music-box bell: inharmonic partials, exponential decay, soft attack"""
+    n = int(dur * rate)
+    out = [0.0] * n
+    partials = [(1.0, 1.0), (2.756, 0.42), (5.404, 0.16), (8.93, 0.05)]
+    tau = dur / 4.2
+    for (m, w) in partials:
+        f = freq * m
+        for i in range(n):
+            x = i / rate
+            env = math.exp(-x / tau) * min(1.0, x / 0.004)
+            out[i] += math.sin(2 * math.pi * f * x) * env * w
+    m = max(abs(v) for v in out) or 1.0
+    return [v / m * amp for v in out]
+
+def _pad(freqs, dur, amp, rate=44100, att=1.1, rel=1.4):
+    """warm slow pad: detuned sine pairs per note"""
+    n = int(dur * rate)
+    out = [0.0] * n
+    for f in freqs:
+        for det in (0.9985, 1.0015):
+            ph = 0.0
+            for i in range(n):
+                x = i / rate
+                env = min(1.0, x / att) * min(1.0, (dur - x) / rel)
+                out[i] += math.sin(2 * math.pi * f * det * x) * env
+    m = max(abs(v) for v in out) or 1.0
+    return [v / m * amp for v in out]
+
+def twinkle_wav(path, dur, key=523.25, seed=7, accents=None, fade=1.6, rate=44100):
+    """Gentle twinkling music-box soundtrack: warm pad + bell arpeggios + shimmer dust."""
+    import random
+    rnd = random.Random(seed)
+    n = int(dur * rate)
+    L = [0.0] * n; R = [0.0] * n
+    def mix(buf, sig, start, pan=0.5):
+        s0 = int(start * rate)
+        for i, v in enumerate(sig):
+            j = s0 + i
+            if j >= n: break
+            buf[int(j + 0)] = buf[j]  # placeholder no-op (keeps shape clear)
+    def add(sig, start, pan):
+        s0 = int(start * rate)
+        for i, v in enumerate(sig):
+            j = s0 + i
+            if 0 <= j < n:
+                L[j] += v * (1 - pan)
+                R[j] += v * pan
+    # --- chord pad progression I–vi–IV–V (loop), one chord per 4s
+    root = key
+    chords = [
+        [root, root*1.25, root*1.5, root*2.25],          # I add9-ish
+        [root*0.75, root*1.1875, root*1.25*1.0, root*1.875],
+        [root*0.8333*1.2, root*1.0416*1.2, root*1.25*1.2, root*1.875],
+        [root*0.9375*1.2, root*1.1718*1.2, root*1.2483*1.2, root*1.875*1.0],
+    ]
+    tcur = 0.0; ci = 0
+    while tcur < dur:
+        d = min(4.0, dur - tcur + 0.6)
+        if d < 1.0: break
+        add(_pad([f/2 for f in chords[ci % 4]], d, 0.045, rate), max(0, tcur), 0.5)
+        tcur += 4.0; ci += 1
+    # --- pentatonic twinkles: gentle arpeggio with rests
+    pent = [1.0, 1.125, 1.25, 1.5, 1.6875, 2.0, 2.25, 2.5, 3.0]
+    t = 0.35
+    while t < dur - 0.5:
+        f = key * rnd.choice(pent) * rnd.choice([1, 1, 1, 2])
+        d = rnd.uniform(1.4, 2.4)
+        add(_bell(f, d, rnd.uniform(0.16, 0.30), rate), t, rnd.uniform(0.25, 0.75))
+        t += rnd.choice([0.42, 0.5, 0.6, 0.75, 1.0])
+        if rnd.random() < 0.14: t += 0.5   # breath
+    # --- shimmer dust: tiny high pings
+    t = 0.0
+    while t < dur - 0.2:
+        f = rnd.uniform(4200, 8600)
+        add(_bell(f, 0.35, rnd.uniform(0.015, 0.045), rate), t, rnd.uniform(0.15, 0.85))
+        t += rnd.uniform(0.09, 0.22)
+    # --- accents (logo hits / CTA)
+    for (ta, fa) in (accents or []):
+        add(_bell(fa, 2.6, 0.42, rate), ta, 0.5)
+        add(_bell(fa*1.5, 2.2, 0.20, rate), ta + 0.07, 0.62)
+        add(_bell(fa*2, 1.8, 0.12, rate), ta + 0.14, 0.4)
+    # --- master: soft-clip + fade out
+    fadeN = int(fade * rate)
+    peak = max(max(abs(v) for v in L), max(abs(v) for v in R)) or 1.0
+    g = 0.82 / peak
+    inter = array.array('h')
+    for i in range(n):
+        k = 1.0
+        if i > n - fadeN: k = (n - i) / fadeN
+        if i < int(0.25*rate): k *= i / (0.25*rate)
+        lv = max(-0.98, min(0.98, L[i] * g)) * k
+        rv = max(-0.98, min(0.98, R[i] * g)) * k
+        # tanh soft clip for warmth
+        lv = math.tanh(lv * 1.4) / math.tanh(1.4)
+        rv = math.tanh(rv * 1.4) / math.tanh(1.4)
+        inter.append(int(lv * 32767)); inter.append(int(rv * 32767))
+    with wave.open(path, 'w') as w:
+        w.setnchannels(2); w.setsampwidth(2); w.setframerate(rate)
+        w.writeframes(inter.tobytes())
+    return path
