@@ -1,6 +1,12 @@
 """Spruce Pro videos v2 — non-overlapping layout zones + twinkle soundtrack."""
 import sys, math, os
 sys.path.insert(0, '/home/user/spruce')
+import spruce_kit as _K
+_K.TEAL = (0, 48, 60, 255); _K.TEAL_D = (0, 33, 42, 255); _K.TEAL_L = (10, 74, 88, 255)
+_K.SCRIM_COLOR = (0, 20, 26); _K.FOOT_DARK = (0, 26, 33); _K.CINE_SHADOW = (0.00, 0.10, 0.13)
+import templates as _T
+for _n in ('TEAL', 'TEAL_D', 'TEAL_L'):
+    setattr(_T, _n, getattr(_K, _n))
 from vidkit import *
 
 OUT = f'{ROOT}/videos/spruce_pro'

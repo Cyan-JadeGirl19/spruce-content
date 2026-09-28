@@ -22,6 +22,10 @@ CREAM     = (250, 247, 240, 255)    # warm white text
 WHITE     = (255, 255, 255, 255)
 BULBS     = [(200,32,40), (255,201,60), (76,175,62), (64,176,224), (240,128,40)]
 GOLD      = (255, 201, 60, 255)
+# switchable dark-tone globals (SL renders on Christmas green, SP on teal)
+SCRIM_COLOR = (0, 20, 26)
+FOOT_DARK   = (0, 26, 33)
+CINE_SHADOW = (0.00, 0.10, 0.13)   # shadow-lift hue for cinema()
 
 SL = dict(
     key="spruce_lights", name="Spruce Holiday Lighting & Events",
@@ -189,7 +193,8 @@ def mist(img, color=TEAL, top=150, mid=92, bottom=210, focus_pt=0.5):
         d.line([(0, y), (w, y)], fill=color[:3] + (int(max(0, min(255, a))),))
     return Image.alpha_composite(img, ov)
 
-def text_scrim(img, cy, height, alpha=105, color=(0, 22, 28), blur=34):
+def text_scrim(img, cy, height, alpha=105, color=None, blur=34):
+    color = color or SCRIM_COLOR
     """soft blurred dark band behind a text block — legibility without walls"""
     w, h = img.size
     lay = Image.new("L", (w, h), 0)
@@ -212,7 +217,7 @@ def cinema(img, strength=1.0):
     luma = a.mean(axis=2, keepdims=True)
     sh_w = ((1 - luma) ** 2) * 0.34 * strength          # shadow weight (H,1)
     hi_w = (luma ** 1.6) * 0.10 * strength              # highlight weight
-    teal = np.array([0.00, 0.10, 0.13], np.float32)     # lifted toward teal
+    teal = np.array(CINE_SHADOW, np.float32)            # shadow-lift hue
     warm = np.array([0.05, 0.025, 0.00], np.float32)    # highlights warm up
     a = a * (1 - sh_w) + teal.reshape(1, 1, 3) * sh_w * 0.9
     a = a * (1 + warm.reshape(1, 1, 3) * hi_w * 2.2)
@@ -280,11 +285,11 @@ def scrim(img, strength=0.82, bottom_frac=0.62, top_frac=0.30):
     th = int(h * top_frac)
     for y in range(th):
         a = int(150 * (1 - y / th) ** 1.4 * (strength + 0.15))
-        d.line([(0, y), (w, y)], fill=(0, 20, 26, min(a, 255)))
+        d.line([(0, y), (w, y)], fill=SCRIM_COLOR + (min(a, 255),))
     bh = int(h * bottom_frac)
     for y in range(bh):
         a = int(230 * strength * (y / bh) ** 1.25)
-        d.line([(0, h - bh + y), (w, h - bh + y)], fill=(0, 22, 28, min(a, 255)))
+        d.line([(0, h - bh + y), (w, h - bh + y)], fill=SCRIM_COLOR + (min(a, 255),))
     return Image.alpha_composite(img, ov)
 
 def place_logo_top(img, brand, light_bg=False, h=None, pad=44):

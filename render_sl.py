@@ -1,5 +1,16 @@
 """Spruce Lights statics v3 — UNIQUE image per card, cinematic frosted blend."""
 import sys; sys.path.insert(0, '/home/user/spruce')
+import spruce_kit as _K
+# Christmas-green palette for Spruce Lights
+_K.TEAL = (10, 61, 33, 255)        # deep spruce green base
+_K.TEAL_D = (6, 40, 22, 255)
+_K.TEAL_L = (20, 88, 47, 255)
+_K.SCRIM_COLOR = (2, 26, 14)
+_K.FOOT_DARK = (3, 30, 17)
+_K.CINE_SHADOW = (0.0, 0.085, 0.040)
+import templates as _T
+for _n in ('TEAL', 'TEAL_D', 'TEAL_L'):
+    setattr(_T, _n, getattr(_K, _n))
 from templates import *
 from spruce_kit import *
 
@@ -29,8 +40,8 @@ both('SL_03_before_after',
 
 # 04 stat — real C9 bulb macro
 both('SL_04_free_service_calls',
-    stat(SL, SQ, 'The Spruce Promise', '100%', 'Free Service Calls', 'Burnt-out bulb? Weather damage? Our elves are on standby all season — you never touch a ladder.', bg_path=f'{SLR}/sl_15_hting-installation-municipalities-2.jpg'),
-    stat(SL, ST, 'The Spruce Promise', '100%', 'Free Service Calls', 'Burnt-out bulb? Weather damage? Our elves are on standby all season to get your display glowing again — fast, and free.', bg_path=f'{SLR}/sl_15_hting-installation-municipalities-2.jpg'))
+    stat(SL, SQ, 'The Spruce Promise', '100%', 'Free Service Calls', 'Burnt-out bulb? Weather damage? Our elves are on standby all season — you never touch a ladder.', bg_path=f'{SLR}/sl_17_hting-installation-municipalities-4.jpg'),
+    stat(SL, ST, 'The Spruce Promise', '100%', 'Free Service Calls', 'Burnt-out bulb? Weather damage? Our elves are on standby all season to get your display glowing again — fast, and free.', bg_path=f'{SLR}/sl_17_hting-installation-municipalities-4.jpg'))
 
 # 05 process — real crew carrying strands
 both('SL_05_process',
@@ -54,8 +65,10 @@ both('SL_08_halloween_crossover',
 
 # 09 why pro — AI hands clipping detail
 both('SL_09_why_pro',
-    tip(SL, SQ, 'Good to Know', 'Why Homeowners Leave the Ladder to Us', 'Commercial-grade C7 & C9 lights custom-cut for your roofline. No ladder tumbles, no tangled storage bins, no half-lit strands in December. Just a perfect display — installed, maintained and stored by our crew.', bg_path=f'{BG}/sl_hands.jpg'),
-    tip(SL, ST, 'Good to Know', 'Why Homeowners Leave the Ladder to Us', 'Commercial-grade C7 & C9 lights custom-cut for your exact roofline. No ladder tumbles. No tangled storage bins. No half-lit strands on Christmas Eve. Just a flawless display — installed, maintained and stored by our crew, year after year.', bg_path=f'{BG}/sl_hands.jpg'))
+    tip(SL, SQ, 'Good to Know', 'Why Homeowners Leave the Ladder to Us', 'The commercial-grade standard — without you lifting a finger.', bg_path=f'{BG}/sl_hands.jpg',
+        bullets=['Custom-cut C7 & C9 roofline lights', 'Pro install with perfect clean lines', 'Free season-long service calls', 'Takedown & year-round storage included']),
+    tip(SL, ST, 'Good to Know', 'Why Homeowners Leave the Ladder to Us', 'The commercial-grade standard — without you lifting a finger.', bg_path=f'{BG}/sl_hands.jpg',
+        bullets=['Custom-cut C7 & C9 roofline lights', 'Pro install with perfect clean lines', 'Free season-long service calls', 'No ladder tumbles, no tangled bins', 'Takedown & year-round storage included']))
 
 # 10 review — real snowman home
 both('SL_10_review_randy',
@@ -79,8 +92,10 @@ both('SL_13_hoa_streets',
 
 # 14 why october — AI farmhouse
 both('SL_14_why_october',
-    tip(SL, SQ, 'Pro Tip', 'Why Smart Homeowners Book in October', 'October installs mean your design gets first pick of dates, lights are up before family arrives, and you skip the December scramble entirely. Same price — just a better spot in line.', bg_path=f'{BG}/sl_farmhouse.jpg'),
-    tip(SL, ST, 'Pro Tip', 'Why Smart Homeowners Book in October', 'October installs mean your design gets first pick of install dates, your lights are up before family arrives, and you skip the December scramble entirely. Same price — just a much better spot in line.', bg_path=f'{BG}/sl_farmhouse.jpg'))
+    tip(SL, SQ, 'Pro Tip', 'Why Smart Homeowners Book in October', 'Same price — just a better spot in line.', bg_path=f'{BG}/sl_farmhouse.jpg',
+        bullets=['First pick of install dates', 'Up before family arrives', 'Zero December scramble', 'Design slot locked & guaranteed']),
+    tip(SL, ST, 'Pro Tip', 'Why Smart Homeowners Book in October', 'Same price — just a better spot in line.', bg_path=f'{BG}/sl_farmhouse.jpg',
+        bullets=['First pick of install dates', 'Up before family arrives', 'Zero December scramble', 'Free design consultation', 'Design slot locked & guaranteed']))
 
 # 15 poll — real downtown tree crowd
 both('SL_15_poll_ladder',
@@ -104,8 +119,8 @@ both('SL_18_october_filling',
 
 # 19 CTA — AI golden bokeh
 both('SL_19_cta',
-    cta_card(SL, SQ, 'Let’s Light Up Your Holidays', 'Free design consultation • Free service calls all season • We install, remove & store', bg_path=f'{BG}/sl_macro.jpg'),
-    cta_card(SL, ST, 'Let’s Light Up Your Holidays', 'Free design consultation • Free service calls all season • We install, remove & store everything', bg_path=f'{BG}/sl_macro.jpg'))
+    cta_card(SL, SQ, 'Let’s Light Up Your Holidays', 'Free design consultation • Free service calls all season • We install, remove & store', bg_path=f'{BG}/sl_dock.jpg'),
+    cta_card(SL, ST, 'Let’s Light Up Your Holidays', 'Free design consultation • Free service calls all season • We install, remove & store everything', bg_path=f'{BG}/sl_dock.jpg'))
 
 # 20 halloween day — AI lit doorway
 both('SL_20_halloween_day',

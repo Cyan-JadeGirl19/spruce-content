@@ -1,5 +1,11 @@
 """Spruce Pro statics v3 — UNIQUE real photo per card, cinematic frosted blend."""
 import sys; sys.path.insert(0, '/home/user/spruce')
+import spruce_kit as _K
+_K.TEAL = (0, 48, 60, 255); _K.TEAL_D = (0, 33, 42, 255); _K.TEAL_L = (10, 74, 88, 255)
+_K.SCRIM_COLOR = (0, 20, 26); _K.FOOT_DARK = (0, 26, 33); _K.CINE_SHADOW = (0.00, 0.10, 0.13)
+import templates as _T
+for _n in ('TEAL', 'TEAL_D', 'TEAL_L'):
+    setattr(_T, _n, getattr(_K, _n))
 from templates import *
 from spruce_kit import *
 from PIL import Image, ImageEnhance, ImageFilter, ImageDraw
@@ -84,8 +90,10 @@ both('SP_08_review',
 
 # 09 — deck soft wash at lake
 both('SP_09_science',
-    tip(SP, SQ, 'Pro Knowledge', 'Soft Wash vs. Pressure Wash', 'High pressure on siding forces water behind it and causes damage. Soft washing uses specialized algicides to safely kill algae at the root — the right method for the right surface, every time.', bg_path=f'{P}/sp_06_Spruce58-scaled-1.jpg'),
-    tip(SP, ST, 'Pro Knowledge', 'Soft Wash vs. Pressure Wash', 'High pressure on siding forces water behind it and causes permanent damage. Soft washing uses specialized algicides to safely eliminate algae at the root — the right method for the right surface, every single time.', bg_path=f'{P}/sp_06_Spruce58-scaled-1.jpg'))
+    tip(SP, SQ, 'Pro Knowledge', 'Soft Wash vs. Pressure Wash', 'One method does not fit all surfaces.', bg_path=f'{P}/sp_06_Spruce58-scaled-1.jpg',
+        bullets=['Soft washing for siding & roofs', 'Pressure only where it is safe', 'Algicides kill algae at the root', 'No damage, no water behind siding']),
+    tip(SP, ST, 'Pro Knowledge', 'Soft Wash vs. Pressure Wash', 'One method does not fit all surfaces.', bg_path=f'{P}/sp_06_Spruce58-scaled-1.jpg',
+        bullets=['Soft washing for siding & roofs', 'Pressure only where it is safe', 'Algicides kill algae at the root', 'No forced water behind your siding', 'Right method for every surface']))
 
 # 10 — gutter guard install on roof
 both('SP_10_gutter_guards',
@@ -104,8 +112,10 @@ both('SP_12_commercial',
 
 # 13 — aerial estate roof
 both('SP_13_roof',
-    tip(SP, SQ, 'Look Up', 'Those Streaks Aren’t Dirt', 'Black roof streaks are algae feeding on your shingles. Our soft-wash roof cleaning removes them safely — adding years to your roof’s life and Instant curb appeal.', bg_path=f'{P}/sp_08_Spruce66-scaled-1.jpg'),
-    tip(SP, ST, 'Look Up', 'Those Streaks Aren’t Dirt', 'Black roof streaks are living algae feeding on your shingles. Our soft-wash roof cleaning removes them safely — adding years to your roof’s life and instant curb appeal.', bg_path=f'{P}/sp_08_Spruce66-scaled-1.jpg'))
+    tip(SP, SQ, 'Look Up', 'Those Streaks Aren’t Dirt', 'And pressure washing won’t fix it.', bg_path=f'{P}/sp_08_Spruce66-scaled-1.jpg',
+        bullets=['Black streaks are living algae', 'It feeds on your shingles', 'Soft wash kills it at the root', 'Adds years to your roof’s life']),
+    tip(SP, ST, 'Look Up', 'Those Streaks Aren’t Dirt', 'And pressure washing won’t fix it.', bg_path=f'{P}/sp_08_Spruce66-scaled-1.jpg',
+        bullets=['Black streaks are living algae', 'It feeds on your shingles', 'Soft wash kills it at the root', 'No harsh pressure on shingles', 'Adds years to your roof’s life']))
 
 # 14 — greenville street
 both('SP_14_greenville',
@@ -114,8 +124,10 @@ both('SP_14_greenville',
 
 # 15 — aerial lake forest
 both('SP_15_why_fall',
-    tip(SP, SQ, 'Smart Timing', 'Why Wash in the Fall?', 'Mild temperatures are perfect for cleaning solutions. Removing fall mold and pollen NOW prevents winter staining. And your home is guest-ready before the holidays. Win, win, win.', bg_path=f'{P}/sp_14_Spruce64-1-scaled-1.jpg'),
-    tip(SP, ST, 'Smart Timing', 'Why Wash in the Fall?', 'Mild temperatures make cleaning solutions work best. Removing fall mold and pollen NOW prevents permanent winter staining. And your home is guest-ready before the holidays. Win, win, win.', bg_path=f'{P}/sp_14_Spruce64-1-scaled-1.jpg'))
+    tip(SP, SQ, 'Smart Timing', 'Why Wash in the Fall?', 'Three wins, one phone call.', bg_path=f'{P}/sp_14_Spruce64-1-scaled-1.jpg',
+        bullets=['Mild temps = perfect cleaning weather', 'Stop fall mold before winter stains', 'Guest-ready before the holidays', 'Whole exterior, one afternoon']),
+    tip(SP, ST, 'Smart Timing', 'Why Wash in the Fall?', 'Three wins, one phone call.', bg_path=f'{P}/sp_14_Spruce64-1-scaled-1.jpg',
+        bullets=['Mild temps = perfect cleaning weather', 'Stop fall mold before winter stains', 'Guest-ready before the holidays', 'Siding, windows & concrete in one visit', 'Booked around your schedule']))
 
 # 16 — woman cleaning window
 both('SP_16_streak',

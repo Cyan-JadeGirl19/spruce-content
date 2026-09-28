@@ -28,9 +28,10 @@ def _bg(brand, size, bg_path, focus=0.5, blur=2.6, brighten=0.97, mist_kw=None, 
 def _accent_arc(img, brand, side="bottom"):
     d = ImageDraw.Draw(img)
     w, h = img.size
-    y = h - (170 if h > 1200 else 140)
-    d.line([(0, y), (w * 0.42, y)], fill=CYAN, width=6)
-    d.line([(w * 0.44, y), (w * 0.60, y)], fill=LIME, width=6)
+    y = h - (196 if h > 1200 else 164)   # raised: comfortable gap above footer
+    a1, a2 = (LIME, GOLD) if brand["key"] == "spruce_lights" else (CYAN, LIME)
+    d.line([(0, y), (w * 0.42, y)], fill=a1, width=6)
+    d.line([(w * 0.44, y), (w * 0.60, y)], fill=a2, width=6)
     return img
 
 def _head_shadow(d, xy, text, font, fill=CREAM, anchor="mm"):
@@ -105,35 +106,39 @@ def hero(brand, size, bg_path, kicker, headline, sub=None, cta=True,
 # ------------------------------------------------------------------ REVIEW
 def review(brand, size, quote, name, detail, bg_path=None):
     W, H = size
-    tz = (H * 0.50, H * 0.36, 112) if H > 1200 else (H * 0.52, H * 0.30, 105)
+    tz = (H * 0.50, H * 0.38, 112) if H > 1200 else (H * 0.52, H * 0.32, 105)
     img = _bg(brand, size, bg_path, focus=0.42, blur=4, brighten=0.9, text_zone=tz)
     img = place_logo_top(img, brand, light_bg=False)
     d = ImageDraw.Draw(img)
-    star_row(d, W/2, H * (0.34 if H > 1200 else 0.36), size=30 if H > 1200 else 24, gap=52)
+    star_row(d, W/2, H * (0.335 if H > 1200 else 0.355), size=34 if H > 1200 else 27, gap=56)
     y = H * (0.42 if H > 1200 else 0.45)
-    qs = 52 if H > 1200 else 42
-    while qs > 30:
-        fq = F(qs, "SemiBold", serif=True, italic=True)
-        lines = wrap_text("“" + quote + "”", fq, W - 220, d)
-        if len(lines) <= (6 if H > 1200 else 4): break
+    # house font (Poppins), bold — consistent with every other card
+    qs = 54 if H > 1200 else 44
+    while qs > 32:
+        fq = F(qs, "Bold")
+        lines = wrap_text("“" + quote + "”", fq, W - 200, d)
+        if len(lines) <= (5 if H > 1200 else 4): break
         qs -= 2
     for ln in lines:
         d.text((W/2, y), ln, font=fq, fill=CREAM, anchor="mm",
-               stroke_width=1, stroke_fill=(0, 24, 30, 120))
-        y += qs * 1.3
-    y += 30
-    d.line([(W/2 - 60, y), (W/2 + 60, y)], fill=LIME, width=5)
+               stroke_width=2, stroke_fill=(0, 24, 30, 150))
+        y += qs * 1.34
     y += 34
-    fn = F(38 if H > 1200 else 32, "Bold")
+    d.line([(W/2 - 64, y), (W/2 + 64, y)], fill=LIME, width=6)
+    y += 40
+    fn = F(42 if H > 1200 else 35, "ExtraBold")
     d.text((W/2, y), name, font=fn, fill=CYAN, anchor="mm",
-           stroke_width=1, stroke_fill=(0, 24, 30, 120))
-    fd = F(26 if H > 1200 else 22, "Regular")
-    d.text((W/2, y + 48), detail, font=fd, fill=(228, 238, 238, 255), anchor="mm")
+           stroke_width=1, stroke_fill=(0, 24, 30, 130))
+    fd = F(27 if H > 1200 else 23, "SemiBold")
+    d.text((W/2, y + 56), detail, font=fd, fill=(228, 238, 238, 255), anchor="mm",
+           stroke_width=1, stroke_fill=(0, 24, 30, 110))
     if H > 1200:
         s = bulb_strand(W, 8, 40, bulb=24, seed=4)
-        img.alpha_composite(s, (0, H - 320))
+        img.alpha_composite(s, (0, H - 330))   # strand is the story accent — no arc
     img = footer_bar(img, brand)
-    return _accent_arc(img, brand)
+    if H <= 1200:
+        img = _accent_arc(img, brand)
+    return img
 
 # ------------------------------------------------------------------ STEPS
 def steps(brand, size, kicker, title, items, bg_path=None):
@@ -280,24 +285,43 @@ def stat(brand, size, kicker, big, unit, sub, bg_path=None, cta=True, badge=None
     return _accent_arc(img, brand)
 
 # ------------------------------------------------------------------ TIP / EDUCATION
-def tip(brand, size, kicker, title, body, bg_path=None, icon="bulb"):
+def tip(brand, size, kicker, title, body=None, bg_path=None, icon="bulb", bullets=None):
     W, H = size
     img = _bg(brand, size, bg_path, focus=0.5, blur=3, brighten=0.88,
               mist_kw=dict(top=152, mid=94, bottom=222),
-              text_zone=(H * 0.46, H * 0.38, 108))
+              text_zone=(H * 0.50, H * 0.44, 108))
     img = place_logo_top(img, brand, light_bg=False)
     d = ImageDraw.Draw(img)
-    y = H * (0.26 if H > 1200 else 0.30)
+    y = H * (0.255 if H > 1200 else 0.285)
     d.text((W/2, y), kicker.upper(), font=F(27, "Bold"), fill=LIME, anchor="mm",
            stroke_width=1, stroke_fill=(0, 24, 30, 120)); y += 58
-    ft = draw_fit(d, title, "Bold", W - 150, 62 if H > 1200 else 52, 38)
+    ft = draw_fit(d, title, "Bold", W - 150, 64 if H > 1200 else 54, 38)
     for ln in wrap_text(title, ft, W - 150, d):
-        _head_shadow(d, (W/2, y), ln, ft); y += ft.size * 1.16
-    y += 44
-    fbody = F(31 if H > 1200 else 27, "Regular")
-    for ln in wrap_text(body, fbody, W - 240, d)[:8]:
-        d.text((W/2, y), ln, font=fbody, fill=(236, 243, 243, 255), anchor="mm",
-               stroke_width=1, stroke_fill=(0, 24, 30, 100)); y += 47
+        _head_shadow(d, (W/2, y), ln, ft); y += ft.size * 1.18
+    y += 36
+    if body:
+        fbody = F(31 if H > 1200 else 27, "Medium")
+        for ln in wrap_text(body, fbody, W - 240, d)[:3]:
+            d.text((W/2, y), ln, font=fbody, fill=(236, 243, 243, 255), anchor="mm",
+                   stroke_width=1, stroke_fill=(0, 24, 30, 100)); y += 45
+        y += 40
+    if bullets:
+        n = len(bullets)
+        avail = (H - (206 if H > 1200 else 172)) - y - 30
+        bh = min(96 if H > 1200 else 76, int((avail - (n - 1) * 20) / n))
+        for i, b in enumerate(bullets):
+            img = glass_round(img, [140, int(y), W - 140, int(y + bh)], 20, fill_a=36,
+                              outline=(255, 255, 255, 70), width=2)
+            d = ImageDraw.Draw(img)
+            r = bh * 0.30
+            cx = 140 + bh * 0.62
+            d.ellipse([cx - r, y + bh/2 - r, cx + r, y + bh/2 + r], fill=LIME)
+            d.line([(cx - r*0.45, y + bh/2 + r*0.05), (cx - r*0.08, y + bh/2 + r*0.42),
+                    (cx + r*0.5, y + bh/2 - r*0.4)], fill=TEAL_D, width=max(4, int(r*0.28)),
+                   joint="curve")
+            d.text((cx + bh*0.62, y + bh/2), b, font=F(31 if H > 1200 else 26, "SemiBold"),
+                   fill=CREAM, anchor="lm", stroke_width=1, stroke_fill=(0, 24, 30, 110))
+            y += bh + 20
     img = footer_bar(img, brand)
     return _accent_arc(img, brand)
 
@@ -369,13 +393,15 @@ def cta_card(brand, size, headline, sub, bg_path=None, strand=True, phone_big=Tr
         s = bulb_strand(W, 8, 44, bulb=24, seed=9)
         img.alpha_composite(s, (0, 20))
     import spruce_kit as _k
-    logo = load_logo(brand, light_bg=False, height=240 if H > 1200 else 190)
+    _lh = 118 if H > 1200 else 140          # SAME as every other card
+    logo = load_logo(brand, light_bg=False, height=_lh)
     bbox = logo.getbbox(); logo = logo.crop(bbox)
+    _ly = int(H * 0.285)
     _lx = (W - logo.width)//2
-    img.alpha_composite(logo, (_lx, int(H*0.285)))
-    _k.LOGO_RECT = (_lx, int(H*0.285), _lx + logo.width, int(H*0.285) + logo.height)
+    img.alpha_composite(logo, (_lx, _ly))
+    _k.LOGO_RECT = (_lx, _ly, _lx + logo.width, _ly + logo.height)
     d = ImageDraw.Draw(img)
-    y = H * 0.285 + logo.height + 78
+    y = _ly + logo.height + 70
     ft = draw_fit(d, headline, "ExtraBold", W - 150, 66 if H > 1200 else 56, 40)
     for ln in wrap_text(headline, ft, W - 150, d):
         _head_shadow(d, (W/2, y), ln, ft); y += ft.size * 1.18
