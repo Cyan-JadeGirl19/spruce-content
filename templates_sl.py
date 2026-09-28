@@ -9,8 +9,8 @@ SQ = (1080, 1080)
 ST = (1080, 1920)
 
 # ---- website palette (sampled from sprucelights.com hero) ----
-CARD   = (16, 29, 19, 246)      # dark pine card surface
-ROW    = (26, 44, 30, 255)      # row surface (slightly lifted pine)
+CARD   = (16, 29, 19, 196)      # dark pine card surface (translucent glass)
+ROW    = (26, 44, 30, 214)      # row surface (slightly lifted pine, glassy)
 CREAM  = (246, 240, 226, 255)   # headline text
 SAGE   = (164, 178, 156, 255)   # body / secondary text
 GOLD   = (240, 176, 45, 255)    # site gold — CTAs, numbers, highlights
@@ -110,8 +110,16 @@ def _canvas_bg(size, bg_path, focus=0.5):
     return img
 
 def _paper(img, box, r=42):
+    # frosted glass: blur the photo inside the panel footprint first
+    x0, y0, x1, y1 = [int(v) for v in box]
+    x0c, y0c = max(x0, 0), max(y0, 0)
+    x1c, y1c = min(x1, img.width), min(y1, img.height)
+    region = img.crop((x0c, y0c, x1c, y1c)).filter(ImageFilter.GaussianBlur(15))
+    msk = Image.new('L', (x1c - x0c, y1c - y0c), 0)
+    ImageDraw.Draw(msk).rounded_rectangle([0, 0, x1c - x0c - 1, y1c - y0c - 1], r, fill=255)
+    img.paste(region, (x0c, y0c), msk)
     sh = Image.new('RGBA', img.size, (0, 0, 0, 0))
-    ImageDraw.Draw(sh).rounded_rectangle([box[0] + 6, box[1] + 14, box[2] + 6, box[3] + 14], r, fill=(0, 0, 0, 130))
+    ImageDraw.Draw(sh).rounded_rectangle([x0 + 6, y0 + 14, x1 + 6, y1 + 14], r, fill=(0, 0, 0, 130))
     img.alpha_composite(sh.filter(ImageFilter.GaussianBlur(18)))
     ov = Image.new('RGBA', img.size, (0, 0, 0, 0))
     dd = ImageDraw.Draw(ov)
@@ -154,7 +162,7 @@ def _kicker_on_photo(img, y, text, color=GOLD):
     x0, x1 = W_/2 - tw/2 - 56, W_/2 + tw/2 + 34
     ov = Image.new('RGBA', img.size, (0,0,0,0))
     do = ImageDraw.Draw(ov)
-    do.rounded_rectangle([x0, y-27, x1, y+27], 27, fill=(13, 25, 15, 215),
+    do.rounded_rectangle([x0, y-27, x1, y+27], 27, fill=(13, 25, 15, 200),
                          outline=(240, 176, 45, 160), width=2)
     img.alpha_composite(ov)
     d = ImageDraw.Draw(img)
@@ -201,7 +209,7 @@ def hero(brand, size, bg_path, kicker, headline, sub=None, cta=True,
         kx0, kx1 = W_/2 - kw/2 - 52, W_/2 + kw/2 + 32
         ov = Image.new('RGBA', img.size, (0,0,0,0))
         ImageDraw.Draw(ov).rounded_rectangle([kx0, y-24, kx1, y+24], 24,
-            fill=(13, 25, 15, 235), outline=(240, 176, 45, 170), width=2)
+            fill=(13, 25, 15, 212), outline=(240, 176, 45, 170), width=2)
         img.alpha_composite(ov)
         d = ImageDraw.Draw(img)
         d.ellipse([kx0+24, y-5, kx0+34, y+5], fill=GOLD)
