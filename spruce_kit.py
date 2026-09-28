@@ -293,7 +293,7 @@ def scrim(img, strength=0.82, bottom_frac=0.62, top_frac=0.30):
     return Image.alpha_composite(img, ov)
 
 def place_logo_top(img, brand, light_bg=False, h=None, pad=44):
-    logo = load_logo(brand, light_bg=light_bg, height=h or (118 if img.height > 1200 else 140))
+    logo = load_logo(brand, light_bg=light_bg, height=h or 168)
     # trim transparent margins
     bbox = logo.getbbox()
     if bbox: logo = logo.crop(bbox)

@@ -393,7 +393,7 @@ def cta_card(brand, size, headline, sub, bg_path=None, strand=True, phone_big=Tr
         s = bulb_strand(W, 8, 44, bulb=24, seed=9)
         img.alpha_composite(s, (0, 20))
     import spruce_kit as _k
-    _lh = 118 if H > 1200 else 140          # SAME as every other card
+    _lh = 168          # SAME as every other card
     logo = load_logo(brand, light_bg=False, height=_lh)
     bbox = logo.getbbox(); logo = logo.crop(bbox)
     _ly = int(H * 0.285)
