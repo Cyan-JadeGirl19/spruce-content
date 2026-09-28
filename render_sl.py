@@ -2,12 +2,12 @@
 import sys; sys.path.insert(0, '/home/user/spruce')
 import spruce_kit as _K
 # Christmas-green palette for Spruce Lights
-_K.TEAL = (10, 61, 33, 255)        # deep spruce green base
-_K.TEAL_D = (6, 40, 22, 255)
-_K.TEAL_L = (20, 88, 47, 255)
-_K.SCRIM_COLOR = (2, 26, 14)
-_K.FOOT_DARK = (3, 30, 17)
-_K.CINE_SHADOW = (0.0, 0.085, 0.040)
+_K.TEAL = (13, 27, 16, 255)        # sprucelights.com dark pine
+_K.TEAL_D = (8, 18, 11, 255)
+_K.TEAL_L = (24, 44, 28, 255)
+_K.SCRIM_COLOR = (2, 14, 8)
+_K.FOOT_DARK = (3, 20, 12)
+_K.CINE_SHADOW = (0.0, 0.06, 0.030)
 import templates_sl as _T
 for _n in ('TEAL', 'TEAL_D', 'TEAL_L'):
     setattr(_T, _n, getattr(_K, _n))
@@ -25,8 +25,8 @@ def both(name, fn_sq, fn_st):
 
 # 01 launch — real tan home at dusk
 both('SL_01_booking_launch',
-    hero(SL, SQ, f'{SLR}/sl_02_spruce-christmas-lighting.jpg', 'Now Booking October', 'Your Home, Aglow All Season Long', 'Custom design • Pro install • We store them till next year', strand=True),
-    hero(SL, ST, f'{SLR}/sl_02_spruce-christmas-lighting.jpg', 'Now Booking October', 'Your Home, Aglow All Season Long', 'Custom design • Professional install • We store them till next year', strand=True, badge='Slots Filling Fast'))
+    hero(SL, SQ, f'{SLR}/sl_02_spruce-christmas-lighting.jpg', 'Now Booking October', 'Your Home, *Aglow All Season Long*', 'Custom design • Pro install • We store them till next year', strand=True),
+    hero(SL, ST, f'{SLR}/sl_02_spruce-christmas-lighting.jpg', 'Now Booking October', 'Your Home, *Aglow All Season Long*', 'Custom design • Professional install • We store them till next year', strand=True, badge='Slots Filling Fast'))
 
 # 02 review — real red-brick home
 both('SL_02_review_michelle',
@@ -35,8 +35,8 @@ both('SL_02_review_michelle',
 
 # 03 before/after — AI day/night pair
 both('SL_03_before_after',
-    before_after(SL, SQ, f'{BG}/sl_day.jpg', f'{BG}/sl_night.jpg', 'The Spruce Difference', 'From Everyday to Enchanting'),
-    before_after(SL, ST, f'{BG}/sl_day.jpg', f'{BG}/sl_night.jpg', 'The Spruce Difference', 'From Everyday to Enchanting'))
+    before_after(SL, SQ, f'{BG}/sl_day.jpg', f'{BG}/sl_night.jpg', 'The Spruce Difference', 'From Everyday to *Enchanting*'),
+    before_after(SL, ST, f'{BG}/sl_day.jpg', f'{BG}/sl_night.jpg', 'The Spruce Difference', 'From Everyday to *Enchanting*'))
 
 # 04 stat — real C9 bulb macro
 both('SL_04_free_service_calls',
@@ -45,13 +45,13 @@ both('SL_04_free_service_calls',
 
 # 05 process — real crew carrying strands
 both('SL_05_process',
-    steps(SL, SQ, 'Effortless by Design', 'The Spruce Process', [('Design Consultation', 'A custom look drawn for YOUR home'), ('Custom-Fit Install', 'Commercial-grade lights, perfect lines'), ('Takedown & Storage', 'We pack and store them till next year')], bg_path=f'{SLR}/sl_01_spruce-christmas-lighting-2.jpg'),
-    steps(SL, ST, 'Effortless by Design', 'The Spruce Process', [('Design Consultation', 'A custom light design drawn for YOUR home'), ('Custom-Fit Installation', 'Commercial-grade lights, perfect clean lines'), ('Post-Season Takedown', 'We remove everything after the holidays'), ('Year-Round Storage', 'Climate-safe storage until next season')], bg_path=f'{SLR}/sl_01_spruce-christmas-lighting-2.jpg'))
+    steps(SL, SQ, 'Effortless by Design', 'The *Spruce Process*', [('Design Consultation', 'A custom look drawn for YOUR home'), ('Custom-Fit Install', 'Commercial-grade lights, perfect lines'), ('Takedown & Storage', 'We pack and store them till next year')], bg_path=f'{SLR}/sl_01_spruce-christmas-lighting-2.jpg'),
+    steps(SL, ST, 'Effortless by Design', 'The *Spruce Process*', [('Design Consultation', 'A custom light design drawn for YOUR home'), ('Custom-Fit Installation', 'Commercial-grade lights, perfect clean lines'), ('Post-Season Takedown', 'We remove everything after the holidays'), ('Year-Round Storage', 'Climate-safe storage until next season')], bg_path=f'{SLR}/sl_01_spruce-christmas-lighting-2.jpg'))
 
 # 06 services — real municipal plaza
 both('SL_06_services',
-    services(SL, SQ, 'All-Inclusive Holiday Lighting', 'One Call Does It All', ['Residential Homes & HOAs', 'Commercial Properties', 'Municipal & Town Displays', 'Garland • Wreaths • Decor'], bg_path=f'{SLR}/sl_16_hting-installation-municipalities-3.jpg'),
-    services(SL, ST, 'All-Inclusive Holiday Lighting', 'One Call Does It All', ['Residential Homes & HOAs', 'Commercial Properties', 'Municipal & Town Displays', 'Garland • Wreaths • Holiday Decor', 'Tree Wrapping & Ground Displays'], bg_path=f'{SLR}/sl_16_hting-installation-municipalities-3.jpg'))
+    services(SL, SQ, 'All-Inclusive Holiday Lighting', 'One Call Does *It All*', ['Residential Homes & HOAs', 'Commercial Properties', 'Municipal & Town Displays', 'Garland • Wreaths • Decor'], bg_path=f'{SLR}/sl_16_hting-installation-municipalities-3.jpg'),
+    services(SL, ST, 'All-Inclusive Holiday Lighting', 'One Call Does *It All*', ['Residential Homes & HOAs', 'Commercial Properties', 'Municipal & Town Displays', 'Garland • Wreaths • Holiday Decor', 'Tree Wrapping & Ground Displays'], bg_path=f'{SLR}/sl_16_hting-installation-municipalities-3.jpg'))
 
 # 07 poll — real color-lit walkway
 both('SL_07_poll',
@@ -60,8 +60,8 @@ both('SL_07_poll',
 
 # 08 halloween crossover — AI porch
 both('SL_08_halloween_crossover',
-    hero(SL, SQ, f'{BG}/sl_halloween.jpg', 'Halloween → Christmas', 'Trick or Treat Tonight. Twinkle by December.', 'The smartest households book their Christmas lights on Halloween week', cta=True),
-    hero(SL, ST, f'{BG}/sl_halloween.jpg', 'Halloween → Christmas', 'Trick or Treat Tonight. Twinkle by December.', 'The smartest households book their Christmas lights on Halloween week', cta=True, badge='Smart Move'))
+    hero(SL, SQ, f'{BG}/sl_halloween.jpg', 'Halloween → Christmas', 'Trick or Treat Tonight. *Twinkle by December.*', 'The smartest households book their Christmas lights on Halloween week', cta=True),
+    hero(SL, ST, f'{BG}/sl_halloween.jpg', 'Halloween → Christmas', 'Trick or Treat Tonight. *Twinkle by December.*', 'The smartest households book their Christmas lights on Halloween week', cta=True, badge='Smart Move'))
 
 # 09 why pro — AI hands clipping detail
 both('SL_09_why_pro',
@@ -77,8 +77,8 @@ both('SL_10_review_randy',
 
 # 11 fun — AI reindeer yard
 both('SL_11_griswold',
-    hero(SL, SQ, f'{BG}/sl_sleigh.jpg', 'The Favorite Neighbor Formula', 'All the Envy. None of the Tangles.', 'Be the house everyone slows down for — we handle every detail', strand=True),
-    hero(SL, ST, f'{BG}/sl_sleigh.jpg', 'The Favorite Neighbor Formula', 'All the Envy. None of the Tangles.', 'Be the house everyone slows down for — we handle every glowing detail', strand=True))
+    hero(SL, SQ, f'{BG}/sl_sleigh.jpg', 'The Favorite Neighbor Formula', 'All the Envy. *None of the Tangles.*', 'Be the house everyone slows down for — we handle every detail', strand=True),
+    hero(SL, ST, f'{BG}/sl_sleigh.jpg', 'The Favorite Neighbor Formula', 'All the Envy. *None of the Tangles.*', 'Be the house everyone slows down for — we handle every glowing detail', strand=True))
 
 # 12 countdown — AI bokeh curtain
 both('SL_12_countdown_nov1',
@@ -87,14 +87,14 @@ both('SL_12_countdown_nov1',
 
 # 13 HOA — real aerial street
 both('SL_13_hoa_streets',
-    hero(SL, SQ, f'{SLR}/sl_18_olumbia-myrtle-beach-sc-ashevill-nc.jpg', 'HOAs • Businesses • Towns', 'Light Up the Whole Street', 'Bulk programs for neighborhoods, retail centers and municipalities', cta=True),
-    hero(SL, ST, f'{SLR}/sl_18_olumbia-myrtle-beach-sc-ashevill-nc.jpg', 'HOAs • Businesses • Towns', 'Light Up the Whole Street', 'Bulk lighting programs for neighborhoods, retail centers and municipalities', cta=True))
+    hero(SL, SQ, f'{SLR}/sl_18_olumbia-myrtle-beach-sc-ashevill-nc.jpg', 'HOAs • Businesses • Towns', 'Light Up the *Whole Street*', 'Bulk programs for neighborhoods, retail centers and municipalities', cta=True),
+    hero(SL, ST, f'{SLR}/sl_18_olumbia-myrtle-beach-sc-ashevill-nc.jpg', 'HOAs • Businesses • Towns', 'Light Up the *Whole Street*', 'Bulk lighting programs for neighborhoods, retail centers and municipalities', cta=True))
 
 # 14 why october — AI farmhouse
 both('SL_14_why_october',
-    tip(SL, SQ, 'Pro Tip', 'Why Smart Homeowners Book in October', 'Same price — just a better spot in line.', bg_path=f'{BG}/sl_farmhouse.jpg',
+    tip(SL, SQ, 'Pro Tip', 'Why Smart Homeowners Book in *October*', 'Same price — just a better spot in line.', bg_path=f'{BG}/sl_farmhouse.jpg',
         bullets=['First pick of install dates', 'Up before family arrives', 'Zero December scramble', 'Design slot locked & guaranteed']),
-    tip(SL, ST, 'Pro Tip', 'Why Smart Homeowners Book in October', 'Same price — just a better spot in line.', bg_path=f'{BG}/sl_farmhouse.jpg',
+    tip(SL, ST, 'Pro Tip', 'Why Smart Homeowners Book in *October*', 'Same price — just a better spot in line.', bg_path=f'{BG}/sl_farmhouse.jpg',
         bullets=['First pick of install dates', 'Up before family arrives', 'Zero December scramble', 'Free design consultation', 'Design slot locked & guaranteed']))
 
 # 15 poll — real downtown tree crowd
@@ -104,8 +104,8 @@ both('SL_15_poll_ladder',
 
 # 16 tree wraps — AI wrapped oak
 both('SL_16_tree_wraps',
-    hero(SL, SQ, f'{BG}/sl_tree.jpg', 'Signature Spruce Service', 'Trees That Stop Traffic', 'Professional trunk-and-branch wrapping with festival-grade lights', cta=True),
-    hero(SL, ST, f'{BG}/sl_tree.jpg', 'Signature Spruce Service', 'Trees That Stop Traffic', 'Professional trunk-and-branch wrapping with festival-grade lights — your yard becomes the landmark', cta=True))
+    hero(SL, SQ, f'{BG}/sl_tree.jpg', 'Signature Spruce Service', 'Trees That *Stop Traffic*', 'Professional trunk-and-branch wrapping with festival-grade lights', cta=True),
+    hero(SL, ST, f'{BG}/sl_tree.jpg', 'Signature Spruce Service', 'Trees That *Stop Traffic*', 'Professional trunk-and-branch wrapping with festival-grade lights — your yard becomes the landmark', cta=True))
 
 # 17 review — real hand placing lights on big tree
 both('SL_17_review_jan',
@@ -119,12 +119,12 @@ both('SL_18_october_filling',
 
 # 19 CTA — AI golden bokeh
 both('SL_19_cta',
-    cta_card(SL, SQ, 'Let’s Light Up Your Holidays', 'Free design consultation • Free service calls all season • We install, remove & store', bg_path=f'{BG}/sl_dock.jpg'),
-    cta_card(SL, ST, 'Let’s Light Up Your Holidays', 'Free design consultation • Free service calls all season • We install, remove & store everything', bg_path=f'{BG}/sl_dock.jpg'))
+    cta_card(SL, SQ, 'Let’s Light Up Your *Holidays*', 'Free design consultation • Free service calls all season • We install, remove & store', bg_path=f'{BG}/sl_dock.jpg'),
+    cta_card(SL, ST, 'Let’s Light Up Your *Holidays*', 'Free design consultation • Free service calls all season • We install, remove & store everything', bg_path=f'{BG}/sl_dock.jpg'))
 
 # 20 halloween day — AI lit doorway
 both('SL_20_halloween_day',
-    hero(SL, SQ, f'{BG}/sl_garland.jpg', 'Happy Halloween, Greenville 🎃', 'Candy Tonight. Twinkle Soon.', 'While you hand out candy, we’ll be penciling in light designs — grab your October slot', cta=True),
-    hero(SL, ST, f'{BG}/sl_garland.jpg', 'Happy Halloween, Greenville 🎃', 'Candy Tonight. Twinkle Soon.', 'While you hand out candy, we’ll be penciling in light designs — grab your October slot before the calendar flips', cta=True))
+    hero(SL, SQ, f'{BG}/sl_garland.jpg', 'Happy Halloween, Greenville 🎃', 'Candy Tonight. *Twinkle Soon.*', 'While you hand out candy, we’ll be penciling in light designs — grab your October slot', cta=True),
+    hero(SL, ST, f'{BG}/sl_garland.jpg', 'Happy Halloween, Greenville 🎃', 'Candy Tonight. *Twinkle Soon.*', 'While you hand out candy, we’ll be penciling in light designs — grab your October slot before the calendar flips', cta=True))
 
 print('ALL SPRUCE LIGHTS STATIC DONE (v3, unique images)')

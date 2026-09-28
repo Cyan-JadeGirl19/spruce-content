@@ -1,21 +1,107 @@
-"""SPRUCE LIGHTS templates — 'Holiday Card' edition v2:
-photo-first — warm ivory paper cards sit in the LOWER third, narrow,
-so the photography stays the hero. Pine-green typography, gold details.
+"""SPRUCE LIGHTS templates — 'Website Edition' v3:
+matches sprucelights.com exactly — dark pine surfaces, cream PLAYFAIR SERIF
+headlines with gold highlight phrases, gold CTAs, sage body text.
+Photo-first: cards sit in the lower third, photography owns the frame.
 Spruce Pro keeps the teal glass system in templates.py."""
 from spruce_kit import *
 
 SQ = (1080, 1080)
 ST = (1080, 1920)
 
-PAPER  = (245, 237, 220, 255)   # soft warm ivory (clearly not stark white)
-PAPER2 = (252, 247, 237, 255)   # row ivory-white
-INK    = (24, 44, 30, 255)      # pine ink
-INK2   = (99, 108, 95, 255)     # muted body
-PINE   = (31, 110, 58, 255)     # brand green (CTAs, numbers, name)
-GOLDD  = (200, 168, 60, 255)    # gold divider
+# ---- website palette (sampled from sprucelights.com hero) ----
+CARD   = (16, 29, 19, 246)      # dark pine card surface
+ROW    = (26, 44, 30, 255)      # row surface (slightly lifted pine)
+CREAM  = (246, 240, 226, 255)   # headline text
+SAGE   = (164, 178, 156, 255)   # body / secondary text
+GOLD   = (240, 176, 45, 255)    # site gold — CTAs, numbers, highlights
+DK     = (13, 25, 15, 255)      # dark pine (text on gold)
+GOLDD  = GOLD                   # legacy divider name
+
+# legacy names kept so audits/renders keep working
+PAPER  = CARD
+PAPER2 = ROW
+INK    = CREAM
+INK2   = SAGE
+PINE   = GOLD
 
 DEFAULT_BG = f'{ROOT}/assets/bg/sl_macro.jpg'
 
+# ---- serif system (Playfair Display, variable weight) ----
+_SF_CACHE = {}
+def SF(size, wght=700):
+    key = (size, wght)
+    if key not in _SF_CACHE:
+        f = ImageFont.truetype(f"{FONTS}/PlayfairDisplay.ttf", size)
+        try: f.set_variation_by_axes([wght])
+        except Exception: pass
+        _SF_CACHE[key] = f
+    return _SF_CACHE[key]
+
+def _parse_gold(t):
+    segs, cur, gold = [], '', False
+    for ch in t:
+        if ch == '*':
+            if cur: segs.append((cur, gold)); cur = ''
+            gold = not gold
+        else:
+            cur += ch
+    if cur: segs.append((cur, gold))
+    return [s for s in segs if s[0]]
+
+def _serif_fit(d, text, maxw, size, min_size, wght=700, maxlines=3):
+    plain = text.replace('*', '')
+    s = size
+    while s > min_size:
+        f = SF(s, wght)
+        lines = wrap_text(plain, f, maxw, d)
+        if max(d.textlength(l, font=f) for l in lines) <= maxw and len(lines) <= maxlines:
+            return s
+        s -= 3
+    return min_size
+
+def _rich_center(d, cx, y, text, size, maxw, wght=700, lh=1.16,
+                 base=CREAM, hi=GOLD, stroke=0):
+    """Word-wrapped centered serif line; *starred* words render in gold."""
+    f = SF(size, wght)
+    words = []
+    for s, gld in _parse_gold(text):
+        for w in s.split(' '):
+            if w: words.append((w, gld))
+    sp = d.textlength(' ', font=f)
+    lines, cur, curw = [], [], 0
+    for w, gld in words:
+        ww = d.textlength(w, font=f)
+        add = ww if not cur else ww + sp
+        if cur and curw + add > maxw:
+            lines.append(cur); cur, curw = [(w, gld)], ww
+        else:
+            cur.append((w, gld)); curw += add
+    if cur: lines.append(cur)
+    for ln in lines:
+        widths = [d.textlength(w, font=f) for w, _ in ln]
+        x = cx - (sum(widths) + sp * (len(ln) - 1)) / 2
+        for (w, gld), ww in zip(ln, widths):
+            d.text((x, y), w, font=f, fill=(hi if gld else base), anchor="lm",
+                   stroke_width=stroke, stroke_fill=(0, 22, 12, 170) if stroke else None)
+            x += ww + sp
+        y += size * lh
+    return y
+
+def _nlines(text, size, maxw, d, wght=700):
+    f = SF(size, wght)
+    words = [(w, g) for s, g in _parse_gold(text) for w in s.split(' ') if w]
+    sp = d.textlength(' ', font=f)
+    lines, curw, has = 1, 0, False
+    for w, _ in words:
+        ww = d.textlength(w, font=f)
+        add = ww if not has else ww + sp
+        if has and curw + add > maxw:
+            lines += 1; curw = ww
+        else:
+            curw += add; has = True
+    return lines
+
+# ---- surfaces ----
 def _canvas_bg(size, bg_path, focus=0.5):
     W, H = size
     img = bg_photo(bg_path or DEFAULT_BG, W, H, focus=focus, blur=2.4, brighten=1.0, sat=1.05)
@@ -23,56 +109,64 @@ def _canvas_bg(size, bg_path, focus=0.5):
     img = mist(img, TEAL, top=105, mid=46, bottom=170, focus_pt=0.44)
     return img
 
-def _paper(img, box, r=44):
+def _paper(img, box, r=42):
     sh = Image.new('RGBA', img.size, (0, 0, 0, 0))
-    ImageDraw.Draw(sh).rounded_rectangle([box[0] + 6, box[1] + 14, box[2] + 6, box[3] + 14], r, fill=(0, 0, 0, 110))
+    ImageDraw.Draw(sh).rounded_rectangle([box[0] + 6, box[1] + 14, box[2] + 6, box[3] + 14], r, fill=(0, 0, 0, 130))
     img.alpha_composite(sh.filter(ImageFilter.GaussianBlur(18)))
     ov = Image.new('RGBA', img.size, (0, 0, 0, 0))
-    ImageDraw.Draw(ov).rounded_rectangle(box, r, fill=PAPER)
+    dd = ImageDraw.Draw(ov)
+    dd.rounded_rectangle(box, r, fill=CARD)
+    dd.rounded_rectangle(box, r, outline=(240, 176, 45, 95), width=3)   # gold hairline
     img.alpha_composite(ov)
     return img
 
-def _paper_row(img, box, r=22):
+def _paper_row(img, box, r=20):
     ov = Image.new('RGBA', img.size, (0, 0, 0, 0))
-    ImageDraw.Draw(ov).rounded_rectangle(box, r, fill=PAPER2, outline=(70, 58, 34, 30), width=2)
+    dd = ImageDraw.Draw(ov)
+    dd.rounded_rectangle(box, r, fill=ROW)
+    dd.rounded_rectangle(box, r, outline=(240, 176, 45, 55), width=2)
     img.alpha_composite(ov)
     return img
 
 def _cta_on_paper(img, cy, text="Get My Free Quote"):
     d = ImageDraw.Draw(img)
-    f = F(38, "Bold")
+    f = F(37, "Bold")
     tw = d.textlength(text, font=f)
     pw = tw + 116
     sh = Image.new('RGBA', img.size, (0,0,0,0))
-    ImageDraw.Draw(sh).rounded_rectangle([W_/2-pw/2+3, cy-40+7, W_/2+pw/2+3, cy+40+7], 40, fill=(20,60,35,90))
+    ImageDraw.Draw(sh).rounded_rectangle([W_/2-pw/2+3, cy-40+7, W_/2+pw/2+3, cy+40+7], 40, fill=(0,0,0,120))
     img.alpha_composite(sh.filter(ImageFilter.GaussianBlur(8)))
     d = ImageDraw.Draw(img)
-    d.rounded_rectangle([W_/2-pw/2, cy-40, W_/2+pw/2, cy+40], 40, fill=PINE)
-    d.text((W_/2, cy-2), text, font=f, fill=PAPER, anchor="mm")
+    d.rounded_rectangle([W_/2-pw/2, cy-40, W_/2+pw/2, cy+40], 40, fill=GOLD)
+    d.text((W_/2, cy-2), text, font=f, fill=DK, anchor="mm")
     return img
 
-W_ = 1080  # canvas width shorthand (all canvases are 1080 wide)
+W_ = 1080
 
-# narrow lower-third cards everywhere
-def _px(H):  return 130 if H > 1200 else 140          # side inset (photo shows at sides)
-def _ww(H):  return W_ - 2*_px(H) - 80               # safe text width inside panel
+def _px(H):  return 130 if H > 1200 else 140
+def _ww(H):  return W_ - 2*_px(H) - 80
 
-def _kicker_on_photo(img, y, text, color=LIME):
+def _kicker_on_photo(img, y, text, color=GOLD):
+    """Website-style badge: dark pill, gold hairline, gold dot + gold caps."""
     d = ImageDraw.Draw(img)
-    f = F(27, "Bold")
-    d.text((W_/2, y), text.upper(), font=f, fill=color, anchor="mm",
-           stroke_width=1, stroke_fill=(0, 24, 30, 140))
-    return y + 52
+    f = F(25, "SemiBold")
+    tw = d.textlength(text.upper(), font=f)
+    x0, x1 = W_/2 - tw/2 - 56, W_/2 + tw/2 + 34
+    ov = Image.new('RGBA', img.size, (0,0,0,0))
+    do = ImageDraw.Draw(ov)
+    do.rounded_rectangle([x0, y-27, x1, y+27], 27, fill=(13, 25, 15, 215),
+                         outline=(240, 176, 45, 160), width=2)
+    img.alpha_composite(ov)
+    d = ImageDraw.Draw(img)
+    d.ellipse([x0+26, y-6, x0+38, y+6], fill=GOLD)
+    d.text((x0+56, y-1), text.upper(), font=f, fill=GOLD, anchor="lm")
+    return y + 54
 
-def _title_on_photo(img, y, title, maxw=None, size=56):
+def _title_on_photo(img, y, title, maxw=None, size=58):
     d = ImageDraw.Draw(img)
     maxw = maxw or (W_ - 150)
-    ft = draw_fit(d, title, "Bold", maxw, size, 38)
-    for ln in wrap_text(title, ft, maxw, d):
-        d.text((W_/2, y), ln, font=ft, fill=CREAM, anchor="mm",
-               stroke_width=2, stroke_fill=(0, 24, 30, 150))
-        y += ft.size * 1.16
-    return y
+    s = _serif_fit(d, title, maxw, size, 36)
+    return _rich_center(d, W_/2, y + s*0.55, title, s, maxw, stroke=2) + s*0.12
 
 # ------------------------------------------------------------------ HERO
 def hero(brand, size, bg_path, kicker, headline, sub=None, cta=True,
@@ -88,47 +182,46 @@ def hero(brand, size, bg_path, kicker, headline, sub=None, cta=True,
         img.alpha_composite(s, (0, 240 if H > 1200 else 196))
     d = ImageDraw.Draw(img)
     px, ww = _px(H), _ww(H)
-    # measure panel content
-    hs = 84 if H > 1200 else 66
-    while hs > 42:
-        fh = F(hs, "ExtraBold")
-        if max(d.textlength(l, font=fh) for l in wrap_text(headline, fh, ww, d)) <= ww and \
-           len(wrap_text(headline, fh, ww, d)) <= (3 if H > 1200 else 2):
-            break
-        hs -= 4
-    hlines = wrap_text(headline, fh, ww, d)
-    fs = F(28 if H > 1200 else 24, "Medium")
+    hs = 78 if H > 1200 else 62
+    hs = _serif_fit(d, headline, ww, hs, 40, wght=760, maxlines=3 if H > 1200 else 2)
+    nl = _nlines(headline, hs, ww, d, wght=760)
+    fs = F(27 if H > 1200 else 24, "Medium")
     slines = wrap_text(sub, fs, ww - 30, d)[:2] if sub else []
     ktop = (560 if H > 1200 else 440) if strand else (520 if H > 1200 else 408)
     panel_y0 = ktop + 8
-    content = (58 if kicker else 0) + len(hlines) * hs * 1.14 \
+    content = (58 if kicker else 0) + nl * hs * 1.16 \
             + ((16 + len(slines) * 40) if slines else 0) + (112 if cta else 36)
     panel_y1 = int(panel_y0 + 84 + content)
     img = _paper(img, [px, panel_y0, W - px, panel_y1], 42)
     d = ImageDraw.Draw(img)
     y = panel_y0 + 46
     if kicker:
-        kw = d.textlength(kicker.upper(), font=F(24, "Bold"))
-        d.rounded_rectangle([W_/2-kw/2-22, y-22, W_/2+kw/2+22, y+22], 22, fill=PINE)
-        d.text((W_/2, y-1), kicker.upper(), font=F(24, "Bold"), fill=PAPER, anchor="mm")
+        f = F(23, "SemiBold")
+        kw = d.textlength(kicker.upper(), font=f)
+        kx0, kx1 = W_/2 - kw/2 - 52, W_/2 + kw/2 + 32
+        ov = Image.new('RGBA', img.size, (0,0,0,0))
+        ImageDraw.Draw(ov).rounded_rectangle([kx0, y-24, kx1, y+24], 24,
+            fill=(13, 25, 15, 235), outline=(240, 176, 45, 170), width=2)
+        img.alpha_composite(ov)
+        d = ImageDraw.Draw(img)
+        d.ellipse([kx0+24, y-5, kx0+34, y+5], fill=GOLD)
+        d.text((kx0+52, y-1), kicker.upper(), font=f, fill=GOLD, anchor="lm")
         y += 58
-    for ln in hlines:
-        d.text((W_/2, y), ln, font=fh, fill=INK, anchor="mm")
-        y += hs * 1.14
+    y = _rich_center(d, W_/2, y + hs*0.55, headline, hs, ww, wght=760)
     if slines:
-        y += 16
+        y += 12
         for ln in slines:
-            d.text((W_/2, y), ln, font=fs, fill=INK2, anchor="mm")
+            d.text((W_/2, y), ln, font=fs, fill=SAGE, anchor="mm")
             y += 40
     if cta:
         _cta_on_paper(img, panel_y1 - 76)
     img = footer_bar(img, brand)
     if badge:
         d = ImageDraw.Draw(img)
-        fb = F(26, "Bold"); bw = d.textlength(badge, font=fb) + 56
-        by0, by1 = (150, 208) if H > 1200 else (112, 168)
-        pill(d, [W - bw - 30, by0, W - 30, by1], RED)
-        d.text((W - 30 - bw/2, (by0+by1)/2 - 2), badge, font=fb, fill=WHITE, anchor="mm")
+        fb = F(25, "Bold"); bw = d.textlength(badge, font=fb) + 52
+        by0, by1 = (150, 206) if H > 1200 else (112, 166)
+        pill(d, [W - bw - 30, by0, W - 30, by1], GOLD)
+        d.text((W - 30 - bw/2, (by0+by1)/2 - 2), badge, font=fb, fill=DK, anchor="mm")
     return img
 
 # ------------------------------------------------------------------ REVIEW
@@ -151,13 +244,13 @@ def review(brand, size, quote, name, detail, bg_path=None):
     d = ImageDraw.Draw(img)
     y = panel_y0 + 50
     for ln in qlines:
-        d.text((W/2, y), ln, font=fq, fill=INK, anchor="mm")
+        d.text((W/2, y), ln, font=fq, fill=CREAM, anchor="mm")
         y += qs * 1.30
     y += 22
-    d.line([(W/2 - 56, y), (W/2 + 56, y)], fill=GOLDD, width=6)
+    d.line([(W/2 - 56, y), (W/2 + 56, y)], fill=GOLD, width=5)
     y += 34
-    d.text((W/2, y), name, font=F(38 if H > 1200 else 32, "ExtraBold"), fill=PINE, anchor="mm")
-    d.text((W/2, y + (52 if H > 1200 else 44)), detail, font=F(25 if H > 1200 else 21, "SemiBold"), fill=INK2, anchor="mm")
+    d.text((W/2, y), name, font=F(38 if H > 1200 else 32, "ExtraBold"), fill=GOLD, anchor="mm")
+    d.text((W/2, y + (52 if H > 1200 else 44)), detail, font=F(25 if H > 1200 else 21, "SemiBold"), fill=SAGE, anchor="mm")
     if H > 1200:
         s = bulb_strand(W, 8, 40, bulb=24, seed=4)
         img.alpha_composite(s, (0, H - 330))
@@ -185,10 +278,10 @@ def steps(brand, size, kicker, title, items, bg_path=None):
     for i, (t, s) in enumerate(items):
         cy = ry + row_h / 2
         r = 30 if H > 1200 else 26
-        d.ellipse([px + 42, cy - r, px + 42 + 2*r, cy + r], fill=PINE)
-        d.text((px + 42 + r, cy - 2), str(i + 1), font=F(r, "ExtraBold"), fill=PAPER, anchor="mm")
-        d.text((px + 42 + 2*r + 26, cy - row_h*0.20), t, font=F(32 if H > 1200 else 27, "Bold"), fill=INK, anchor="lm")
-        d.text((px + 42 + 2*r + 26, cy + row_h*0.20), s, font=F(22 if H > 1200 else 19, "Regular"), fill=INK2, anchor="lm")
+        d.ellipse([px + 42, cy - r, px + 42 + 2*r, cy + r], fill=GOLD)
+        d.text((px + 42 + r, cy - 2), str(i + 1), font=F(r, "ExtraBold"), fill=DK, anchor="mm")
+        d.text((px + 42 + 2*r + 26, cy - row_h*0.20), t, font=F(32 if H > 1200 else 27, "Bold"), fill=CREAM, anchor="lm")
+        d.text((px + 42 + 2*r + 26, cy + row_h*0.20), s, font=F(22 if H > 1200 else 19, "Regular"), fill=SAGE, anchor="lm")
         ry += row_h
     img = footer_bar(img, brand)
     return _accent_arc(img, brand)
@@ -201,7 +294,7 @@ def poll(brand, size, kicker, title, options, bg_path=None, note=None):
     px, ww = _px(H), _ww(H)
     y = H * (0.265 if H > 1200 else 0.315)
     y = _kicker_on_photo(img, y, kicker)
-    y = _title_on_photo(img, y + 4, title, maxw=W - 280, size=60 if H > 1200 else 50)
+    y = _title_on_photo(img, y + 4, title, maxw=W - 280, size=62 if H > 1200 else 52)
     y += 32
     bottom = H - (216 if H > 1200 else 178)
     img = _paper(img, [px, int(y), W - px, bottom], 42)
@@ -214,11 +307,11 @@ def poll(brand, size, kicker, title, options, bg_path=None, note=None):
         img = _paper_row(img, [x0, ry, x1, ry + row_h - 12], (row_h - 12) // 2)
         d = ImageDraw.Draw(img)
         fo = F(min(36 if H > 1200 else 30, int((row_h - 12) / 2.4)), "Bold")
-        d.text((W/2, ry + (row_h - 12)/2 - 2), opt, font=fo, fill=INK, anchor="mm")
+        d.text((W/2, ry + (row_h - 12)/2 - 2), opt, font=fo, fill=CREAM, anchor="mm")
         ry += row_h
     if note:
         d = ImageDraw.Draw(img)
-        d.text((W/2, bottom - 42), note, font=F(24, "SemiBold"), fill=INK2, anchor="mm")
+        d.text((W/2, bottom - 42), note, font=F(24, "SemiBold"), fill=SAGE, anchor="mm")
     img = footer_bar(img, brand)
     return _accent_arc(img, brand)
 
@@ -236,23 +329,23 @@ def stat(brand, size, kicker, big, unit, sub, bg_path=None, cta=True, badge=None
     img = _paper(img, [px, panel_y0, W - px, panel_y1], 42)
     d = ImageDraw.Draw(img)
     yy = panel_y0 + (92 if H > 1200 else 72)
-    d.text((W/2, yy), big, font=F(big_sz, "ExtraBold"), fill=PINE, anchor="mm")
-    d.text((W/2, yy + (104 if H > 1200 else 80)), unit.upper(), font=F(38, "Bold"), fill=INK, anchor="mm")
+    d.text((W/2, yy), big, font=SF(big_sz, 800), fill=GOLD, anchor="mm")
+    d.text((W/2, yy + (104 if H > 1200 else 80)), unit.upper(), font=F(38, "Bold"), fill=CREAM, anchor="mm")
     yy += (172 if H > 1200 else 134)
-    d.line([(W/2 - 62, yy), (W/2 + 62, yy)], fill=GOLDD, width=5)
+    d.line([(W/2 - 62, yy), (W/2 + 62, yy)], fill=GOLD, width=5)
     yy += (32 if H > 1200 else 26)
     fsu = F(27 if H > 1200 else 24, "Medium")
     for ln in wrap_text(sub, fsu, ww, d)[:2]:
-        d.text((W/2, yy), ln, font=fsu, fill=INK2, anchor="mm"); yy += 40
+        d.text((W/2, yy), ln, font=fsu, fill=SAGE, anchor="mm"); yy += 40
     if cta:
         _cta_on_paper(img, panel_y1 - 74)
     img = footer_bar(img, brand)
     if badge:
         d = ImageDraw.Draw(img)
-        fbx = F(26, "Bold"); bw = d.textlength(badge, font=fbx) + 56
-        by0, by1 = (150, 208) if H > 1200 else (112, 168)
-        pill(d, [W - bw - 30, by0, W - 30, by1], RED)
-        d.text((W - 30 - bw/2, (by0+by1)/2 - 2), badge, font=fbx, fill=WHITE, anchor="mm")
+        fbx = F(25, "Bold"); bw = d.textlength(badge, font=fbx) + 52
+        by0, by1 = (150, 206) if H > 1200 else (112, 166)
+        pill(d, [W - bw - 30, by0, W - 30, by1], GOLD)
+        d.text((W - 30 - bw/2, (by0+by1)/2 - 2), badge, font=fbx, fill=DK, anchor="mm")
     return _accent_arc(img, brand)
 
 # ------------------------------------------------------------------ TIP
@@ -272,7 +365,7 @@ def tip(brand, size, kicker, title, body=None, bg_path=None, icon="bulb", bullet
     if body:
         fb = F(27 if H > 1200 else 24, "Medium")
         for ln in wrap_text(body, fb, ww, d)[:2]:
-            d.text((W/2, ry), ln, font=fb, fill=INK, anchor="mm"); ry += 40
+            d.text((W/2, ry), ln, font=fb, fill=CREAM, anchor="mm"); ry += 40
         ry += 18
     if bullets:
         n = len(bullets)
@@ -284,11 +377,11 @@ def tip(brand, size, kicker, title, body=None, bg_path=None, icon="bulb", bullet
             d = ImageDraw.Draw(img)
             r = bh * 0.30
             cx = x0 + bh * 0.62
-            d.ellipse([cx - r, ry + bh/2 - r, cx + r, ry + bh/2 + r], fill=PINE)
+            d.ellipse([cx - r, ry + bh/2 - r, cx + r, ry + bh/2 + r], fill=GOLD)
             d.line([(cx - r*0.45, ry + bh/2 + r*0.05), (cx - r*0.08, ry + bh/2 + r*0.42),
-                    (cx + r*0.5, ry + bh/2 - r*0.4)], fill=PAPER, width=max(4, int(r*0.3)), joint="curve")
+                    (cx + r*0.5, ry + bh/2 - r*0.4)], fill=DK, width=max(4, int(r*0.3)), joint="curve")
             d.text((cx + bh*0.60, ry + bh/2), b, font=F(27 if H > 1200 else 23, "SemiBold"),
-                   fill=INK, anchor="lm")
+                   fill=CREAM, anchor="lm")
             ry += bh + 14
     img = footer_bar(img, brand)
     return _accent_arc(img, brand)
@@ -313,9 +406,9 @@ def services(brand, size, kicker, title, items, bg_path=None, cta=True):
         x0, x1 = px + 36, W - px - 36
         img = _paper_row(img, [x0, ry, x1, ry + row_h - 12], (row_h - 12) // 2)
         d = ImageDraw.Draw(img)
-        sparkle(d, x0 + 48, ry + (row_h - 12)/2, 14, PINE, ratio=0.42, spread=0.18)
+        sparkle(d, x0 + 48, ry + (row_h - 12)/2, 14, GOLD, ratio=0.42, spread=0.18)
         d.text((x0 + 84, ry + (row_h - 12)/2), it, font=F(28 if H > 1200 else 24, "SemiBold"),
-               fill=INK, anchor="lm")
+               fill=CREAM, anchor="lm")
         ry += row_h
     if cta:
         _cta_on_paper(img, int(bottom) - 70)
@@ -334,23 +427,24 @@ def countdown(brand, size, kicker, datebig, sub, bg_path=None, badge=None):
     panel_y1 = int(panel_y0 + (480 if H > 1200 else 412))
     img = _paper(img, [px, panel_y0, W - px, panel_y1], 42)
     d = ImageDraw.Draw(img)
-    fd = draw_fit(d, datebig, "ExtraBold", ww, 132 if H > 1200 else 106, 60)
+    fd_sz = _serif_fit(d, datebig, ww, 140 if H > 1200 else 112, 60, wght=800)
+    fd = SF(fd_sz, 800)
     yy = panel_y0 + (112 if H > 1200 else 92)
-    d.text((W/2, yy), datebig, font=fd, fill=PINE, anchor="mm")
-    yy += fd.size * 0.98
-    d.line([(W/2 - 72, yy), (W/2 + 72, yy)], fill=RED, width=7)
+    d.text((W/2, yy), datebig, font=fd, fill=GOLD, anchor="mm")
+    yy += fd_sz * 0.86
+    d.line([(W/2 - 72, yy), (W/2 + 72, yy)], fill=GOLD, width=6)
     yy += 36
     fsu = F(27 if H > 1200 else 24, "SemiBold")
     for ln in wrap_text(sub, fsu, ww, d)[:2]:
-        d.text((W/2, yy), ln, font=fsu, fill=INK2, anchor="mm"); yy += 40
+        d.text((W/2, yy), ln, font=fsu, fill=SAGE, anchor="mm"); yy += 40
     _cta_on_paper(img, panel_y1 - 74)
     img = footer_bar(img, brand)
     if badge:
         d = ImageDraw.Draw(img)
-        fbx = F(26, "Bold"); bw = d.textlength(badge, font=fbx) + 56
-        by0, by1 = (150, 208) if H > 1200 else (112, 168)
-        pill(d, [W - bw - 30, by0, W - 30, by1], RED)
-        d.text((W - 30 - bw/2, (by0+by1)/2 - 2), badge, font=fbx, fill=WHITE, anchor="mm")
+        fbx = F(25, "Bold"); bw = d.textlength(badge, font=fbx) + 52
+        by0, by1 = (150, 206) if H > 1200 else (112, 166)
+        pill(d, [W - bw - 30, by0, W - 30, by1], GOLD)
+        d.text((W - 30 - bw/2, (by0+by1)/2 - 2), badge, font=fbx, fill=DK, anchor="mm")
     return _accent_arc(img, brand)
 
 # ------------------------------------------------------------------ FINAL CTA
@@ -367,20 +461,19 @@ def cta_card(brand, size, headline, sub, bg_path=None, strand=True, phone_big=Tr
     panel_y1 = int(panel_y0 + (620 if H > 1200 else 486))
     img = _paper(img, [px, panel_y0, W - px, panel_y1], 42)
     d = ImageDraw.Draw(img)
-    ft = draw_fit(d, headline, "ExtraBold", ww, 56 if H > 1200 else 48, 38)
+    ft_sz = _serif_fit(d, headline, ww, 62 if H > 1200 else 52, 38, wght=760)
     yy = panel_y0 + (76 if H > 1200 else 62)
-    for ln in wrap_text(headline, ft, ww, d):
-        d.text((W/2, yy), ln, font=ft, fill=INK, anchor="mm"); yy += ft.size * 1.18
-    yy += 20
+    yy = _rich_center(d, W_/2, yy + ft_sz*0.55, headline, ft_sz, ww, wght=760)
+    yy += 16
     fs = F(27 if H > 1200 else 24, "Medium")
     for ln in wrap_text(sub, fs, ww, d)[:2]:
-        d.text((W/2, yy), ln, font=fs, fill=INK2, anchor="mm"); yy += 40
+        d.text((W/2, yy), ln, font=fs, fill=SAGE, anchor="mm"); yy += 40
     if phone_big:
         fph = F(52 if H > 1200 else 42, "ExtraBold")
         yy += 22
-        d.text((W/2, yy), brand["phone"], font=fph, fill=PINE, anchor="mm")
+        d.text((W/2, yy), brand["phone"], font=fph, fill=GOLD, anchor="mm")
         yy += fph.size + 6
-        d.text((W/2, yy), brand["site"], font=F(26, "SemiBold"), fill=GOLDD, anchor="mm")
+        d.text((W/2, yy), brand["site"], font=F(26, "SemiBold"), fill=SAGE, anchor="mm")
     img = footer_bar(img, brand)
     return _accent_arc(img, brand)
 
@@ -393,6 +486,6 @@ def _accent_arc(img, brand, side="bottom"):
     d = ImageDraw.Draw(img)
     w, h = img.size
     y = h - (196 if h > 1200 else 164)
-    d.line([(0, y), (w * 0.42, y)], fill=LIME, width=6)
-    d.line([(w * 0.44, y), (w * 0.60, y)], fill=GOLDD, width=6)
+    d.line([(0, y), (w * 0.42, y)], fill=GOLD, width=6)
+    d.line([(w * 0.44, y), (w * 0.60, y)], fill=CREAM, width=6)
     return img
