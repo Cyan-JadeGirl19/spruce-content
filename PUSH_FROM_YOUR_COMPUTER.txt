@@ -1,0 +1,11 @@
+NO-TOKEN OPTION — push this folder to GitHub from your own machine:
+
+  1. Unzip this file anywhere
+  2. In a terminal:
+       cd spruce
+       git init -b main
+       git add -A
+       git commit -m "Spruce Oct 2026 content system"
+       git remote add origin https://github.com/Cyan-JadeGirl19/spruce-content.git
+       git push -u origin main
+  3. A browser window opens -> log in to GitHub -> done.
