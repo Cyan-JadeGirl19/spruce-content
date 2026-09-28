@@ -400,6 +400,12 @@ def cta_card(brand, size, headline, sub, bg_path=None, strand=True, phone_big=Tr
     _lx = (W - logo.width)//2
     img.alpha_composite(logo, (_lx, _ly))
     _k.LOGO_RECT = (_lx, _ly, _lx + logo.width, _ly + logo.height)
+    from spruce_kit import BRAND_CHIP
+    _clabel, _cbg, _cfg = BRAND_CHIP[brand["key"]]
+    _cf = F(27, "ExtraBold")
+    _cw = d.textlength(_clabel, font=_cf)
+    pill(d, [56, 56, 56 + _cw + 52, 116], _cbg)
+    d.text((56 + 26 + _cw / 2, 84), _clabel, font=_cf, fill=_cfg, anchor="mm")
     d = ImageDraw.Draw(img)
     y = _ly + logo.height + 70
     ft = draw_fit(d, headline, "ExtraBold", W - 150, 66 if H > 1200 else 56, 40)

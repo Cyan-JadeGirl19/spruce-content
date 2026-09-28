@@ -292,6 +292,11 @@ def scrim(img, strength=0.82, bottom_frac=0.62, top_frac=0.30):
         d.line([(0, h - bh + y), (w, h - bh + y)], fill=SCRIM_COLOR + (min(a, 255),))
     return Image.alpha_composite(img, ov)
 
+BRAND_CHIP = {
+    "spruce_lights": ("HOLIDAY LIGHTING", LIME, (6, 40, 22)),
+    "spruce_pro":    ("EXTERIOR CLEANING", CYAN, (0, 33, 42)),
+}
+
 def place_logo_top(img, brand, light_bg=False, h=None, pad=44):
     logo = load_logo(brand, light_bg=light_bg, height=h or 168)
     # trim transparent margins
@@ -301,6 +306,14 @@ def place_logo_top(img, brand, light_bg=False, h=None, pad=44):
     img.alpha_composite(logo, (x, pad))
     global LOGO_RECT
     LOGO_RECT = (x, pad, x + logo.width, pad + logo.height)
+    # brand category chip — top-left, always clear of the centered logo
+    label, bg, fg = BRAND_CHIP[brand["key"]]
+    d = ImageDraw.Draw(img)
+    f = F(27, "ExtraBold")
+    tw = d.textlength(label, font=f)
+    box = [56, 56, 56 + tw + 52, 116]
+    pill(d, box, bg)
+    d.text((56 + 26 + tw / 2, 84), label, font=f, fill=fg, anchor="mm")
     return img
 
 def footer_bar(img, brand, light_text=True, h=None):
