@@ -8,10 +8,10 @@ _K.TEAL_L = (20, 88, 47, 255)
 _K.SCRIM_COLOR = (2, 26, 14)
 _K.FOOT_DARK = (3, 30, 17)
 _K.CINE_SHADOW = (0.0, 0.085, 0.040)
-import templates as _T
+import templates_sl as _T
 for _n in ('TEAL', 'TEAL_D', 'TEAL_L'):
     setattr(_T, _n, getattr(_K, _n))
-from templates import *
+from templates_sl import *
 from spruce_kit import *
 
 BG = f'{ROOT}/assets/bg'
