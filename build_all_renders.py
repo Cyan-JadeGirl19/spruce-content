@@ -71,8 +71,9 @@ html = f"""<!doctype html><html><head><meta charset="utf-8">
 <h1 style="font:800 30px/1.15 system-ui;margin:0 0 6px">Spruce Lights + Spruce Pro — October 2026</h1>
 <p style="font:400 14px/1.5 system-ui;color:#8fa998;margin:0 0 22px">
 Master gallery v8 — {len(slf)+len(spf)} feed + {len(sls)+len(sps)} story cards, 8 videos, calendar &amp; gallery pages.
-<b style="color:#d8e6dc">New:</b> Spruce Lights “Holiday Card” edition — soft warm-white paper panels on deep pine
-(your <i>soft white and the green</i>), brand chips on every card, Spruce Pro untouched.</p>
+<b style="color:#d8e6dc">New:</b> Spruce Lights “Website Edition” — the sprucelights.com look:
+dark pine green, cream Playfair serif headlines with gold highlight phrases, gold calls-to-action, sage body text.
+Brand chips on every card. Spruce Pro untouched.</p>
 
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px">
 <span style="background:#1c3a26;color:#9fe06a;font:700 12px/1 system-ui;padding:9px 14px;border-radius:99px">SPRUCE LIGHTS — HOLIDAY LIGHTING</span>
@@ -81,7 +82,7 @@ Master gallery v8 — {len(slf)+len(spf)} feed + {len(sls)+len(sps)} story cards
 <span style="background:#161d18;color:#9ab5a2;font:600 12px/1 system-ui;padding:9px 14px;border-radius:99px">80 unique backgrounds</span>
 </div>
 
-{section("Spruce Lights — feed (1:1) · paper edition", "Photo-first: warm ivory paper cards in the lower third · lime→gold accent · (864) 288-2459", grid(slf, 3), "#9fe06a")}
+{section("Spruce Lights — feed (1:1) · paper edition", "Website edition — pine cards, Playfair serif headlines, gold CTAs (matches sprucelights.com) · lime→gold accent · (864) 288-2459", grid(slf, 3), "#9fe06a")}
 {section("Spruce Lights — stories (9:16)", "Same paper system, tall format", grid(sls, 4), "#9fe06a")}
 {section("Spruce Pro — feed (1:1)", "Deep teal system, cyan chips · (864) 483-4300 · unchanged this round", grid(spf, 3), "#5fe3ea")}
 {section("Spruce Pro — stories (9:16)", "", grid(sps, 4), "#5fe3ea")}

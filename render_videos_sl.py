@@ -2,12 +2,45 @@
 import sys, math, os
 sys.path.insert(0, '/home/user/spruce')
 import spruce_kit as _K
-_K.TEAL = (7, 34, 22, 255); _K.TEAL_D = (4, 22, 15, 255); _K.TEAL_L = (16, 60, 38, 255)
-_K.SCRIM_COLOR = (2, 14, 9); _K.FOOT_DARK = (2, 18, 12); _K.CINE_SHADOW = (0.0, 0.06, 0.030)
+_K.TEAL = (13, 27, 16, 255); _K.TEAL_D = (8, 18, 11, 255); _K.TEAL_L = (24, 44, 28, 255)
+_K.SCRIM_COLOR = (2, 14, 8); _K.FOOT_DARK = (3, 20, 12); _K.CINE_SHADOW = (0.0, 0.05, 0.028)
 import templates as _T
 for _n in ('TEAL', 'TEAL_D', 'TEAL_L'):
     setattr(_T, _n, getattr(_K, _n))
 from vidkit import *
+from spruce_kit import FONTS
+import vidkit as _V
+_GOLD = (240, 176, 45, 255); _CREAM = (246, 240, 226, 255)
+_V.CYAN = _GOLD; _V.LIME = _CREAM; _V.GOLD = _GOLD
+CYAN = _GOLD; LIME = _CREAM; GOLD = _GOLD
+
+from PIL import ImageFont as _IFF
+_SFONTS = {}
+def SF(px, wght=800):
+    k = (px, wght)
+    if k not in _SFONTS:
+        f = _IFF.truetype(f'{FONTS}/PlayfairDisplay.ttf', px)
+        try: f.set_variation_by_axes([wght])
+        except Exception: pass
+        _SFONTS[k] = f
+    return _SFONTS[k]
+
+def serif_layer(size, text, px, wght=800, color=_CREAM, maxw_frac=0.84, lh=1.14, y_center=None):
+    W, Hh = size
+    layer = Image.new('RGBA', size, (0, 0, 0, 0))
+    d = ImageDraw.Draw(layer)
+    f = SF(px, wght)
+    lines = wrap_text(text, f, int(W * maxw_frac), d)
+    th = len(lines) * px * lh
+    y = ((Hh - th) / 2 if y_center is None else y_center - th / 2) + px * 0.1
+    for ln in lines:
+        w = d.textlength(ln, font=f)
+        sh = Image.new('RGBA', size, (0, 0, 0, 0))
+        ImageDraw.Draw(sh).text(((W - w) / 2 + 3, y + 4), ln, font=f, fill=(0, 10, 6, 190))
+        layer.alpha_composite(sh.filter(ImageFilter.GaussianBlur(6)))
+        d.text(((W - w) / 2, y), ln, font=f, fill=color)
+        y += px * lh
+    return layer, th
 
 OUT = f'{ROOT}/videos/spruce_lights'
 os.makedirs(OUT, exist_ok=True)
@@ -70,10 +103,10 @@ def promo_story():
     W, H = ST
     dur = 17.0; n = int(dur * FPS)
     foot = brand_footer_layer(ST, SL)
-    t1, _ = text_layer(ST, "This December, your house could be the one they slow down for…", 'Bold', 62, maxw_frac=0.82, y_center=1360)
-    t2, _ = text_layer(ST, "…without touching a single ladder, strand or timer.", 'Bold', 58, maxw_frac=0.82, y_center=1360)
+    t1, _ = serif_layer(ST, "This December, your house could be the one they slow down for…", 64, 800, _CREAM, maxw_frac=0.84, y_center=1360)
+    t2, _ = serif_layer(ST, "…without touching a single ladder, strand or timer.", 60, 800, _CREAM, maxw_frac=0.84, y_center=1360)
     t3, _ = text_layer(ST, "Custom design • Pro install • Free season-long service • We store it all", 'Medium', 40, color=(218, 234, 234, 255), maxw_frac=0.8, y_center=1060)
-    t4, _ = text_layer(ST, "Now booking October — prime slots fill first", 'ExtraBold', 52, color=GOLD, maxw_frac=0.85, y_center=1190)
+    t4, _ = serif_layer(ST, "Now booking October — prime slots fill first", 54, 800, _GOLD, maxw_frac=0.85, y_center=1190)
     sp = sparkle_field_layer(ST, 9, n=12, ymax_frac=0.30)
     for i in range(n):
         t = i / FPS
@@ -98,7 +131,7 @@ def promo_story():
                 e = ease(seg(t, 11.2, 11.8))
                 pw, ph = 620, 108
                 cy = int(1430 + (1 - e) * 60)
-                pill(d, [W/2 - pw/2, cy - ph/2, W/2 + pw/2, cy + ph/2], LIME)
+                pill(d, [W/2 - pw/2, cy - ph/2, W/2 + pw/2, cy + ph/2], GOLD)
                 d.text((W/2, cy - 2), "Get My Free Quote", font=F(44, 'Bold'), fill=TEAL_D, anchor='mm')
             img.alpha_composite(foot)
             draw_sparkle_field(img, sp, t)
@@ -115,7 +148,7 @@ def promo_feed():
     dur = 12.0; n = int(dur * FPS)
     foot = brand_footer_layer(SQ, SL)
     lgo = LOGO_W.copy(); lgo.thumbnail((520, 560), Image.LANCZOS)
-    t1, _ = text_layer(SQ, "Untangled. Undimmed. Done for you.", 'Bold', 54, maxw_frac=0.86, y_center=560)
+    t1, _ = serif_layer(SQ, "Untangled. Undimmed. Done for you.", 58, 800, _CREAM, maxw_frac=0.86, y_center=560)
     t2, _ = text_layer(SQ, "Custom design • Pro install • Free season-long service", 'Medium', 36, color=(218, 234, 234, 255), maxw_frac=0.86, y_center=520)
     for i in range(n):
         t = i / FPS
@@ -134,7 +167,7 @@ def promo_feed():
                 d = ImageDraw.Draw(img)
                 e = ease(seg(t, 7.4, 8.0))
                 cy = int(710 + (1 - e) * 50)
-                pill(d, [W/2 - 290, cy - 52, W/2 + 290, cy + 52], LIME)
+                pill(d, [W/2 - 290, cy - 52, W/2 + 290, cy + 52], GOLD)
                 d.text((W/2, cy - 2), "Get My Free Quote", font=F(42, 'Bold'), fill=TEAL_D, anchor='mm')
             img.alpha_composite(foot)
         if 5.5 <= t < 5.65:
@@ -161,7 +194,7 @@ def ba_reel():
         return lay
     lbl_a = side_label("BEFORE", W*0.74, (215, 221, 221, 255))
     lbl_b = side_label("AFTER ✨", W*0.26, CYAN)
-    cap, _ = text_layer(ST, "The Spruce Difference", 'Bold', 50, maxw_frac=0.8, y_center=272)
+    cap, _ = serif_layer(ST, "The Spruce Difference", 54, 800, _CREAM, maxw_frac=0.8, y_center=272)
     for i in range(n):
         t = i / FPS
         a = A0.copy(); b = B0.copy()
@@ -172,7 +205,7 @@ def ba_reel():
         if x < W*0.72: img.alpha_composite(lbl_a)
         if x > W*0.28: img.alpha_composite(lbl_b)
         d = ImageDraw.Draw(img)
-        d.text((W/2, 172), "SLIDE INTO THE SEASON", font=F(28, 'Bold'), fill=LIME, anchor='mm',
+        d.text((W/2, 172), "SLIDE INTO THE SEASON", font=F(28, 'Bold'), fill=GOLD, anchor='mm',
                stroke_width=1, stroke_fill=(0, 20, 26, 150))
         img.alpha_composite(cap)
         img.alpha_composite(foot)
