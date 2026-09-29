@@ -71,7 +71,7 @@ def sparkles(img, n, seed, ymax, cmax=80, accent=GOLD):
     img.alpha_composite(ov.filter(ImageFilter.GaussianBlur(0.6)))
     return img
 
-def grad_surface(base, dark, glowc, frame, strand=None, strand_bottom=False, accent=GOLD):
+def grad_surface(base, dark, glowc, frame, strand=None, strand_bottom=False, accent=GOLD, frame_w=2):
     img = Image.new('RGBA', (W, H), base + (255,))
     gr = Image.new('L', (1, H))
     for y in range(H):
@@ -87,7 +87,7 @@ def grad_surface(base, dark, glowc, frame, strand=None, strand_bottom=False, acc
         else:
             img.alpha_composite(s, (0, -8))
     d = ImageDraw.Draw(img)
-    d.rounded_rectangle([72, 72, W - 72, H - 72], 26, outline=frame + (120,), width=2)
+    d.rounded_rectangle([72, 72, W - 72, H - 72], 26, outline=frame + (120,), width=frame_w)
     return img
 
 def grad_line(d, cx, y, half=70, c0=CYAN, c1=LIME, width=5):
@@ -111,14 +111,14 @@ def sl_card(surface='black'):
     lw = 470
     lg = logo.resize((lw, int(logo.height * lw / logo.width)), Image.LANCZOS)
 
-    front = grad_surface((15, 15, 17), (6, 6, 8), (46, 40, 26), GOLD, strand=True, accent=GOLD)
+    front = grad_surface((15, 15, 17), (6, 6, 8), (46, 40, 26), GOLD, strand=True, accent=GOLD, frame_w=5)
     front.alpha_composite(lg, (W // 2 - lg.width // 2, 148))
     d = ImageDraw.Draw(front)
     rich(d, W // 2, 486, [("Your home, ", CREAM), ("aglow", GOLD), (" all season long.", CREAM)], SF(43, 700))
     caps_tracked(d, W // 2, 556, "HOLIDAY LIGHTING & EVENTS", F(20, "SemiBold"), SAGE, tracking=6)
     front.convert('RGB').save(f'{OUT}/SL_card_{surface}_FRONT.png', dpi=(DPI, DPI))
 
-    back = grad_surface((15, 15, 17), (6, 6, 8), (46, 40, 26), GOLD, strand=False, accent=GOLD)
+    back = grad_surface((15, 15, 17), (6, 6, 8), (46, 40, 26), GOLD, strand=False, accent=GOLD, frame_w=5)
     d = ImageDraw.Draw(back)
     f_b = F(19, "SemiBold")
     btxt = "THE SOUTHEAST'S #1 CHRISTMAS LIGHT INSTALLATION SERVICE"

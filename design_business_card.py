@@ -93,7 +93,7 @@ def card_base(strand_top=True):
     img = sparkles(img, 26, 11, H - 60)
     # gold hairline frame (inside trim, decorative)
     d = ImageDraw.Draw(img)
-    d.rounded_rectangle([72, 72, W - 72, H - 72], 26, outline=GOLD + (110,), width=2)
+    d.rounded_rectangle([72, 72, W - 72, H - 72], 26, outline=GOLD + (120,), width=5)
     return img
 
 def dot(d, x, y, r=5.5, c=GOLD):
