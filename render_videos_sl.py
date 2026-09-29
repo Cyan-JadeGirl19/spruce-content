@@ -8,6 +8,12 @@ import templates as _T
 for _n in ('TEAL', 'TEAL_D', 'TEAL_L'):
     setattr(_T, _n, getattr(_K, _n))
 from vidkit import *
+import audio_kit as _AK
+
+def twinkle_wav(path, dur, key=None, seed=7, accents=None, fade=1.6, rate=44100):
+    kind = 'sting' if 'sting' in path else 'promo' if 'promo' in path else 'feed' if 'feed' in path else 'ba'
+    return _AK.sl_track(path, dur, seed=seed, accents=accents,
+                        density=_AK.PRESETS[kind], fade=1.0 if dur < 8 else 1.7)
 from spruce_kit import FONTS
 import vidkit as _V
 _GOLD = (240, 176, 45, 255); _CREAM = (246, 240, 226, 255)
