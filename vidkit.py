@@ -3,6 +3,7 @@ with PIL + piped to ffmpeg (h264). 1080x1920 (reels/stories) & 1080x1080 (feed).
 import math, os, subprocess, wave, array
 from PIL import Image, ImageDraw, ImageFilter, ImageChops, ImageEnhance
 from spruce_kit import *
+import spruce_kit
 
 FPS = 30
 FF = "/home/user/.local/bin/ffmpeg"
@@ -16,7 +17,7 @@ def clamp01(x):     return max(0.0, min(1.0, x))
 def seg(t, a, b):   return clamp01((t - a) / (b - a))
 
 # ---------------------------------------------------------------- encoder
-def encode(frames_iter, size, path, fps=FPS, audio_wav=None, crf=21):
+def encode(frames_iter, size, path, fps=FPS, audio_wav=None, crf=21, chip_brand=None):
     w, h = size
     cmd = [FF, '-y', '-f', 'rawvideo', '-vcodec', 'rawvideo',
            '-s', f'{w}x{h}', '-pix_fmt', 'rgb24', '-r', str(fps), '-i', '-']
@@ -26,10 +27,28 @@ def encode(frames_iter, size, path, fps=FPS, audio_wav=None, crf=21):
             '-pix_fmt', 'yuv420p', '-movflags', '+faststart', path]
     p = subprocess.Popen(cmd, stdin=subprocess.PIPE,
                          stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    chip = brand_chip_layer(size, chip_brand) if chip_brand is not None else None
     for im in frames_iter:
+        im = im.convert('RGBA')
+        if chip is not None:
+            im.alpha_composite(chip)
         p.stdin.write(im.convert('RGB').tobytes())
     p.stdin.close(); p.wait()
     return path
+
+# ---------------------------------------------------------------- brand chip
+def brand_chip_layer(size, brand):
+    """top-left category pill, same geometry as the statics"""
+    W, H = size
+    label, bg, fg = spruce_kit.BRAND_CHIP[brand["key"]]
+    bg, fg = tuple(bg[:3]), tuple(fg[:3])
+    layer = Image.new('RGBA', size, (0, 0, 0, 0))
+    d = ImageDraw.Draw(layer)
+    f = F(27, "ExtraBold")
+    tw = d.textlength(label, font=f)
+    d.rounded_rectangle([56, 56, 56 + tw + 52, 116], 30, fill=bg + (255,))
+    d.text((82 + tw / 2, 84), label, font=f, fill=fg, anchor='mm')
+    return layer
 
 # ---------------------------------------------------------------- pieces
 def kb_frame(bg_path, size, t, z0=1.08, z1=1.22, pan=(0, 0), brighten=1.0, grade=0.0):

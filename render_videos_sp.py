@@ -62,7 +62,7 @@ def sting_frames(size=ST, dur=5.0):
 
 twinkle_wav('/tmp/sp_sting.wav', 5.0, key=466.16, seed=13,
             accents=[(1.7, 932.3), (2.9, 698.5), (3.6, 1174.7)])
-encode(sting_frames(ST), ST, f'{OUT}/SP_logo_sting_reel.mp4', audio_wav='/tmp/sp_sting.wav')
+encode(sting_frames(ST), ST, f'{OUT}/SP_logo_sting_reel.mp4', chip_brand=SP, audio_wav='/tmp/sp_sting.wav')
 print('✓ sting')
 
 # ================================================================ 2. PROMO REEL (15s)
@@ -115,7 +115,7 @@ def promo_reel():
 
 twinkle_wav('/tmp/sp_promo.wav', 15.0, key=440.0, seed=17,
             accents=[(3.6, 659.3), (7.0, 880.0), (9.6, 1108.7), (11.4, 1318.5), (13.0, 1568.0)])
-encode(promo_reel(), ST, f'{OUT}/SP_promo_reel.mp4', audio_wav='/tmp/sp_promo.wav')
+encode(promo_reel(), ST, f'{OUT}/SP_promo_reel.mp4', chip_brand=SP, audio_wav='/tmp/sp_promo.wav')
 print('✓ promo reel')
 
 # ================================================================ 3. PROMO FEED (11s)
@@ -152,7 +152,7 @@ def promo_feed():
 
 twinkle_wav('/tmp/sp_feed.wav', 11.0, key=493.88, seed=19,
             accents=[(5.2, 784.0), (7.4, 1046.5), (9.2, 1174.7)])
-encode(promo_feed(), SQ, f'{OUT}/SP_promo_feed.mp4', audio_wav='/tmp/sp_feed.wav')
+encode(promo_feed(), SQ, f'{OUT}/SP_promo_feed.mp4', chip_brand=SP, audio_wav='/tmp/sp_feed.wav')
 print('✓ promo feed')
 
 # ================================================================ 4. BEFORE/AFTER REEL (8s)
@@ -188,6 +188,6 @@ def ba_reel():
         yield img
 
 twinkle_wav('/tmp/sp_ba.wav', 8.0, key=587.33, seed=23, accents=[(0.5, 932.3), (4.0, 1174.7), (7.2, 1396.9)])
-encode(ba_reel(), ST, f'{OUT}/SP_before_after_reel.mp4', audio_wav='/tmp/sp_ba.wav')
+encode(ba_reel(), ST, f'{OUT}/SP_before_after_reel.mp4', chip_brand=SP, audio_wav='/tmp/sp_ba.wav')
 print('✓ ba reel')
 print('ALL SP VIDEOS DONE (v2)')
