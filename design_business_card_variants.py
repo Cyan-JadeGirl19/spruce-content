@@ -79,7 +79,7 @@ def grad_surface(base, dark, glowc, frame, strand=None, strand_bottom=False, acc
     img.paste(Image.new('RGB', (W, H), dark), (0, 0), gr.resize((W, H)))
     img = glow(img, W // 2, int(H * 0.36), 420, glowc, peak=32)
     img = sparkles(img, 22, 11, H - 60, accent=accent)
-    if strand is not None:
+    if strand:
         s = spruce_kit.bulb_strand(W, 9, 44, bulb=16, seed=7)
         if strand_bottom:
             s = s.transpose(Image.FLIP_TOP_BOTTOM)
@@ -144,9 +144,9 @@ def sl_card(surface='black'):
 SP_TXT  = (240, 246, 246)
 SP_SUB  = (168, 196, 200)
 
-def sp_card(surface='teal'):
-    if surface == 'teal':
-        base, dark, glowc, frame = (0, 48, 60), (0, 20, 26), (10, 74, 88), CYAN
+def sp_card(surface='midnight'):
+    if surface == 'midnight':
+        base, dark, glowc, frame = (14, 26, 54), (6, 12, 28), (24, 46, 94), CYAN
     else:
         base, dark, glowc, frame = (13, 16, 18), (5, 7, 9), (16, 52, 58), CYAN
     logo = spruce_kit.load_logo(spruce_kit.SP, light_bg=False)
@@ -157,7 +157,8 @@ def sp_card(surface='teal'):
     front.alpha_composite(lg, (W // 2 - lg.width // 2, 156))
     d = ImageDraw.Draw(front)
     rich(d, W // 2, 486, [("Exterior cleaning, ", SP_TXT), ("done right.", CYAN)], F(36, "SemiBold"))
-    caps_tracked(d, W // 2, 554, "HOUSE WASHING • PRESSURE WASHING • WINDOWS • GUTTER GUARDS",
+    grad_line(d, W // 2, 534, half=64, width=4)
+    caps_tracked(d, W // 2, 566, "HOUSE WASHING • PRESSURE WASHING • WINDOWS • GUTTER GUARDS",
                  F(17, "SemiBold"), SP_SUB, tracking=3)
     front.convert('RGB').save(f'{OUT}/SP_card_{surface}_FRONT.png', dpi=(DPI, DPI))
 
@@ -167,7 +168,7 @@ def sp_card(surface='teal'):
     btxt = "LICENSED & INSURED  •  SERVING THE UPSTATE SINCE 2006"
     bw = sum(d.textlength(c, font=f_b) + 1.6 for c in btxt) - 1.6 + 88
     bx0 = W / 2 - bw / 2
-    d.rounded_rectangle([bx0, 102, bx0 + bw, 148], 23, fill=(0, 25, 32, 215) if surface == 'teal' else (8, 10, 12, 215),
+    d.rounded_rectangle([bx0, 102, bx0 + bw, 148], 23, fill=(10, 20, 42, 215) if surface == 'midnight' else (8, 10, 12, 215),
                         outline=CYAN + (150,), width=2)
     dot(d, bx0 + 30, 125, 5, CYAN)
     caps_tracked(d, W / 2 + 14, 124, btxt, f_b, CYAN, tracking=1.6)
@@ -184,14 +185,14 @@ def sp_card(surface='teal'):
 
 # ================================================================ generate
 sl_card('black')
-sp_card('teal')
+sp_card('midnight')
 sp_card('black')
 
 def pdf(front, back, name):
     Image.open(f'{OUT}/{front}').save(f'{OUT}/{name}', save_all=True,
                                       append_images=[Image.open(f'{OUT}/{back}')], resolution=DPI)
 pdf('SL_card_black_FRONT.png', 'SL_card_black_BACK.png', 'SL_business_card_black.pdf')
-pdf('SP_card_teal_FRONT.png', 'SP_card_teal_BACK.png', 'SP_business_card_teal.pdf')
+pdf('SP_card_midnight_FRONT.png', 'SP_card_midnight_BACK.png', 'SP_business_card_midnight.pdf')
 pdf('SP_card_black_FRONT.png', 'SP_card_black_BACK.png', 'SP_business_card_black.pdf')
 
 # ================================================================ family mockup
@@ -214,13 +215,13 @@ def place(base, path, cx, cy, ang, scale=1.0):
     base.paste(Image.new('RGB', sh.size, (0, 0, 0)), (cx - c.width//2 - 30, cy - c.height//2 - 30), sh)
     base.paste(c, (cx - c.width // 2, cy - c.height // 2), c)
 
-place(m, f'{OUT}/SP_card_teal_FRONT.png',  int(MW*0.30), int(MH*0.32),  4, 0.86)
+place(m, f'{OUT}/SP_card_midnight_FRONT.png',  int(MW*0.30), int(MH*0.32),  4, 0.86)
 place(m, f'{OUT}/SL_card_black_FRONT.png', int(MW*0.70), int(MH*0.30), -5, 0.86)
 place(m, f'{OUT}/SL_card_pine_FRONT.png' if os.path.exists(f'{OUT}/SL_card_pine_FRONT.png') else f'{OUT}/SL_card_FRONT.png',
       int(MW*0.36), int(MH*0.72), -3, 0.86)
 place(m, f'{OUT}/SP_card_black_FRONT.png', int(MW*0.72), int(MH*0.73),  6, 0.86)
 d = ImageDraw.Draw(m)
-d.text((MW // 2, MH - 44), "BUSINESS CARD FAMILY  ·  Spruce Lights (pine · black)  +  Spruce Pro (teal · black)  ·  3.5×2 in + bleed · 300 DPI",
+d.text((MW // 2, MH - 44), "BUSINESS CARD FAMILY  ·  Spruce Lights (pine · black, bulb logo)  +  Spruce Pro (midnight · black, star logo)  ·  3.5×2 in + bleed · 300 DPI",
        font=F(22, "SemiBold"), fill=(150, 170, 152), anchor="mm")
 m.save(f'{OUT}/SL_SP_card_family_mockup.jpg', quality=90)
 print('variants + family mockup written')
