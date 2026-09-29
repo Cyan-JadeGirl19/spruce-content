@@ -113,23 +113,38 @@ front.convert('RGB').save(f'{OUT}/SL_card_qr_FRONT.png', dpi=(DPI, DPI))
 
 back = surface(strand=False)
 d = ImageDraw.Draw(back)
-f_b = F(20, "SemiBold")
-btxt = "SCAN FOR A FREE QUOTE"
-bw = sum(d.textlength(c, font=f_b) + 1.8 for c in btxt) - 1.8 + 88
+f_b = F(19, "SemiBold")
+btxt = "THE SOUTHEAST'S #1 CHRISTMAS LIGHT INSTALLATION SERVICE"
+bw = sum(d.textlength(c, font=f_b) + 1.6 for c in btxt) - 1.6 + 88
 bx0 = W / 2 - bw / 2
-d.rounded_rectangle([bx0, 104, bx0 + bw, 150], 23, fill=DK + (215,), outline=GOLD + (150,), width=2)
-dot(d, bx0 + 30, 127, 5)
-caps_tracked(d, W / 2 + 14, 126, btxt, f_b, GOLD, tracking=1.8)
-qs = 300
-panel_r = 26
-px0, py0 = W // 2 - qs // 2 - 16, 186
+d.rounded_rectangle([bx0, 100, bx0 + bw, 146], 23, fill=DK + (215,), outline=GOLD + (150,), width=2)
+dot(d, bx0 + 30, 123, 5)
+caps_tracked(d, W / 2 + 14, 122, btxt, f_b, GOLD, tracking=1.6)
+rich(d, W // 2, 208, [("Let's ", CREAM), ("Light Up", GOLD), (" Your Holidays", CREAM)], SF(50, 760))
+# left column — all contact details
+cxL = 350
+rows = [
+    ("(864) 288-2459", F(30, "SemiBold"), CREAM, 322),
+    ("sprucelights.com", F(26, "SemiBold"), GOLD, 370),
+    ("@spruceholidaylighting", F(22, "Medium"), SAGE, 414),
+    ("Designs • Install • Takedown • Storage", F(18, "Regular"), SAGE, 458),
+]
+for txt, f, c, yy in rows:
+    tw = d.textlength(txt, font=f)
+    dot(d, cxL - tw / 2 - 20, yy - 2, 3.8)
+    d.text((cxL, yy), txt, font=f, fill=c, anchor="mm")
+caps_tracked(d, cxL, 508, "GREENVILLE • UPSTATE SC • GRAND STRAND", F(14, "SemiBold"), SAGE, tracking=1)
+# divider
+d.line([(560, 292), (560, 518)], fill=GOLD + (70,), width=2)
+# right column — QR
+qs = 220
+px0, py0 = 800 - qs // 2 - 14, 282
 ov = Image.new('RGBA', back.size, (0, 0, 0, 0))
-ImageDraw.Draw(ov).rounded_rectangle([px0, py0, px0 + qs + 32, py0 + qs + 32], panel_r, fill=(250, 247, 240, 255))
+ImageDraw.Draw(ov).rounded_rectangle([px0, py0, px0 + qs + 28, py0 + qs + 28], 22, fill=(250, 247, 240, 255))
 back.alpha_composite(ov)
-back.paste(qr_img("https://sprucelights.com", qs), (px0 + 16, py0 + 16))
+back.paste(qr_img("https://sprucelights.com", qs), (px0 + 14, py0 + 14))
 d = ImageDraw.Draw(back)
-d.text((W / 2, py0 + qs + 64), "sprucelights.com", font=F(31, "SemiBold"), fill=GOLD, anchor="mm")
-d.text((W / 2, py0 + qs + 104), "Designs • Install • Takedown • Storage", font=F(20, "Regular"), fill=SAGE, anchor="mm")
+caps_tracked(d, 800, py0 + qs + 60, "SCAN FOR A FREE QUOTE", F(16, "Bold"), GOLD, tracking=3)
 back.convert('RGB').save(f'{OUT}/SL_card_qr_BACK.png', dpi=(DPI, DPI))
 
 # ============================================ 2. PERSONAL VARIANT — WILL BRUCE
