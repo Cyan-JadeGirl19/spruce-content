@@ -40,11 +40,13 @@ def sheet(plate_path, out, header, sub, cards, label_rgb, accent):
         scene.alpha_composite(sh.filter(ImageFilter.GaussianBlur(13)))
         scene.alpha_composite(c, (int(cx - c.width // 2), int(cy - c.height // 2)))
         dd = ImageDraw.Draw(scene)
-        lw = dd.textlength(label, font=F(22))
-        dd.rounded_rectangle([cx - lw / 2 - 16, cy + c.height // 2 + 10,
-                              cx + lw / 2 + 16, cy + c.height // 2 + 44], 17,
+        f_lab = F(22)
+        lw = dd.textlength(label, font=f_lab)
+        bx0, by0, bx1, by1 = dd.textbbox((0, 0), label, font=f_lab)
+        ly = cy + c.height // 2 + 26
+        dd.rounded_rectangle([cx - lw / 2 - 16, ly - 17, cx + lw / 2 + 16, ly + 17], 17,
                              fill=(10, 10, 10, 130), outline=accent + (90,), width=1)
-        dd.text((cx, cy + c.height // 2 + 26), label, font=F(22), fill=label_rgb, anchor="lm")
+        dd.text((cx - lw / 2 - bx0, ly - (by0 + by1) / 2), label, font=f_lab, fill=label_rgb)
 
     (front, back, name, af, ab) = cards[0]
     place(front, col_cx[0], row_cy[0], af, f"{name} — FRONT")
