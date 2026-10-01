@@ -55,7 +55,7 @@ def _add(busL, busR, sig, start, pan):
 def _master(path, L, R, fade=1.6, lead=0.25):
     n = len(L)
     peak = max(np.abs(L).max(), np.abs(R).max()) or 1.0
-    g = 0.80 / peak
+    g = 0.50 / peak          # soothing level (was 0.80 — too loud)
     t = np.arange(n) / RATE
     k = np.ones(n)
     k[:int(0.20 * RATE)] = np.linspace(0, 1, int(0.20 * RATE))
@@ -74,9 +74,9 @@ def _shimmer(L, R, rnd, dur, dens=1.0):
     t = 0.1
     while t < dur - 0.3:
         f = rnd.uniform(4200, 8200)
-        _add(L, R, _note(f, 0.4, rnd.uniform(0.010, 0.030) * dens,
-                         [(1, 1)], 0.10, att=0.001), t, rnd.uniform(0.12, 0.88))
-        t += rnd.uniform(0.10, 0.26) / dens
+        _add(L, R, _note(f, 0.5, rnd.uniform(0.006, 0.016) * dens,
+                         [(1, 1)], 0.14, att=0.004), t, rnd.uniform(0.12, 0.88))
+        t += rnd.uniform(0.18, 0.42) / dens
 
 # ==================================================================
 # SPRUCE LIGHTS — "Warm Music Box Lullaby" (C major waltz, celesta)

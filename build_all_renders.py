@@ -61,7 +61,7 @@ def brand_paths(brand):
 
 slf, sls = brand_paths("spruce_lights")
 spf, sps = brand_paths("spruce_pro")
-slv = sorted(glob.glob(f"{ROOT}/videos/spruce_lights/*.mp4"))
+slv = sorted(glob.glob(f"{ROOT}/videos/spruce_lights/*.mp4")) + sorted(glob.glob(f"{ROOT}/videos/spruce_lights/real/*.mp4"))
 spv = sorted(glob.glob(f"{ROOT}/videos/spruce_pro/*.mp4"))
 
 html = f"""<!doctype html><html><head><meta charset="utf-8">
@@ -86,7 +86,7 @@ Brand chips on every card. Spruce Pro untouched.</p>
 {section("Spruce Lights — stories (9:16)", "Same paper system, tall format", grid(sls, 4), "#9fe06a")}
 {section("Spruce Pro — feed (1:1)", "Deep teal system, cyan chips · (864) 483-4300 · unchanged this round", grid(spf, 3), "#5fe3ea")}
 {section("Spruce Pro — stories (9:16)", "", grid(sps, 4), "#5fe3ea")}
-{section("Videos — Spruce Lights (Deep Pine, music-box twinkle)", "Sting · promo reel · promo feed · before/after reel", video_row(slv), "#9fe06a")}
+{section("Videos — Spruce Lights (Deep Pine, music-box twinkle)", "Sting · promos · before/after + 5 NEW real-photo posts (residential / commercial / municipal / BA / mixed)", video_row(slv), "#9fe06a")}
 {section("Videos — Spruce Pro (teal, music-box twinkle)", "", video_row(spv), "#5fe3ea")}
 <p style="font:400 12px/1.6 system-ui;color:#6d8577;margin-top:26px">
 Also in the download packs: content_calendar.html (full October posting plan) and gallery.html.
