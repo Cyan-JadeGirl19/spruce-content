@@ -13,7 +13,7 @@ import audio_kit as _AK
 def twinkle_wav(path, dur, key=None, seed=7, accents=None, fade=1.6, rate=44100):
     kind = 'sting' if 'sting' in path else 'promo' if 'promo' in path else 'feed' if 'feed' in path else 'ba'
     return _AK.sp_track(path, dur, seed=seed, accents=accents,
-                        density=_AK.PRESETS[kind], fade=1.0 if dur < 8 else 1.7)
+                        density=0.5, fade=1.6, gain=0.40)
 
 OUT = f'{ROOT}/videos/spruce_pro'
 os.makedirs(OUT, exist_ok=True)
