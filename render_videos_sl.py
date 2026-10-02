@@ -13,7 +13,7 @@ import audio_kit as _AK
 def twinkle_wav(path, dur, key=None, seed=7, accents=None, fade=1.6, rate=44100):
     kind = 'sting' if 'sting' in path else 'promo' if 'promo' in path else 'feed' if 'feed' in path else 'ba'
     return _AK.sl_track(path, dur, seed=seed, accents=accents,
-                        density=0.5, fade=1.6, gain=0.40)
+                        density=_AK.PRESETS[kind], fade=1.0 if dur < 8 else 1.7)
 from spruce_kit import FONTS
 import vidkit as _V
 _GOLD = (240, 176, 45, 255); _CREAM = (246, 240, 226, 255)
@@ -190,8 +190,8 @@ def ba_reel():
     W, H = ST
     dur = 8.0; n = int(dur * FPS)
     foot = brand_footer_layer(ST, SL)
-    A0 = bg_photo(f'{BG}/sl_house_day.jpg', W, H, focus=0.5, brighten=1.0)
-    B0 = bg_photo(f'{BG}/sl_house_night_real.jpg', W, H, focus=0.5)
+    A0 = bg_photo(f'{BG}/sl_day.jpg', W, H, focus=0.5, brighten=0.97)
+    B0 = bg_photo(f'{BG}/sl_night.jpg', W, H, focus=0.5)
     def side_label(txt, cx, color):
         lay = Image.new('RGBA', ST, (0,0,0,0))
         d = ImageDraw.Draw(lay)

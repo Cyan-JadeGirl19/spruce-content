@@ -63,7 +63,7 @@ slf, sls = brand_paths("spruce_lights")
 spf, sps = brand_paths("spruce_pro")
 slv = sorted(glob.glob(f"{ROOT}/videos/spruce_lights/*.mp4"))
 spv = sorted(glob.glob(f"{ROOT}/videos/spruce_pro/*.mp4"))
-shv = sorted(glob.glob(f"{ROOT}/videos/spruce_lights/showcase/*.mp4"))
+shw = sorted(glob.glob(f"{ROOT}/videos/spruce_lights/showcase/*.mp4"))
 
 html = f"""<!doctype html><html><head><meta charset="utf-8">
 <title>Spruce — October 2026 Master Gallery (v8)</title></head>
@@ -72,7 +72,7 @@ html = f"""<!doctype html><html><head><meta charset="utf-8">
 <h1 style="font:800 30px/1.15 system-ui;margin:0 0 6px">Spruce Lights + Spruce Pro — October 2026</h1>
 <p style="font:400 14px/1.5 system-ui;color:#8fa998;margin:0 0 22px">
 Master gallery v8 — {len(slf)+len(spf)} feed + {len(sls)+len(sps)} story cards, 8 videos, calendar &amp; gallery pages.
-<b style="color:#d8e6dc">New:</b> Spruce Lights “Website Edition” — the sprucelights.com look:
+<b style="color:#d8e6dc">New:</b> 10-video Showcase Series (real residential/commercial/municipal lights, feed + vertical) · fixed matched before/after · quieter soothing soundtrack ·<b style="color:#d8e6dc">Also new:</b> Spruce Lights “Website Edition” — the sprucelights.com look:
 dark pine green, cream Playfair serif headlines with gold highlight phrases, gold calls-to-action, sage body text.
 Brand chips on every card. Spruce Pro untouched.</p>
 
@@ -87,9 +87,9 @@ Brand chips on every card. Spruce Pro untouched.</p>
 {section("Spruce Lights — stories (9:16)", "Same paper system, tall format", grid(sls, 4), "#9fe06a")}
 {section("Spruce Pro — feed (1:1)", "Deep teal system, cyan chips · (864) 483-4300 · unchanged this round", grid(spf, 3), "#5fe3ea")}
 {section("Spruce Pro — stories (9:16)", "", grid(sps, 4), "#5fe3ea")}
-{section("Showcase — real lights (NEW)", "5 video posts × feed + story: residential · commercial · municipal · true before/after (same home) · grand tour — soothing twinkle", video_row(shv), "#ffd76a")}
-{section("Videos — Spruce Lights (brand)", "Sting · promo reel · promo feed · before/after reel (true same-home pair, soothing mix)", video_row(slv), "#9fe06a")}
-{section("Videos — Spruce Pro (teal, music-box twinkle)", "", video_row(spv), "#5fe3ea")}
+{section("Videos — Spruce Lights (Deep Pine, music-box twinkle)", "Sting · promo reel · promo feed · before/after reel", video_row(slv), "#9fe06a")}
+{section("Spruce Lights — Showcase Series (real properties)", "5 concepts × feed (1:1) + vertical (9:16): residential · commercial · municipal · transformation · crew — soothing quiet twinkle", video_row(shw), "#c8a84c")}
+{section("Videos — Spruce Pro (teal)", "", video_row(spv), "#5fe3ea")}
 <p style="font:400 12px/1.6 system-ui;color:#6d8577;margin-top:26px">
 Also in the download packs: content_calendar.html (full October posting plan) and gallery.html.
 Downloads: DOWNLOAD_1_SpruceLights_Graphics.zip · DOWNLOAD_2_SprucePro_Graphics.zip · DOWNLOAD_3_Spruce_Videos.zip</p>

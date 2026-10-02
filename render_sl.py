@@ -35,8 +35,8 @@ both('SL_02_review_michelle',
 
 # 03 before/after — AI day/night pair
 both('SL_03_before_after',
-    before_after(SL, SQ, f'{BG}/sl_house_day.jpg', f'{BG}/sl_house_night_real.jpg', 'The Spruce Difference', 'From Everyday to *Enchanting*'),
-    before_after(SL, ST, f'{BG}/sl_house_day.jpg', f'{BG}/sl_house_night_real.jpg', 'The Spruce Difference', 'From Everyday to *Enchanting*'))
+    before_after(SL, SQ, f'{BG}/sl_day.jpg', f'{BG}/sl_night.jpg', 'The Spruce Difference', 'From Everyday to *Enchanting*'),
+    before_after(SL, ST, f'{BG}/sl_day.jpg', f'{BG}/sl_night.jpg', 'The Spruce Difference', 'From Everyday to *Enchanting*'))
 
 # 04 stat — real C9 bulb macro
 both('SL_04_free_service_calls',
