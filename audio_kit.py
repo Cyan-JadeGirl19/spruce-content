@@ -52,23 +52,10 @@ def _add(busL, busR, sig, start, pan):
     busL[s0:j] += seg * (1 - pan)
     busR[s0:j] += seg * pan
 
-def _lowpass(x, cutoff=4200):
-    rc = 1.0 / (2 * 3.14159 * cutoff)
-    dt = 1.0 / RATE
-    al = dt / (rc + dt)
-    y = np.empty_like(x)
-    acc = 0.0
-    for i in range(len(x)):
-        acc += al * (x[i] - acc)
-        y[i] = acc
-    return y
-
-def _master(path, L, R, fade=1.6, gain=1.0, soft=False):
-    if soft:
-        L = _lowpass(L); R = _lowpass(R)
+def _master(path, L, R, fade=1.6, lead=0.25):
     n = len(L)
     peak = max(np.abs(L).max(), np.abs(R).max()) or 1.0
-    g = (0.80 / peak) * gain
+    g = 0.52 / peak
     t = np.arange(n) / RATE
     k = np.ones(n)
     k[:int(0.20 * RATE)] = np.linspace(0, 1, int(0.20 * RATE))
@@ -83,8 +70,7 @@ def _master(path, L, R, fade=1.6, gain=1.0, soft=False):
         w.writeframes(inter.tobytes())
     return path
 
-def _shimmer(L, R, rnd, dur, dens=1.0, soft=False):
-    if soft: dens *= 0.5
+def _shimmer(L, R, rnd, dur, dens=1.0):
     t = 0.1
     while t < dur - 0.3:
         f = rnd.uniform(4200, 8200)
@@ -105,7 +91,7 @@ SL_PHRASES = [
     [4, 7, 9, 12, 14, 12, 9, 4],
 ]
 
-def sl_track(path, dur, seed=7, accents=None, density=1.0, fade=1.7, gain=0.55, soft=True):
+def sl_track(path, dur, seed=7, accents=None, density=1.0, fade=1.7):
     """Spruce Lights: magical music-box waltz in C."""
     rnd = random.Random(seed + 100)
     beat = 0.62; bar = 3 * beat
@@ -147,14 +133,14 @@ def sl_track(path, dur, seed=7, accents=None, density=1.0, fade=1.7, gain=0.55, 
                 _add(L, R, _note(f * 2, 1.4, 0.10 * density, BOX_P, 0.4), t + 0.05, 0.72)
             t += beat
         t += beat * rnd.choice([0, 0, 1])  # breath between phrases
-    _shimmer(L, R, rnd, dur, 0.8 * density, soft=soft)
+    _shimmer(L, R, rnd, dur, 0.8 * density)
     # accents: music-box flourish (run up + low root)
     for (ta, fa) in (accents or []):
         run = [fa / 2, fa * 3 / 4, fa, fa * 1.25, fa * 1.5, fa * 2]
         for k, f in enumerate(run):
             _add(L, R, _note(f, 2.0, 0.26, BOX_P, 0.7), ta + k * 0.055, 0.5)
         _add(L, R, _note(fa / 4, 2.6, 0.20, [(1, 1)], 0.9), ta, 0.35)
-    return _master(path, L, R, fade, gain=gain, soft=soft)
+    return _master(path, L, R, fade)
 
 # ==================================================================
 # SPRUCE SERVICES — "Clean Chime" (A minor, bright plucks, modern)
@@ -171,7 +157,7 @@ SP_PHRASES = [
 SP_REST = [[1, 0, 1, 1, 0, 1, 0, 1], [1, 1, 0, 1, 1, 0, 1, 0],
            [1, 0, 1, 0, 1, 1, 0, 1], [1, 0, 0, 1, 1, 0, 1, 1]]
 
-def sp_track(path, dur, seed=7, accents=None, density=1.0, fade=1.6, gain=0.50, soft=True):
+def sp_track(path, dur, seed=7, accents=None, density=1.0, fade=1.6):
     """Spruce Services: crisp modern chime in A minor — clean, confident, fresh."""
     rnd = random.Random(seed + 900)
     beat = 0.50; bar = 4 * beat
@@ -216,13 +202,13 @@ def sp_track(path, dur, seed=7, accents=None, density=1.0, fade=1.6, gain=0.50, 
         if ni % 16 == 0:
             pi += 1; pattern = SP_REST[pi % 4]
             t += e8 * 2  # small breath every 2 bars
-    _shimmer(L, R, rnd, dur, 0.55 * density, soft=soft)
+    _shimmer(L, R, rnd, dur, 0.55 * density)
     # accents: clean two-note chime (root + fifth) — crisp logo hit
     for (ta, fa) in (accents or []):
         _add(L, R, _note(fa, 1.8, 0.30, PLK_P, 0.5, att=0.002), ta, 0.42)
         _add(L, R, _note(fa * 1.5, 1.8, 0.22, PLK_P, 0.5, att=0.002), ta + 0.12, 0.62)
         _add(L, R, _note(fa / 2, 1.4, 0.16, [(1, 1)], 0.4), ta + 0.02, 0.45)
-    return _master(path, L, R, fade, gain=gain, soft=soft)
+    return _master(path, L, R, fade)
 
 # --- convenience: per-video density presets -------------------------
-PRESETS = {'sting': 0.55, 'promo': 1.0, 'feed': 0.8, 'ba': 0.7}
+PRESETS = {'sting': 0.45, 'promo': 0.8, 'feed': 0.65, 'ba': 0.55}

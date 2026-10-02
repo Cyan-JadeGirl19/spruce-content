@@ -190,8 +190,8 @@ def ba_reel():
     W, H = ST
     dur = 8.0; n = int(dur * FPS)
     foot = brand_footer_layer(ST, SL)
-    A0 = bg_photo(f'{BG}/sl_day.jpg', W, H, focus=0.5, brighten=0.97)
-    B0 = bg_photo(f'{BG}/sl_night.jpg', W, H, focus=0.5)
+    A0 = bg_photo(f'{BG}/sl_ba_before.jpg', W, H, focus=0.5, brighten=1.12)
+    B0 = bg_photo(f'{BG}/sl_ba_after.jpg', W, H, focus=0.5)
     def side_label(txt, cx, color):
         lay = Image.new('RGBA', ST, (0,0,0,0))
         d = ImageDraw.Draw(lay)
