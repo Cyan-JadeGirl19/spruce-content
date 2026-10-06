@@ -1,13 +1,9 @@
-"""Spruce Lights statics v4 — PHOTO FIRST (client: no blocks, no heavy writing).
-Full-bleed photo + small logo/chip + one short headline line + small contact line."""
+"""Spruce Lights statics v4 — PHOTO-FIRST (client: no blocks, minimal writing)."""
 import sys; sys.path.insert(0, '/home/user/spruce')
 import spruce_kit as _K
 _K.TEAL = (13, 27, 16, 255); _K.TEAL_D = (8, 18, 11, 255); _K.TEAL_L = (24, 44, 28, 255)
 _K.SCRIM_COLOR = (2, 14, 8); _K.FOOT_DARK = (3, 20, 12); _K.CINE_SHADOW = (0.0, 0.05, 0.028)
-import templates_min as _T
-for _n in ('TEAL', 'TEAL_D', 'TEAL_L'):
-    setattr(_T, _n, getattr(_K, _n))
-from templates_min import *
+from templates_photo import *
 from spruce_kit import *
 
 BG = f'{ROOT}/assets/bg'
@@ -19,84 +15,64 @@ def both(name, fn_sq, fn_st):
     save(fn_st, f'{OUT}/story/{name}_story.jpg')
     print('ok', name)
 
-both('SL_01_booking_launch',
-    hero(SL, SQ, f'{SLR}/sl_02_spruce-christmas-lighting.jpg', 'Your Home, *Aglow All Season Long*'),
-    hero(SL, ST, f'{SLR}/sl_02_spruce-christmas-lighting.jpg', 'Your Home, *Aglow All Season Long*'))
-
+both("SL_01_booking_launch", photo_post(SL, SQ, f'{SLR}/sl_02_spruce-christmas-lighting.jpg', 'Your Home, Aglow All Season Long', kicker='Now Booking October', sub='sprucelights.com'),
+     photo_post(SL, ST, f'{SLR}/sl_02_spruce-christmas-lighting.jpg', 'Your Home, Aglow All Season Long', kicker='Now Booking October', sub='sprucelights.com'))
 both('SL_02_review_michelle',
-    review(SL, SQ, 'Spruce made our house look magical — easy to work with and a unique, natural look.', 'Michelle B. · Google Review', 'Greenville, SC', bg_path=f'{SLR}/sl_10_ghting-installation-greenville-sc-1.jpg'),
-    review(SL, ST, 'Spruce made our house look magical throughout Christmas and New Years. Easy to work with and a unique, natural look.', 'Michelle B. · Google Review', 'Greenville, SC', bg_path=f'{SLR}/sl_10_ghting-installation-greenville-sc-1.jpg'))
-
+     photo_post(SL, SQ, f'{SLR}/sl_10_ghting-installation-greenville-sc-1.jpg', '“Made our house look magical”', kicker='★★★★★ Google Review', sub='Michelle B. · Greenville, SC'),
+     photo_post(SL, ST, f'{SLR}/sl_10_ghting-installation-greenville-sc-1.jpg', '“Made our house look magical”', kicker='★★★★★ Google Review', sub='Michelle B. · Greenville, SC'))
 both('SL_03_before_after',
-    before_after(SL, SQ, f'{BG}/sl_day.jpg', f'{BG}/sl_night_v2.jpg', 'The Spruce Difference', 'From Everyday to *Enchanting*'),
-    before_after(SL, ST, f'{BG}/sl_day.jpg', f'{BG}/sl_night_v2.jpg', 'The Spruce Difference', 'From Everyday to *Enchanting*'))
-
+     before_after(SL, SQ, f'{BG}/sl_day.jpg', f'{BG}/sl_night_v2.jpg', 'The Spruce Difference', 'From Everyday to Enchanting'),
+     before_after(SL, ST, f'{BG}/sl_day.jpg', f'{BG}/sl_night_v2.jpg', 'The Spruce Difference', 'From Everyday to Enchanting'))
 both('SL_04_free_service_calls',
-    stat(SL, SQ, '100%', 'Free Service Calls All Season', bg_path=f'{SLR}/sl_17_hting-installation-municipalities-4.jpg'),
-    stat(SL, ST, '100%', 'Free Service Calls All Season', bg_path=f'{SLR}/sl_17_hting-installation-municipalities-4.jpg'))
-
+     photo_post(SL, SQ, f'{SLR}/sl_17_hting-installation-municipalities-4.jpg', '100% Free Service Calls, All Season', kicker='The Spruce Promise'),
+     photo_post(SL, ST, f'{SLR}/sl_17_hting-installation-municipalities-4.jpg', '100% Free Service Calls, All Season', kicker='The Spruce Promise'))
 both('SL_05_process',
-    hero(SL, SQ, f'{SLR}/sl_01_spruce-christmas-lighting-2.jpg', 'We Design, Install & Store — *You Just Enjoy*'),
-    hero(SL, ST, f'{SLR}/sl_01_spruce-christmas-lighting-2.jpg', 'We Design, Install & Store — *You Just Enjoy*'))
-
+     photo_post(SL, SQ, f'{SLR}/sl_01_spruce-christmas-lighting-2.jpg', 'Design • Install • Store. You Never Touch a Ladder.', kicker='The Spruce Process'),
+     photo_post(SL, ST, f'{SLR}/sl_01_spruce-christmas-lighting-2.jpg', 'Design • Install • Store. You Never Touch a Ladder.', kicker='The Spruce Process'))
 both('SL_06_services',
-    hero(SL, SQ, f'{SLR}/sl_16_hting-installation-municipalities-3.jpg', 'One Call Does It *All*'),
-    hero(SL, ST, f'{SLR}/sl_16_hting-installation-municipalities-3.jpg', 'One Call Does It *All*'))
-
+     photo_post(SL, SQ, f'{SLR}/sl_16_hting-installation-municipalities-3.jpg', 'Homes • Businesses • Towns', kicker='All-Inclusive Holiday Lighting'),
+     photo_post(SL, ST, f'{SLR}/sl_16_hting-installation-municipalities-3.jpg', 'Homes • Businesses • Towns', kicker='All-Inclusive Holiday Lighting'))
 both('SL_07_poll',
-    poll(SL, SQ, 'Comment below', 'Which lit look wins?', ['Roofline', 'Wrapped Trees', 'Walkway', 'All of it'], bg_path=f'{SLR}/sl_06_nstallation-service-greenville-sc-4.jpg', note='Tell us — we might design it for you'),
-    poll(SL, ST, 'Comment below', 'Which lit look wins?', ['Roofline', 'Wrapped Trees', 'Walkway', 'All of it'], bg_path=f'{SLR}/sl_06_nstallation-service-greenville-sc-4.jpg', note='Tell us — we might design it for you'))
-
+     photo_post(SL, SQ, f'{SLR}/sl_06_nstallation-service-greenville-sc-4.jpg', 'Which Lit Look Wins? Comment Below', kicker='Rooflines • Trees • Walkways'),
+     photo_post(SL, ST, f'{SLR}/sl_06_nstallation-service-greenville-sc-4.jpg', 'Which Lit Look Wins? Comment Below', kicker='Rooflines • Trees • Walkways'))
 both('SL_08_halloween_crossover',
-    hero(SL, SQ, f'{BG}/sl_halloween.jpg', 'Trick or Treat Tonight. *Twinkle by December.*'),
-    hero(SL, ST, f'{BG}/sl_halloween.jpg', 'Trick or Treat Tonight. *Twinkle by December.*'))
-
+     photo_post(SL, SQ, f'{BG}/sl_halloween.jpg', 'Trick or Treat Tonight. Twinkle by December.', kicker='Halloween → Christmas'),
+     photo_post(SL, ST, f'{BG}/sl_halloween.jpg', 'Trick or Treat Tonight. Twinkle by December.', kicker='Halloween → Christmas'))
 both('SL_09_why_pro',
-    hero(SL, SQ, f'{BG}/sl_hands.jpg', 'Commercial-Grade Lights. *Zero Ladder Time.*'),
-    hero(SL, ST, f'{BG}/sl_hands.jpg', 'Commercial-Grade Lights. *Zero Ladder Time.*'))
-
+     photo_post(SL, SQ, f'{BG}/sl_hands.jpg', 'Commercial-Grade Lights. Zero Ladders.', kicker='Good to Know'),
+     photo_post(SL, ST, f'{BG}/sl_hands.jpg', 'Commercial-Grade Lights. Zero Ladders.', kicker='Good to Know'))
 both('SL_10_review_randy',
-    review(SL, SQ, 'Great team. Showed up and did excellent work. Highly recommend.', 'Randy T. · Google Review', 'Upstate, SC', bg_path=f'{SLR}/sl_08_nstallation-service-greenville-sc-2.jpg'),
-    review(SL, ST, 'Great team. Showed up and did excellent work. Highly recommend.', 'Randy T. · Google Review', 'Upstate, SC', bg_path=f'{SLR}/sl_08_nstallation-service-greenville-sc-2.jpg'))
-
+     photo_post(SL, SQ, f'{SLR}/sl_08_nstallation-service-greenville-sc-2.jpg', '“Great team. Excellent work.”', kicker='★★★★★ Google Review', sub='Randy T. · Upstate, SC'),
+     photo_post(SL, ST, f'{SLR}/sl_08_nstallation-service-greenville-sc-2.jpg', '“Great team. Excellent work.”', kicker='★★★★★ Google Review', sub='Randy T. · Upstate, SC'))
 both('SL_11_griswold',
-    hero(SL, SQ, f'{BG}/sl_sleigh.jpg', 'All the Envy. *None of the Tangles.*'),
-    hero(SL, ST, f'{BG}/sl_sleigh.jpg', 'All the Envy. *None of the Tangles.*'))
-
+     photo_post(SL, SQ, f'{BG}/sl_sleigh.jpg', 'All the Envy. None of the Tangles.', kicker='Be the Favorite House'),
+     photo_post(SL, ST, f'{BG}/sl_sleigh.jpg', 'All the Envy. None of the Tangles.', kicker='Be the Favorite House'))
 both('SL_12_countdown_nov1',
-    stat(SL, SQ, 'NOV 1', 'Install Calendar Opens — October Books First', bg_path=f'{BG}/sl_macro.jpg'),
-    stat(SL, ST, 'NOV 1', 'Install Calendar Opens — October Books First', bg_path=f'{BG}/sl_macro.jpg'))
-
+     photo_post(SL, SQ, f'{SLR}/sl_14_hting-installation-municipalities-1.jpg', 'Prime Slots Fill First — Book October', kicker='Install Calendar'),
+     photo_post(SL, ST, f'{SLR}/sl_14_hting-installation-municipalities-1.jpg', 'Prime Slots Fill First — Book October', kicker='Install Calendar'))
 both('SL_13_hoa_streets',
-    hero(SL, SQ, f'{SLR}/sl_18_olumbia-myrtle-beach-sc-ashevill-nc.jpg', 'Light Up the *Whole Street*'),
-    hero(SL, ST, f'{SLR}/sl_18_olumbia-myrtle-beach-sc-ashevill-nc.jpg', 'Light Up the *Whole Street*'))
-
+     photo_post(SL, SQ, f'{SLR}/sl_18_olumbia-myrtle-beach-sc-ashevill-nc.jpg', 'Light Up the Whole Street', kicker='HOAs • Businesses • Towns'),
+     photo_post(SL, ST, f'{SLR}/sl_18_olumbia-myrtle-beach-sc-ashevill-nc.jpg', 'Light Up the Whole Street', kicker='HOAs • Businesses • Towns'))
 both('SL_14_why_october',
-    hero(SL, SQ, f'{BG}/sl_farmhouse.jpg', 'Smart Homeowners Book in *October*'),
-    hero(SL, ST, f'{BG}/sl_farmhouse.jpg', 'Smart Homeowners Book in *October*'))
-
+     photo_post(SL, SQ, f'{BG}/sl_farmhouse.jpg', 'Smart Homeowners Book in October', kicker='Pro Tip', sub='Same price — better slot'),
+     photo_post(SL, ST, f'{BG}/sl_farmhouse.jpg', 'Smart Homeowners Book in October', kicker='Pro Tip', sub='Same price — better slot'))
 both('SL_15_poll_ladder',
-    poll(SL, SQ, 'Honest poll', 'Ladder or cocoa this December?', ['On a ladder untangling lights', 'On the couch, sipping cocoa'], bg_path=f'{SLR}/sl_03_nstallation-service-greenville-sc-1.jpg', note='There is a right answer'),
-    poll(SL, ST, 'Honest poll', 'Ladder or cocoa this December?', ['On a ladder untangling lights', 'On the couch, sipping cocoa'], bg_path=f'{SLR}/sl_03_nstallation-service-greenville-sc-1.jpg', note='There is a right answer'))
-
+     photo_post(SL, SQ, f'{SLR}/sl_03_nstallation-service-greenville-sc-1.jpg', 'Ladder This Weekend, or Cocoa? 🎄', kicker='Honest Poll'),
+     photo_post(SL, ST, f'{SLR}/sl_03_nstallation-service-greenville-sc-1.jpg', 'Ladder This Weekend, or Cocoa? 🎄', kicker='Honest Poll'))
 both('SL_16_tree_wraps',
-    hero(SL, SQ, f'{BG}/sl_tree.jpg', 'Trees That *Stop Traffic*'),
-    hero(SL, ST, f'{BG}/sl_tree.jpg', 'Trees That *Stop Traffic*'))
-
+     photo_post(SL, SQ, f'{BG}/sl_tree.jpg', 'Trees That Stop Traffic', kicker='Signature Spruce Service'),
+     photo_post(SL, ST, f'{BG}/sl_tree.jpg', 'Trees That Stop Traffic', kicker='Signature Spruce Service'))
 both('SL_17_review_jan',
-    review(SL, SQ, 'My trees wrapped in Christmas lights look amazing!! Spruce is awesome.', 'Jan H. · Google Review', 'Greenville, SC', bg_path=f'{SLR}/sl_14_hting-installation-municipalities-1.jpg'),
-    review(SL, ST, 'My trees wrapped in Christmas lights look amazing!! Spruce is awesome — highly, highly recommend!', 'Jan H. · Google Review', 'Greenville, SC', bg_path=f'{SLR}/sl_14_hting-installation-municipalities-1.jpg'))
-
+     photo_post(SL, SQ, f'{SLR}/sl_12_ghting-installation-greenville-sc-3.jpg', '“My wrapped trees look amazing!!”', kicker='★★★★★ Google Review', sub='Jan H. · Greenville, SC'),
+     photo_post(SL, ST, f'{SLR}/sl_12_ghting-installation-greenville-sc-3.jpg', '“My wrapped trees look amazing!!”', kicker='★★★★★ Google Review', sub='Jan H. · Greenville, SC'))
 both('SL_18_october_filling',
-    stat(SL, SQ, 'OCT 31', 'Prime October Slots Close at Month-End', bg_path=f'{BG}/sl_roofline.jpg'),
-    stat(SL, ST, 'OCT 31', 'Prime October Slots Close at Month-End', bg_path=f'{BG}/sl_roofline.jpg'))
-
+     photo_post(SL, SQ, f'{BG}/sl_roofline.jpg', 'October Slots Almost Gone', kicker='Booking Update'),
+     photo_post(SL, ST, f'{BG}/sl_roofline.jpg', 'October Slots Almost Gone', kicker='Booking Update'))
 both('SL_19_cta',
-    hero(SL, SQ, f'{BG}/sl_dock.jpg', 'Let\u2019s Light Up Your *Holidays*'),
-    hero(SL, ST, f'{BG}/sl_dock.jpg', 'Let\u2019s Light Up Your *Holidays*'))
-
+     photo_post(SL, SQ, f'{BG}/sl_dock.jpg', 'Let’s Light Up Your Holidays', kicker='Now Booking October', sub='(864) 288-2459'),
+     photo_post(SL, ST, f'{BG}/sl_dock.jpg', 'Let’s Light Up Your Holidays', kicker='Now Booking October', sub='(864) 288-2459'))
 both('SL_20_halloween_day',
-    hero(SL, SQ, f'{BG}/sl_garland.jpg', 'Candy Tonight. *Twinkle Soon.*'),
-    hero(SL, ST, f'{BG}/sl_garland.jpg', 'Candy Tonight. *Twinkle Soon.*'))
+     photo_post(SL, SQ, f'{BG}/sl_garland.jpg', 'Candy Tonight. Twinkle Soon.', kicker='Happy Halloween, Greenville 🎃'),
+     photo_post(SL, ST, f'{BG}/sl_garland.jpg', 'Candy Tonight. Twinkle Soon.', kicker='Happy Halloween, Greenville 🎃'))
 
 print('ALL SPRUCE LIGHTS STATIC DONE (v4, photo-first)')

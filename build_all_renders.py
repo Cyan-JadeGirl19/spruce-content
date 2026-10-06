@@ -70,7 +70,7 @@ html = f"""<!doctype html><html><head><meta charset="utf-8">
 <div style="max-width:1180px;margin:0 auto;padding:30px 20px 60px">
 <h1 style="font:800 30px/1.15 system-ui;margin:0 0 6px">Spruce Lights + Spruce Pro — October 2026</h1>
 <p style="font:400 14px/1.5 system-ui;color:#8fa998;margin:0 0 22px">
-Master gallery v9 — {len(slf)+len(spf)} feed + {len(sls)+len(sps)} story cards, 13 videos, calendar &amp; gallery pages.
+Master gallery v10 — {len(slf)+len(spf)} feed + {len(sls)+len(sps)} story cards (photo-first v4 — no panels, per client), 13 videos, calendar &amp; gallery pages.
 <b style="color:#d8e6dc">New:</b> Spruce Lights “Website Edition” — the sprucelights.com look:
 dark pine green, cream Playfair serif headlines with gold highlight phrases, gold calls-to-action, sage body text.
 Brand chips on every card. Spruce Pro untouched.</p>
