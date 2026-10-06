@@ -1,157 +1,101 @@
-"""Spruce Pro statics v3 — UNIQUE real photo per card, cinematic frosted blend."""
+"""Spruce Pro statics v4 — PHOTO FIRST (client: no blocks, no heavy writing)."""
 import sys; sys.path.insert(0, '/home/user/spruce')
 import spruce_kit as _K
 _K.TEAL = (0, 48, 60, 255); _K.TEAL_D = (0, 33, 42, 255); _K.TEAL_L = (10, 74, 88, 255)
 _K.SCRIM_COLOR = (0, 20, 26); _K.FOOT_DARK = (0, 26, 33); _K.CINE_SHADOW = (0.00, 0.10, 0.13)
-import templates as _T
+import templates_min as _T
 for _n in ('TEAL', 'TEAL_D', 'TEAL_L'):
     setattr(_T, _n, getattr(_K, _n))
-from templates import *
+from templates_min import *
 from spruce_kit import *
-from PIL import Image, ImageEnhance, ImageFilter, ImageDraw
-import os
 
 P = f'{ROOT}/assets/photos/sp_real2'
 PP = f'{ROOT}/assets/photos/sp_real'
 OUT = f'{ROOT}/deliverables/spruce_pro'
-
-def grime(im):
-    """convincing 'dirty' version: desaturate, darken, algae tint, streaks"""
-    im = im.convert('RGBA')
-    im = ImageEnhance.Color(im).enhance(0.5)
-    im = ImageEnhance.Brightness(im).enhance(0.74)
-    im = ImageEnhance.Contrast(im).enhance(0.9)
-    ov = Image.new('RGBA', im.size, (0, 0, 0, 0))
-    d = ImageDraw.Draw(ov)
-    w, h = im.size
-    for y in range(h):
-        t = y / h
-        a = int(70 * (0.5 + 0.5 * abs(t - 0.42) * 1.7))
-        d.line([(0, y), (w, y)], fill=(96, 110, 48, a))
-    import random
-    rnd = random.Random(5)
-    for _ in range(60):
-        x = rnd.randint(0, w)
-        ln = rnd.randint(h // 6, h // 2)
-        y0 = rnd.choice([0, rnd.randint(0, h // 3)])
-        wd = rnd.randint(2, 10)
-        d.line([(x, y0), (x - rnd.randint(-30, 30), y0 + ln)], fill=(62, 72, 32, rnd.randint(30, 66)), width=wd)
-    ov = ov.filter(ImageFilter.GaussianBlur(3))
-    return Image.alpha_composite(im, ov)
-
-if not os.path.exists(f'{PP}/before_grime.jpg'):
-    grime(Image.open(f'{P}/sp_07_Spruce6-1-1-scaled-1.jpg')).convert('RGB').save(f'{PP}/before_grime.jpg', quality=92)
-    print('grime before created')
 
 def both(name, fn_sq, fn_st):
     save(fn_sq, f'{OUT}/feed/{name}_feed.jpg')
     save(fn_st, f'{OUT}/story/{name}_story.jpg')
     print('ok', name)
 
-# 01 — white porch home
 both('SP_01_fall_refresh',
-    hero(SP, SQ, f'{P}/sp_13_olutions-residential-background-190.jpg', 'Fall Reset Season', 'Bring Your Home Back to New', 'House wash • Windows • Gutters • Concrete — one trusted crew'),
-    hero(SP, ST, f'{P}/sp_13_olutions-residential-background-190.jpg', 'Fall Reset Season', 'Bring Your Home Back to New', 'House wash • Windows • Gutters • Concrete — one trusted local crew', badge='Free Quotes'))
+    hero(SP, SQ, f'{P}/sp_13_olutions-residential-background-190.jpg', 'Bring Your Home Back to *New*'),
+    hero(SP, ST, f'{P}/sp_13_olutions-residential-background-190.jpg', 'Bring Your Home Back to *New*'))
 
-# 02 — orange-vest surface clean
 both('SP_02_pressure_wash',
-    hero(SP, SQ, f'{P}/sp_20_solutions-square-pressure-washing-2.jpg', 'Pressure Washing', 'The Clean Slate Effect', 'Driveways, walkways & patios — restored without damage'),
-    hero(SP, ST, f'{P}/sp_20_solutions-square-pressure-washing-2.jpg', 'Pressure Washing', 'The Clean Slate Effect', 'Driveways, walkways & patios — restored the safe way', badge='Satisfying'))
+    hero(SP, SQ, f'{P}/sp_20_solutions-square-pressure-washing-2.jpg', 'The Clean Slate *Effect*'),
+    hero(SP, ST, f'{P}/sp_20_solutions-square-pressure-washing-2.jpg', 'The Clean Slate *Effect*'))
 
-# 03 — before/after pair
 both('SP_03_before_after',
-    before_after(SP, SQ, f'{PP}/before_grime.jpg', f'{P}/sp_07_Spruce6-1-1-scaled-1.jpg', 'The Spruce Difference', 'One Afternoon. Total Renewal.', focus=0.72),
-    before_after(SP, ST, f'{PP}/before_grime.jpg', f'{P}/sp_07_Spruce6-1-1-scaled-1.jpg', 'The Spruce Difference', 'One Afternoon. Total Renewal.', focus=0.72))
+    before_after(SP, SQ, f'{PP}/before_grime.jpg', f'{P}/sp_07_Spruce6-1-1-scaled-1.jpg', 'The Spruce Difference', 'One Afternoon. *Total Renewal.*', focus=0.72),
+    before_after(SP, ST, f'{PP}/before_grime.jpg', f'{P}/sp_07_Spruce6-1-1-scaled-1.jpg', 'The Spruce Difference', 'One Afternoon. *Total Renewal.*', focus=0.72))
 
-# 04 — truck at estate (heritage)
 both('SP_04_serving_since',
-    stat(SP, SQ, 'Serving the Carolinas', '2006', 'Ever Since', 'Family-run, licensed & insured, 5-star rated. We protect your biggest investment like it’s our own.', bg_path=f'{P}/sp_23_sure-washing-services-greenville-sc.jpg', cta=True),
-    stat(SP, ST, 'Serving the Carolinas', '2006', 'Ever Since', 'Family-run, licensed & insured, 5-star rated. We protect your biggest investment like it’s our own.', bg_path=f'{P}/sp_23_sure-washing-services-greenville-sc.jpg', cta=True))
+    stat(SP, SQ, '2006', 'Serving the Carolinas — Family-Run Ever Since', bg_path=f'{P}/sp_23_sure-washing-services-greenville-sc.jpg'),
+    stat(SP, ST, '2006', 'Serving the Carolinas — Family-Run Ever Since', bg_path=f'{P}/sp_23_sure-washing-services-greenville-sc.jpg'))
 
-# 05 — crew portrait w/ wand
 both('SP_05_poll',
-    poll(SP, SQ, 'Vote below', 'Most satisfying job to watch?', ['Driveway Surface Clean', 'House Soft Wash', 'Window Squeegee', 'Gutter Cleanout'], bg_path=f'{P}/sp_03_Spruce38-scaled-1.jpg'),
-    poll(SP, ST, 'Vote below', 'Most satisfying job to watch?', ['Driveway Surface Clean', 'House Soft Wash', 'Window Squeegee', 'Gutter Cleanout'], bg_path=f'{P}/sp_03_Spruce38-scaled-1.jpg'))
+    poll(SP, SQ, 'Vote below', 'Most satisfying job to watch?', ['Driveway Clean', 'House Wash', 'Windows', 'Gutters'], bg_path=f'{P}/sp_03_Spruce38-scaled-1.jpg'),
+    poll(SP, ST, 'Vote below', 'Most satisfying job to watch?', ['Driveway Clean', 'House Wash', 'Windows', 'Gutters'], bg_path=f'{P}/sp_03_Spruce38-scaled-1.jpg'))
 
-# 06 — squeegee macro
 both('SP_06_window',
-    hero(SP, SQ, f'{P}/sp_21_-solutions-square-window-cleaning-2.jpg', 'Window Cleaning', 'Glass That Disappears', 'Streak-free inside & out — enjoy the fall colors in HD', cta=True),
-    hero(SP, ST, f'{P}/sp_21_-solutions-square-window-cleaning-2.jpg', 'Window Cleaning', 'Glass That Disappears', 'Streak-free inside & out — enjoy the fall colors in high definition', cta=True))
+    hero(SP, SQ, f'{P}/sp_21_-solutions-square-window-cleaning-2.jpg', 'Glass That *Disappears*'),
+    hero(SP, ST, f'{P}/sp_21_-solutions-square-window-cleaning-2.jpg', 'Glass That *Disappears*'))
 
-# 07 — hand scooping gutter
 both('SP_07_gutter',
-    hero(SP, SQ, f'{P}/sp_18_-solutions-square-gutter-cleaning-1.jpg', 'Gutter Season Is Here', 'Clear Before the Rain', 'Scoop • Flush • Check — protect your foundation this fall'),
-    hero(SP, ST, f'{P}/sp_18_-solutions-square-gutter-cleaning-1.jpg', 'Gutter Season Is Here', 'Clear Before the Rain', 'Scoop • Flush • Check — protect your home before winter weather hits', badge='Fall Priority'))
+    hero(SP, SQ, f'{P}/sp_18_-solutions-square-gutter-cleaning-1.jpg', 'Clear Before the *Rain*'),
+    hero(SP, ST, f'{P}/sp_18_-solutions-square-gutter-cleaning-1.jpg', 'Clear Before the *Rain*'))
 
-# 08 — patio wash action (5.0 stars)
 both('SP_08_review',
-    stat(SP, SQ, 'Top-Rated in Greenville', '5.0', 'Stars on Google', 'On time. On budget. On every detail. See why the Carolinas keeps choosing Spruce — then experience it yourself.', bg_path=f'{P}/sp_12_olutions-residential-background-175.jpg'),
-    stat(SP, ST, 'Top-Rated in Greenville', '5.0', 'Stars on Google', 'On time. On budget. On every detail. See why the Carolinas keeps choosing Spruce — then experience it yourself.', bg_path=f'{P}/sp_12_olutions-residential-background-175.jpg'))
+    stat(SP, SQ, '5.0', 'Stars on Google — Top-Rated in Greenville', bg_path=f'{P}/sp_12_olutions-residential-background-175.jpg'),
+    stat(SP, ST, '5.0', 'Stars on Google — Top-Rated in Greenville', bg_path=f'{P}/sp_12_olutions-residential-background-175.jpg'))
 
-# 09 — deck soft wash at lake
 both('SP_09_science',
-    tip(SP, SQ, 'Pro Knowledge', 'Soft Wash vs. Pressure Wash', 'One method does not fit all surfaces.', bg_path=f'{P}/sp_06_Spruce58-scaled-1.jpg',
-        bullets=['Soft washing for siding & roofs', 'Pressure only where it is safe', 'Algicides kill algae at the root', 'No damage, no water behind siding']),
-    tip(SP, ST, 'Pro Knowledge', 'Soft Wash vs. Pressure Wash', 'One method does not fit all surfaces.', bg_path=f'{P}/sp_06_Spruce58-scaled-1.jpg',
-        bullets=['Soft washing for siding & roofs', 'Pressure only where it is safe', 'Algicides kill algae at the root', 'No forced water behind your siding', 'Right method for every surface']))
+    hero(SP, SQ, f'{P}/sp_06_Spruce58-scaled-1.jpg', 'The *Right* Method for Every Surface'),
+    hero(SP, ST, f'{P}/sp_06_Spruce58-scaled-1.jpg', 'The *Right* Method for Every Surface'))
 
-# 10 — gutter guard install on roof
 both('SP_10_gutter_guards',
-    hero(SP, SQ, f'{P}/sp_16_s-residential-gutter-installation-1.jpg', 'Buy Once, Never Scoop Again', 'Gutter Guards, Done Right', 'No more ladders, clogs or overflow — professionally fitted'),
-    hero(SP, ST, f'{P}/sp_16_s-residential-gutter-installation-1.jpg', 'Buy Once, Never Scoop Again', 'Gutter Guards, Done Right', 'No more ladders, clogs or overflow — professionally fitted to your home', badge='This Month'))
+    hero(SP, SQ, f'{P}/sp_16_s-residential-gutter-installation-1.jpg', 'Gutter Guards, Done *Right*'),
+    hero(SP, ST, f'{P}/sp_16_s-residential-gutter-installation-1.jpg', 'Gutter Guards, Done *Right*'))
 
-# 11 — tech + truck at stone house
 both('SP_11_holiday_prep',
-    hero(SP, SQ, f'{P}/sp_04_Spruce56-1.jpg', 'Holiday Guest-Ready', 'Photo-Ready Before They Arrive', 'House wash + windows + walkway = the homecoming your home deserves', cta=True),
-    hero(SP, ST, f'{P}/sp_04_Spruce56-1.jpg', 'Holiday Guest-Ready', 'Photo-Ready Before They Arrive', 'House wash + windows + walkway = the homecoming your home deserves', cta=True))
+    hero(SP, SQ, f'{P}/sp_04_Spruce56-1.jpg', 'Photo-Ready Before They *Arrive*'),
+    hero(SP, ST, f'{P}/sp_04_Spruce56-1.jpg', 'Photo-Ready Before They *Arrive*'))
 
-# 12 — commercial glass (BMW Zentrum)
 both('SP_12_commercial',
-    hero(SP, SQ, f'{P}/sp_10_s-commercial-background-BMW-Zentrum.jpg', 'Property Managers & Owners', 'First Impressions Are Revenue', 'Storefronts • Restaurants • Complexes — scheduled around YOUR hours', cta=True),
-    hero(SP, ST, f'{P}/sp_10_s-commercial-background-BMW-Zentrum.jpg', 'Property Managers & Owners', 'First Impressions Are Revenue', 'Storefronts • Restaurants • Complexes — we schedule around YOUR business hours', cta=True))
+    hero(SP, SQ, f'{P}/sp_10_s-commercial-background-BMW-Zentrum.jpg', 'First Impressions Are *Revenue*'),
+    hero(SP, ST, f'{P}/sp_10_s-commercial-background-BMW-Zentrum.jpg', 'First Impressions Are *Revenue*'))
 
-# 13 — aerial estate roof
 both('SP_13_roof',
-    tip(SP, SQ, 'Look Up', 'Those Streaks Aren’t Dirt', 'And pressure washing won’t fix it.', bg_path=f'{P}/sp_08_Spruce66-scaled-1.jpg',
-        bullets=['Black streaks are living algae', 'It feeds on your shingles', 'Soft wash kills it at the root', 'Adds years to your roof’s life']),
-    tip(SP, ST, 'Look Up', 'Those Streaks Aren’t Dirt', 'And pressure washing won’t fix it.', bg_path=f'{P}/sp_08_Spruce66-scaled-1.jpg',
-        bullets=['Black streaks are living algae', 'It feeds on your shingles', 'Soft wash kills it at the root', 'No harsh pressure on shingles', 'Adds years to your roof’s life']))
+    hero(SP, SQ, f'{P}/sp_08_Spruce66-scaled-1.jpg', 'Those Streaks Aren\u2019t *Dirt*'),
+    hero(SP, ST, f'{P}/sp_08_Spruce66-scaled-1.jpg', 'Those Streaks Aren\u2019t *Dirt*'))
 
-# 14 — greenville street
 both('SP_14_greenville',
-    services(SP, SQ, 'Local & Proud', 'We Serve Your Town', ['Greenville • Greer', 'Simpsonville • Mauldin', 'Asheville & Hendersonville NC', 'Charleston & the Grand Strand'], bg_path=f'{P}/sp_17_aning-covid-19-greenville-sc-square.jpg', cta=True),
-    services(SP, ST, 'Local & Proud', 'We Serve Your Town', ['Greenville • Greer • Travelers Rest', 'Simpsonville • Mauldin • Powdersville', 'Asheville & Hendersonville, NC', 'Charleston & the Grand Strand, SC'], bg_path=f'{P}/sp_17_aning-covid-19-greenville-sc-square.jpg', cta=True))
+    hero(SP, SQ, f'{P}/sp_17_aning-covid-19-greenville-sc-square.jpg', 'Local & Proud — *We Serve Your Town*'),
+    hero(SP, ST, f'{P}/sp_17_aning-covid-19-greenville-sc-square.jpg', 'Local & Proud — *We Serve Your Town*'))
 
-# 15 — aerial lake forest
 both('SP_15_why_fall',
-    tip(SP, SQ, 'Smart Timing', 'Why Wash in the Fall?', 'Three wins, one phone call.', bg_path=f'{P}/sp_14_Spruce64-1-scaled-1.jpg',
-        bullets=['Mild temps = perfect cleaning weather', 'Stop fall mold before winter stains', 'Guest-ready before the holidays', 'Whole exterior, one afternoon']),
-    tip(SP, ST, 'Smart Timing', 'Why Wash in the Fall?', 'Three wins, one phone call.', bg_path=f'{P}/sp_14_Spruce64-1-scaled-1.jpg',
-        bullets=['Mild temps = perfect cleaning weather', 'Stop fall mold before winter stains', 'Guest-ready before the holidays', 'Siding, windows & concrete in one visit', 'Booked around your schedule']))
+    hero(SP, SQ, f'{P}/sp_14_Spruce64-1-scaled-1.jpg', 'Why Smart Owners Wash in *Fall*'),
+    hero(SP, ST, f'{P}/sp_14_Spruce64-1-scaled-1.jpg', 'Why Smart Owners Wash in *Fall*'))
 
-# 16 — woman cleaning window
 both('SP_16_streak',
-    hero(SP, SQ, f'{P}/sp_11_olutions-residential-background-114.jpg', 'We Leave One Streak Only', 'The Clean One Behind the Squeegee', 'Window cleaning so satisfying it should be illegal', cta=True),
-    hero(SP, ST, f'{P}/sp_11_olutions-residential-background-114.jpg', 'We Leave One Streak Only', 'The Clean One Behind the Squeegee', 'Window cleaning so satisfying it should be illegal — book yours today', cta=True))
+    hero(SP, SQ, f'{P}/sp_11_olutions-residential-background-114.jpg', 'We Leave One Streak *Only*'),
+    hero(SP, ST, f'{P}/sp_11_olutions-residential-background-114.jpg', 'We Leave One Streak *Only*'))
 
-# 17 — crew on commercial glass
 both('SP_17_cta',
-    cta_card(SP, SQ, 'Let’s Make It Shine', 'Free quotes • Licensed & insured • 18+ years of 5-star service', bg_path=f'{P}/sp_09_-solutions-commercial-background-14.jpg'),
-    cta_card(SP, ST, 'Let’s Make It Shine', 'Free quotes • Licensed & insured • 18+ years of 5-star service', bg_path=f'{P}/sp_09_-solutions-commercial-background-14.jpg'))
+    hero(SP, SQ, f'{P}/sp_09_-solutions-commercial-background-14.jpg', 'Let\u2019s Make It *Shine*'),
+    hero(SP, ST, f'{P}/sp_09_-solutions-commercial-background-14.jpg', 'Let\u2019s Make It *Shine*'))
 
-# 18 — house wash action
 both('SP_18_november',
-    hero(SP, SQ, f'{P}/sp_22_house-washing-greenville-sc.jpg', 'Hello, November', 'Gutter Season Official', 'October’s leaves are down — make sure they’re not in your gutters', cta=True),
-    hero(SP, ST, f'{P}/sp_22_house-washing-greenville-sc.jpg', 'Hello, November', 'Gutter Season Official', 'October’s leaves are down — make sure they’re not sitting in your gutters', cta=True))
+    hero(SP, SQ, f'{P}/sp_22_house-washing-greenville-sc.jpg', 'Hello November — *Gutter Season*'),
+    hero(SP, ST, f'{P}/sp_22_house-washing-greenville-sc.jpg', 'Hello November — *Gutter Season*'))
 
-# 19 — aerial neighborhood (insured)
 both('SP_19_insured',
-    stat(SP, SQ, 'Peace of Mind, Built In', '100%', 'Licensed & Insured', 'Every tech trained, every job insured, every surface treated with the right method. Your home is in the safest hands in the Carolinas.', bg_path=f'{P}/sp_02_IMG_0426-scaled-1.jpeg', badge='Zero Risk'),
-    stat(SP, ST, 'Peace of Mind, Built In', '100%', 'Licensed & Insured', 'Every tech trained, every job insured, every surface treated with the right method. Your home is in the safest hands in the Carolinas.', bg_path=f'{P}/sp_02_IMG_0426-scaled-1.jpeg', badge='Zero Risk'))
+    stat(SP, SQ, '100%', 'Licensed & Insured — Every Job, Every Tech', bg_path=f'{P}/sp_02_IMG_0426-scaled-1.jpeg'),
+    stat(SP, ST, '100%', 'Licensed & Insured — Every Job, Every Tech', bg_path=f'{P}/sp_02_IMG_0426-scaled-1.jpeg'))
 
-# 20 — balcony house wash (checklist)
 both('SP_20_fall_checklist',
-    services(SP, SQ, 'The Fall Exterior Checklist', 'Done by Thanksgiving', ['Gutter clean-out & flush', 'House soft wash', 'Windows, inside & out', 'Driveway & walkway restore'], bg_path=f'{P}/sp_05_Spruce57-scaled-1.jpg'),
-    services(SP, ST, 'The Fall Exterior Checklist', 'Done by Thanksgiving', ['Gutter clean-out & flush', 'House soft wash', 'Windows, inside & out', 'Driveway & walkway restore', 'Roof streak treatment'], bg_path=f'{P}/sp_05_Spruce57-scaled-1.jpg'))
+    hero(SP, SQ, f'{P}/sp_05_Spruce57-scaled-1.jpg', 'The Fall Checklist — *Done by Thanksgiving*'),
+    hero(SP, ST, f'{P}/sp_05_Spruce57-scaled-1.jpg', 'The Fall Checklist — *Done by Thanksgiving*'))
 
-print('ALL SPRUCE PRO STATIC DONE (v3, unique images)')
+print('ALL SPRUCE PRO STATIC DONE (v4, photo-first)')
