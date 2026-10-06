@@ -62,7 +62,6 @@ def brand_paths(brand):
 slf, sls = brand_paths("spruce_lights")
 spf, sps = brand_paths("spruce_pro")
 slv = sorted(glob.glob(f"{ROOT}/videos/spruce_lights/*.mp4"))
-rlv = sorted(glob.glob(f"{ROOT}/videos/spruce_lights_real/*.mp4"))
 spv = sorted(glob.glob(f"{ROOT}/videos/spruce_pro/*.mp4"))
 
 html = f"""<!doctype html><html><head><meta charset="utf-8">
@@ -71,7 +70,7 @@ html = f"""<!doctype html><html><head><meta charset="utf-8">
 <div style="max-width:1180px;margin:0 auto;padding:30px 20px 60px">
 <h1 style="font:800 30px/1.15 system-ui;margin:0 0 6px">Spruce Lights + Spruce Pro — October 2026</h1>
 <p style="font:400 14px/1.5 system-ui;color:#8fa998;margin:0 0 22px">
-Master gallery v8 — {len(slf)+len(spf)} feed + {len(sls)+len(sps)} story cards, 8 videos, calendar &amp; gallery pages.
+Master gallery v9 — {len(slf)+len(spf)} feed + {len(sls)+len(sps)} story cards, 13 videos, calendar &amp; gallery pages.
 <b style="color:#d8e6dc">New:</b> Spruce Lights “Website Edition” — the sprucelights.com look:
 dark pine green, cream Playfair serif headlines with gold highlight phrases, gold calls-to-action, sage body text.
 Brand chips on every card. Spruce Pro untouched.</p>
@@ -87,8 +86,7 @@ Brand chips on every card. Spruce Pro untouched.</p>
 {section("Spruce Lights — stories (9:16)", "Same paper system, tall format", grid(sls, 4), "#9fe06a")}
 {section("Spruce Pro — feed (1:1)", "Deep teal system, cyan chips · (864) 483-4300 · unchanged this round", grid(spf, 3), "#5fe3ea")}
 {section("Spruce Pro — stories (9:16)", "", grid(sps, 4), "#5fe3ea")}
-{section("Videos — Spruce Lights (Deep Pine, soothing twinkle)", "Sting · promo reel · promo feed · fixed before/after", video_row(slv), "#9fe06a")}
-{section("Real-Lights Videos — 5 variants x vertical + feed", "Actual residential · commercial · municipal installations", video_row(rlv), "#ffd76a")}
+{section("Videos — Spruce Lights (13 · pine/gold, soothing quiet twinkle)", "Sting · promos · before/after + 5 showcase reels: residential · commercial · municipal · holiday nights · grand tour (4:5, upload-ready)", video_row(slv), "#9fe06a")}
 {section("Videos — Spruce Pro (teal, music-box twinkle)", "", video_row(spv), "#5fe3ea")}
 <p style="font:400 12px/1.6 system-ui;color:#6d8577;margin-top:26px">
 Also in the download packs: content_calendar.html (full October posting plan) and gallery.html.

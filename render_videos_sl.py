@@ -12,8 +12,21 @@ import audio_kit as _AK
 
 def twinkle_wav(path, dur, key=None, seed=7, accents=None, fade=1.6, rate=44100):
     kind = 'sting' if 'sting' in path else 'promo' if 'promo' in path else 'feed' if 'feed' in path else 'ba'
-    return _AK.sl_track(path, dur, seed=seed, accents=accents,
+    wav = _AK.sl_track(path, dur, seed=seed, accents=accents,
                         density=_AK.PRESETS[kind], fade=1.0 if dur < 8 else 1.7)
+    import wave as _w, numpy as _np, audio_kit as _AK2
+    _f = _w.open(wav); _n = _f.getnframes()
+    _x = _np.frombuffer(_f.readframes(_n), dtype=_np.int16).reshape(-1, 2).astype(_np.float32)
+    _f.close()
+    _x = _AK2.sooth(_x)                      # warmer, slower, gentler
+    _x = _x * 0.42                           # much quieter bed under the voice of the video
+    _mx = max(1.0, _np.abs(_x).max())
+    if _mx > 30000: _x = _x * (30000 / _mx)  # gentle ceiling, no loud peaks
+    _i = _np.empty(2 * _n, dtype=_np.int16)
+    _i[0::2] = _x[:, 0].astype(_np.int16); _i[1::2] = _x[:, 1].astype(_np.int16)
+    _f = _w.open(wav, 'w'); _f.setnchannels(2); _f.setsampwidth(2); _f.setframerate(44100)
+    _f.writeframes(_i.tobytes()); _f.close()
+    return wav
 from spruce_kit import FONTS
 import vidkit as _V
 _GOLD = (240, 176, 45, 255); _CREAM = (246, 240, 226, 255)
@@ -190,8 +203,8 @@ def ba_reel():
     W, H = ST
     dur = 8.0; n = int(dur * FPS)
     foot = brand_footer_layer(ST, SL)
-    A0 = bg_photo(f'{BG}/sl_ba_before.jpg', W, H, focus=0.5, brighten=1.12)
-    B0 = bg_photo(f'{BG}/sl_ba_after.jpg', W, H, focus=0.5)
+    A0 = bg_photo(f'{BG}/sl_day.jpg', W, H, focus=0.5, brighten=0.97)
+    B0 = bg_photo(f'{BG}/sl_night_v2.jpg', W, H, focus=0.5)
     def side_label(txt, cx, color):
         lay = Image.new('RGBA', ST, (0,0,0,0))
         d = ImageDraw.Draw(lay)

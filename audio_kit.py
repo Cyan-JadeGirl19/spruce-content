@@ -55,7 +55,7 @@ def _add(busL, busR, sig, start, pan):
 def _master(path, L, R, fade=1.6, lead=0.25):
     n = len(L)
     peak = max(np.abs(L).max(), np.abs(R).max()) or 1.0
-    g = 0.52 / peak
+    g = 0.80 / peak
     t = np.arange(n) / RATE
     k = np.ones(n)
     k[:int(0.20 * RATE)] = np.linspace(0, 1, int(0.20 * RATE))
@@ -210,5 +210,26 @@ def sp_track(path, dur, seed=7, accents=None, density=1.0, fade=1.6):
         _add(L, R, _note(fa / 2, 1.4, 0.16, [(1, 1)], 0.4), ta + 0.02, 0.45)
     return _master(path, L, R, fade)
 
+def sooth(x, rate=44100):
+    """post: soften attack transients + warm low-pass -> calmer, soothing bed."""
+    n = len(x)
+    env = np.abs(x).max(axis=1)
+    # simple one-pole downward compressor on the envelope
+    out = np.empty(n); cur = 1.0
+    a_att, a_rel = 0.004, 0.25
+    for i in range(n):
+        e = env[i]
+        k = a_att if e > cur else a_rel
+        cur += k * (e - cur)
+        g = (cur / e) if e > 1e-6 else 1.0
+        out[i] = min(g, 1.0)
+    x = x * out[:, None]
+    # gentle low-pass (moving average ~2.2ms) to take the edge off the plucks
+    k = int(0.0022 * rate) | 1
+    ker = np.ones(k) / k
+    x[:, 0] = np.convolve(x[:, 0], ker, mode='same')
+    x[:, 1] = np.convolve(x[:, 1], ker, mode='same')
+    return x
+
 # --- convenience: per-video density presets -------------------------
-PRESETS = {'sting': 0.45, 'promo': 0.8, 'feed': 0.65, 'ba': 0.55}
+PRESETS = {'sting': 0.55, 'promo': 1.0, 'feed': 0.8, 'ba': 0.7}

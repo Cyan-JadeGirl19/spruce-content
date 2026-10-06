@@ -12,8 +12,21 @@ import audio_kit as _AK
 
 def twinkle_wav(path, dur, key=None, seed=7, accents=None, fade=1.6, rate=44100):
     kind = 'sting' if 'sting' in path else 'promo' if 'promo' in path else 'feed' if 'feed' in path else 'ba'
-    return _AK.sp_track(path, dur, seed=seed, accents=accents,
+    wav = _AK.sp_track(path, dur, seed=seed, accents=accents,
                         density=_AK.PRESETS[kind], fade=1.0 if dur < 8 else 1.7)
+    import wave as _w, numpy as _np, audio_kit as _AK2
+    _f = _w.open(wav); _n = _f.getnframes()
+    _x = _np.frombuffer(_f.readframes(_n), dtype=_np.int16).reshape(-1, 2).astype(_np.float32)
+    _f.close()
+    _x = _AK2.sooth(_x)                      # warmer, slower, gentler
+    _x = _x * 0.42                           # much quieter bed under the voice of the video
+    _mx = max(1.0, _np.abs(_x).max())
+    if _mx > 30000: _x = _x * (30000 / _mx)  # gentle ceiling, no loud peaks
+    _i = _np.empty(2 * _n, dtype=_np.int16)
+    _i[0::2] = _x[:, 0].astype(_np.int16); _i[1::2] = _x[:, 1].astype(_np.int16)
+    _f = _w.open(wav, 'w'); _f.setnchannels(2); _f.setsampwidth(2); _f.setframerate(44100)
+    _f.writeframes(_i.tobytes()); _f.close()
+    return wav
 
 OUT = f'{ROOT}/videos/spruce_pro'
 os.makedirs(OUT, exist_ok=True)
