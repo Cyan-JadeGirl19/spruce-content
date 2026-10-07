@@ -101,4 +101,11 @@ both('SL_28_dock_cta',
      photo_post(SL, SQ, f'{BG}/sl_dock.jpg', 'Lake Life, Lit Up', kicker='Now Booking October', sub='(864) 288-2459'),
      photo_post(SL, ST, f'{BG}/sl_dock.jpg', 'Lake Life, Lit Up', kicker='Now Booking October', sub='(864) 288-2459'))
 
+both('SL_29_classic_sleigh',
+     photo_post(SL, SQ, f'{BG}/sl_sleigh_v2_sq.jpg', 'All the Envy. None of the Tangles.', kicker='Be the Favorite House'),
+     photo_post(SL, ST, f'{BG}/sl_sleigh_v2_st.jpg', 'All the Envy. None of the Tangles.', kicker='Be the Favorite House'))
+both('SL_30_classic_halloween',
+     photo_post(SL, SQ, f'{BG}/sl_halloween_v2_sq.jpg', 'Trick or Treat Tonight. Twinkle by December.', kicker='Halloween \u2192 Christmas'),
+     photo_post(SL, ST, f'{BG}/sl_halloween_v2_sq.jpg', 'Trick or Treat Tonight. Twinkle by December.', kicker='Halloween \u2192 Christmas'))
+
 print('ALL SPRUCE LIGHTS STATIC DONE (v4, photo-first)')
