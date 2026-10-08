@@ -7,7 +7,6 @@ from templates_photo import *
 from spruce_kit import *
 
 P = f'{ROOT}/assets/photos/sp_real2'
-BG = f'{ROOT}/assets/bg'
 SPO = f'{ROOT}/assets/photos/sp_real'
 OUT = f'{ROOT}/deliverables/spruce_pro'
 
@@ -17,64 +16,64 @@ def both(name, fn_sq, fn_st):
     print('ok', name)
 
 both('SP_01_fall_refresh',
-     photo_post(SP, SQ, f'{P}/sp_13_olutions-residential-background-190.jpg', 'Fall Refresh — Before the Holidays', kicker='Exterior Cleaning'),
-     photo_post(SP, ST, f'{P}/sp_13_olutions-residential-background-190.jpg', 'Fall Refresh — Before the Holidays', kicker='Exterior Cleaning'))
+     photo_post(SP, SQ, f'{P}/sp_13_sq.jpg', 'Fall Refresh — Before the Holidays', kicker='Exterior Cleaning'),
+     photo_post(SP, ST, f'{P}/sp_13_sq.jpg', 'Fall Refresh — Before the Holidays', kicker='Exterior Cleaning'))
 both('SP_02_pressure_wash',
-     photo_post(SP, SQ, f'{BG}/sp_02_pressure_sq.jpg', 'Pressure Washing That Transforms', kicker='Driveways • Siding • Patios'),
-     photo_post(SP, ST, f'{BG}/sp_02_pressure_sq.jpg', 'Pressure Washing That Transforms', kicker='Driveways • Siding • Patios'))
+     photo_post(SP, SQ, f'{P}/sp_20_sq.jpg', 'Pressure Washing That Transforms', kicker='Driveways • Siding • Patios'),
+     photo_post(SP, ST, f'{P}/sp_20_sq.jpg', 'Pressure Washing That Transforms', kicker='Driveways • Siding • Patios'))
 both('SP_03_before_after',
      before_after(SP, SQ, f'{SPO}/before_grime.jpg', f'{P}/sp_07_Spruce6-1-1-scaled-1.jpg', 'The Spruce Difference', 'From Grime to Gleaming'),
      before_after(SP, ST, f'{SPO}/before_grime.jpg', f'{P}/sp_07_Spruce6-1-1-scaled-1.jpg', 'The Spruce Difference', 'From Grime to Gleaming'))
 both('SP_04_serving_since',
-     photo_post(SP, SQ, f'{P}/sp_23_sure-washing-services-greenville-sc.jpg', 'Serving the Upstate Since 2006', kicker='Licensed & Insured'),
-     photo_post(SP, ST, f'{P}/sp_23_sure-washing-services-greenville-sc.jpg', 'Serving the Upstate Since 2006', kicker='Licensed & Insured'))
+     photo_post(SP, SQ, f'{P}/sp_04_housewash_sq.jpg', 'Serving the Upstate Since 2006', kicker='Licensed & Insured'),
+     photo_post(SP, ST, f'{P}/sp_04_housewash_sq.jpg', 'Serving the Upstate Since 2006', kicker='Licensed & Insured'))
 both('SP_05_poll',
-     photo_post(SP, SQ, f'{BG}/sp_05_poll_sq.jpg', 'Driveway or House First? Comment Below', kicker='This Weekend'),
-     photo_post(SP, ST, f'{BG}/sp_05_poll_sq.jpg', 'Driveway or House First? Comment Below', kicker='This Weekend'))
+     photo_post(SP, SQ, f'{P}/sp_05_driveway_sq.jpg', 'Driveway or House First? Comment Below', kicker='This Weekend'),
+     photo_post(SP, ST, f'{P}/sp_05_driveway_sq.jpg', 'Driveway or House First? Comment Below', kicker='This Weekend'))
 both('SP_06_window',
-     photo_post(SP, SQ, f'{P}/sp_21_-solutions-square-window-cleaning-2.jpg', 'Streak-Free Windows, Guaranteed', kicker='Window Cleaning'),
-     photo_post(SP, ST, f'{P}/sp_21_-solutions-square-window-cleaning-2.jpg', 'Streak-Free Windows, Guaranteed', kicker='Window Cleaning'))
+     photo_post(SP, SQ, f'{P}/sp_06_window_sq.jpg', 'Streak-Free Windows, Guaranteed', kicker='Window Cleaning'),
+     photo_post(SP, ST, f'{P}/sp_06_window_sq.jpg', 'Streak-Free Windows, Guaranteed', kicker='Window Cleaning'))
 both('SP_07_gutter',
-     photo_post(SP, SQ, f'{P}/sp_18_-solutions-square-gutter-cleaning-1.jpg', 'Clean Gutters Before the Storms', kicker='Gutter Cleaning'),
-     photo_post(SP, ST, f'{P}/sp_18_-solutions-square-gutter-cleaning-1.jpg', 'Clean Gutters Before the Storms', kicker='Gutter Cleaning'))
+     photo_post(SP, SQ, f'{P}/sp_07_gutter_sq.jpg', 'Clean Gutters Before the Storms', kicker='Gutter Cleaning'),
+     photo_post(SP, ST, f'{P}/sp_07_gutter_sq.jpg', 'Clean Gutters Before the Storms', kicker='Gutter Cleaning'))
 both('SP_08_review',
-     photo_post(SP, SQ, f'{BG}/sp_08_review_sq.jpg', '“They Left Everything Spotless”', kicker='★★★★★ Google Review'),
-     photo_post(SP, ST, f'{BG}/sp_08_review_sq.jpg', '“They Left Everything Spotless”', kicker='★★★★★ Google Review'))
+     photo_post(SP, SQ, f'{P}/sp_12_sq.jpg', '“They Left Everything Spotless”', kicker='★★★★★ Google Review'),
+     photo_post(SP, ST, f'{P}/sp_12_sq.jpg', '“They Left Everything Spotless”', kicker='★★★★★ Google Review'))
 both('SP_09_science',
-     photo_post(SP, SQ, f'{BG}/sp_09_science_sq.jpg', 'The Right Pressure. The Right Mix.', kicker='SoftWash Science'),
-     photo_post(SP, ST, f'{BG}/sp_09_science_sq.jpg', 'The Right Pressure. The Right Mix.', kicker='SoftWash Science'))
+     photo_post(SP, SQ, f'{P}/sp_09_softwash_sq.jpg', 'The Right Pressure. The Right Mix.', kicker='SoftWash Science'),
+     photo_post(SP, ST, f'{P}/sp_09_softwash_sq.jpg', 'The Right Pressure. The Right Mix.', kicker='SoftWash Science'))
 both('SP_10_gutter_guards',
-     photo_post(SP, SQ, f'{BG}/sp_10_gutterguard_sq.jpg', 'Gutter Guards: Clean Forever', kicker='One Install. Zero Scooping.'),
-     photo_post(SP, ST, f'{BG}/sp_10_gutterguard_sq.jpg', 'Gutter Guards: Clean Forever', kicker='One Install. Zero Scooping.'))
+     photo_post(SP, SQ, f'{P}/sp_10_gutterguard_sq.jpg', 'Gutter Guards: Clean Forever', kicker='One Install. Zero Scooping.'),
+     photo_post(SP, ST, f'{P}/sp_10_gutterguard_sq.jpg', 'Gutter Guards: Clean Forever', kicker='One Install. Zero Scooping.'))
 both('SP_11_holiday_prep',
      photo_post(SP, SQ, f'{P}/sp_04_Spruce56-1.jpg', 'Get Guest-Ready Before They Arrive', kicker='Holiday Prep'),
      photo_post(SP, ST, f'{P}/sp_04_Spruce56-1.jpg', 'Get Guest-Ready Before They Arrive', kicker='Holiday Prep'))
 both('SP_12_commercial',
-     photo_post(SP, SQ, f'{BG}/sp_12_commercial_sq.jpg', 'Commercial Exteriors, Handled', kicker='Storefronts • Campus • Fleet'),
-     photo_post(SP, ST, f'{BG}/sp_12_commercial_sq.jpg', 'Commercial Exteriors, Handled', kicker='Storefronts • Campus • Fleet'))
+     photo_post(SP, SQ, f'{P}/sp_10_sq.jpg', 'Commercial Exteriors, Handled', kicker='Storefronts • Campus • Fleet'),
+     photo_post(SP, ST, f'{P}/sp_10_sq.jpg', 'Commercial Exteriors, Handled', kicker='Storefronts • Campus • Fleet'))
 both('SP_13_roof',
-     photo_post(SP, SQ, f'{BG}/sp_13_roof_sq.jpg', 'Roof Cleaning Without the Damage', kicker='SoftWash Only'),
-     photo_post(SP, ST, f'{BG}/sp_13_roof_sq.jpg', 'Roof Cleaning Without the Damage', kicker='SoftWash Only'))
+     photo_post(SP, SQ, f'{P}/sp_08_sq.jpg', 'Roof Cleaning Without the Damage', kicker='SoftWash Only'),
+     photo_post(SP, ST, f'{P}/sp_08_sq.jpg', 'Roof Cleaning Without the Damage', kicker='SoftWash Only'))
 both('SP_14_greenville',
      photo_post(SP, SQ, f'{P}/sp_01_Copy-of-IMG_51831-conv-scaled-1.jpeg', 'Greenville’s Exterior Cleaning Pros', kicker='Locally Owned'),
      photo_post(SP, ST, f'{P}/sp_01_Copy-of-IMG_51831-conv-scaled-1.jpeg', 'Greenville’s Exterior Cleaning Pros', kicker='Locally Owned'))
 both('SP_15_why_fall',
-     photo_post(SP, SQ, f'{P}/sp_14_Spruce64-1-scaled-1.jpg', 'Why Fall Is Washing Season', kicker='Pro Tip', sub='Beat the winter grime'),
-     photo_post(SP, ST, f'{P}/sp_14_Spruce64-1-scaled-1.jpg', 'Why Fall Is Washing Season', kicker='Pro Tip', sub='Beat the winter grime'))
+     photo_post(SP, SQ, f'{P}/sp_14_sq.jpg', 'Why Fall Is Washing Season', kicker='Pro Tip', sub='Beat the winter grime'),
+     photo_post(SP, ST, f'{P}/sp_14_sq.jpg', 'Why Fall Is Washing Season', kicker='Pro Tip', sub='Beat the winter grime'))
 both('SP_16_streak',
-     photo_post(SP, SQ, f'{BG}/sp_16_streak_sq.jpg', 'Streaks Happen. We Fix Them.', kicker='Window Rescue'),
-     photo_post(SP, ST, f'{BG}/sp_16_streak_sq.jpg', 'Streaks Happen. We Fix Them.', kicker='Window Rescue'))
+     photo_post(SP, SQ, f'{P}/sp_16_windows_sq.jpg', 'Streaks Happen. We Fix Them.', kicker='Window Rescue'),
+     photo_post(SP, ST, f'{P}/sp_16_windows_sq.jpg', 'Streaks Happen. We Fix Them.', kicker='Window Rescue'))
 both('SP_17_cta',
-     photo_post(SP, SQ, f'{BG}/sp_17_cta_sq.jpg', 'Let’s Get Your Home Spruced Up', kicker='Free Quotes', sub='(864) 483-4300'),
-     photo_post(SP, ST, f'{BG}/sp_17_cta_sq.jpg', 'Let’s Get Your Home Spruced Up', kicker='Free Quotes', sub='(864) 483-4300'))
+     photo_post(SP, SQ, f'{P}/sp_09_sq.jpg', 'Let’s Get Your Home Spruced Up', kicker='Free Quotes', sub='(864) 483-4300'),
+     photo_post(SP, ST, f'{P}/sp_09_sq.jpg', 'Let’s Get Your Home Spruced Up', kicker='Free Quotes', sub='(864) 483-4300'))
 both('SP_18_november',
-     photo_post(SP, SQ, f'{P}/sp_22_house-washing-greenville-sc.jpg', 'November Slots Open Now', kicker='Booking Update'),
-     photo_post(SP, ST, f'{P}/sp_22_house-washing-greenville-sc.jpg', 'November Slots Open Now', kicker='Booking Update'))
+     photo_post(SP, SQ, f'{P}/sp_18_housewash_sq.jpg', 'November Slots Open Now', kicker='Booking Update'),
+     photo_post(SP, ST, f'{P}/sp_18_housewash_sq.jpg', 'November Slots Open Now', kicker='Booking Update'))
 both('SP_19_insured',
      photo_post(SP, SQ, f'{P}/sp_02_IMG_0426-scaled-1.jpeg', 'Licensed, Insured, Since 2006', kicker='Peace of Mind'),
      photo_post(SP, ST, f'{P}/sp_02_IMG_0426-scaled-1.jpeg', 'Licensed, Insured, Since 2006', kicker='Peace of Mind'))
 both('SP_20_fall_checklist',
-     photo_post(SP, SQ, f'{BG}/sp_20_fall_sq.jpg', 'Your Fall Exterior Checklist', kicker='Wash • Windows • Gutters'),
-     photo_post(SP, ST, f'{BG}/sp_20_fall_sq.jpg', 'Your Fall Exterior Checklist', kicker='Wash • Windows • Gutters'))
+     photo_post(SP, SQ, f'{P}/sp_05_sq.jpg', 'Your Fall Exterior Checklist', kicker='Wash • Windows • Gutters'),
+     photo_post(SP, ST, f'{P}/sp_05_sq.jpg', 'Your Fall Exterior Checklist', kicker='Wash • Windows • Gutters'))
 
 print('ALL SPRUCE PRO STATIC DONE (v4, photo-first)')
