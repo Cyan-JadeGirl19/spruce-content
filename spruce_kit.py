@@ -348,15 +348,20 @@ def cta_pill(img, brand, cy, text=None, fill=LIME, fg=TEAL_D):
     d.text((img.width // 2, cy - 2), t, font=f, fill=fg, anchor="mm")
     return img
 
+UNSHARP = (1.1, 70, 2)  # (radius, percent, threshold) applied after upsampling
+
 def bg_photo(path, w, h, focus=0.5, brighten=1.0, sat=1.05, blur=0):
     """cover-fit a photo to exact canvas"""
     im = Image.open(path).convert("RGB")
     if blur: im = im.filter(ImageFilter.GaussianBlur(blur))
     if brighten != 1.0: im = ImageEnhance.Brightness(im).enhance(brighten)
     if sat != 1.0: im = ImageEnhance.Color(im).enhance(sat)
+    ow = im.width
     r = max(w / im.width, h / im.height)
     nw, nh = int(im.width * r) + 1, int(im.height * r) + 1
     im = im.resize((nw, nh), Image.LANCZOS)
+    if nw > ow * 1.02:  # upscaled -> recover crispness (counteract softness)
+        im = im.filter(ImageFilter.UnsharpMask(radius=UNSHARP[0], percent=UNSHARP[1], threshold=UNSHARP[2]))
     x = (nw - w) // 2
     y = max(0, min(nh - h, int((nh - h) * focus)))
     return im.crop((x, y, x + w, y + h)).convert("RGBA")
@@ -379,7 +384,7 @@ def sparkle_scatter(img, seed=3, n=5, color=CYAN, region=None, rmax=34):
         sparkle(d, x, y, rnd.randint(12, rmax), c3 + (rnd.randint(90, 190),), ratio=0.4, spread=0.17)
     return img
 
-def save(img, path, q=90):
+def save(img, path, q=94):
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    img.convert("RGB").save(path, quality=q, optimize=True)
+    img.convert("RGB").save(path, quality=q, subsampling=0, optimize=True)
     return path
