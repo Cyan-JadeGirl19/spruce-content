@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Authentic Install Series: standalone Word doc for SL_31-43 (real customer photos)."""
+"""Authentic Install Series: standalone Word doc for SL_31-54 (real customer photos)."""
 from docx import Document
 from docx.shared import Pt, RGBColor, Inches
 from docx.enum.text import WD_ALIGN_PARAGRAPH
@@ -53,7 +53,7 @@ para("SPRUCE HOLIDAY LIGHTING & EVENTS", 12, True, LIME, after=2)
 p = doc.add_paragraph()
 r = p.add_run("Authentic Install Series"); r.bold = True; r.font.size = Pt(26); r.font.color.rgb = PINE
 p.paragraph_format.space_after = Pt(4)
-para("Thirteen real customer installs, photographed by our own crews", 13, False, GOLD, after=10)
+para("Twenty-four real customer installs, photographed by our own crews", 13, False, GOLD, after=10)
 para("A separate mini campaign to run alongside the main content pack", 10.5, False, BODY, after=10)
 
 h2("Why this series exists", before=0)
@@ -87,6 +87,17 @@ sched = [
  ("SL_40","Fri Jan 8","Residential","Gables plus a trunk wrap"),
  ("SL_34","Mon Jan 11","Residential","The creek that glows blue"),
  ("SL_43","Wed Jan 13","Residential","Classic red and green, done right"),
+ ("SL_44","Mon Jan 18","Residential","Storybook cottage, dormers lit"),
+ ("SL_45","Wed Jan 20","Residential","Hanging snowflakes in the big oak"),
+ ("SL_46","Fri Jan 22","Residential","Dormer wreaths, full roofline trace"),
+ ("SL_47","Mon Jan 25","Residential","The estate from the long drive"),
+ ("SL_48","Wed Jan 27","Residential","House trace plus the giant oak wrap"),
+ ("SL_49","Fri Jan 29","Residential","White brick, bright gables"),
+ ("SL_50","Mon Feb 1","Residential","Blue hour on the modern farmhouse"),
+ ("SL_51","Wed Feb 3","Residential","Every pitch traced, garage included"),
+ ("SL_52","Fri Feb 5","Residential","Porch run with garland rails"),
+ ("SL_53","Mon Feb 8","Residential","Tall chimney, full gable trace"),
+ ("SL_54","Wed Feb 10","Residential","Cottage dormers, wreath at the door"),
 ]
 tbl = doc.add_table(rows=1, cols=4); tbl.autofit = False
 hdr = tbl.rows[0].cells
@@ -156,6 +167,39 @@ posts = [
 ("SL_43","Residential","Classic red and green, done right",
 "Classic red and green with soft green uplighting on the oaks. Some houses want modern, some want nostalgia, and both are welcome here. Whatever your style, the install standard stays the same.",
 "#SpruceLights #RealInstall #AuthenticChristmas #ClassicChristmas #RedAndGreen #HolidayLighting #ChristmasLightInstallation #Uplighting #RealHomes #Tradition"),
+("SL_44","Residential","A Storybook Christmas",
+"Storybook cottages were made for this. Two lit dormers, a wreath on the door, and warm white tracing every edge of the roof. This one is a real install from this season, photographed the night we finished and left the lights to do the talking.",
+"#SpruceLights #RealInstall #AuthenticChristmas #StorybookChristmas #CottageChristmas #ChristmasLightInstallation #HolidayLighting #DormerLights #RealHomes #CurbAppeal"),
+("SL_45","Residential","Snowflakes That Never Melt",
+"Full disclosure, we climbed into a very large oak to hang these. A dozen glowing snowflakes now float between the branches like the forecast finally cooperated. Real tree, real install, and yes, they come down just as carefully as they went up.",
+"#SpruceLights #RealInstall #AuthenticChristmas #SnowflakeLights #TreeLighting #HolidayLighting #ChristmasLightInstallation #YardGoals #RealHomes #WinterWonderland"),
+("SL_46","Residential","Every Arch, Every Column",
+"Three dormer windows, three fresh wreaths with red bows, and a roofline traced in warm white over the whole thing. Add the lit tree by the drive and the house reads festive from every direction. Our photo from install night, untouched except for a little polish.",
+"#SpruceLights #RealInstall #AuthenticChristmas #DormerGoals #Wreaths #RooflineLighting #HolidayLighting #ChristmasLightInstallation #RealHomes #ClassicChristmas"),
+("SL_47","Residential","The Whole Estate, Aglow",
+"When the driveway is this long, you know the install was a conversation. Rooflines, columned entry, hedges and mature trees all glowing in the same warm white. Large homes are a specialty, and this real install is the proof.",
+"#SpruceLights #RealInstall #AuthenticChristmas #EstateLighting #LuxuryChristmas #HolidayLighting #ChristmasLightInstallation #GrandEntrance #RealHomes #BookNextSeason"),
+("SL_48","Residential","Wrapped in Warm White",
+"The house got the full trace and the giant oak out front got wrapped to the sky. Warm white from curb to canopy, this whole corner glows now. Real install, real customers, photographed the night we flipped the switch.",
+"#SpruceLights #RealInstall #AuthenticChristmas #TreeWrap #WarmWhiteLights #HolidayLighting #ChristmasLightInstallation #RooflineLighting #RealHomes #YardGoals"),
+("SL_49","Residential","Bright Gables, Warm Welcome",
+"Bright gables up top, a lit wreath at the door, and warm white carrying clean across the whole roofline. White brick and holiday lights are a match made in December. Our photo, our install, first night live.",
+"#SpruceLights #RealInstall #AuthenticChristmas #WhiteBrick #GableLights #HolidayLighting #ChristmasLightInstallation #WarmWhiteLights #RealHomes #WelcomeHome"),
+("SL_50","Residential","The Modern Farmhouse Glow",
+"Black windows, clean lines, and a warm white roofline that softens all of it. Modern farmhouses were practically designed for this look. Caught at blue hour right as the lights came on, which is exactly how we photograph every install we can.",
+"#SpruceLights #RealInstall #AuthenticChristmas #ModernFarmhouse #BlueHour #HolidayLighting #ChristmasLightInstallation #RooflineLighting #RealHomes #FarmhouseChristmas"),
+("SL_51","Residential","Every Angle Aglow",
+"Garages count too. Every pitch and peak of this one got traced, so the whole front of the property glows instead of just the front door. Details like that are the difference between decorated and finished.",
+"#SpruceLights #RealInstall #AuthenticChristmas #GarageGoals #EveryAngle #HolidayLighting #ChristmasLightInstallation #RooflineLighting #RealHomes #FinishedLook"),
+("SL_52","Residential","The Porch Run, Garland and All",
+"A porch run this long deserves backup, so the gables got traced and the rails got garland with warm white woven through. Blue hour, first light on, coffee going cold because nobody wanted to go inside. That is a real install night.",
+"#SpruceLights #RealInstall #AuthenticChristmas #PorchGoals #GarlandAndLights #BlueHour #HolidayLighting #ChristmasLightInstallation #RealHomes #FarmhouseStyle"),
+("SL_53","Residential","Even the Chimney Dresses Up",
+"Tall chimney, every gable traced, hedges glowing below. Some homes ask for a little, this one asked for the full trace and wore it well. Our crews photograph installs like this one the night they go live, straight from the ladder.",
+"#SpruceLights #RealInstall #AuthenticChristmas #ChimneyGoals #RooflineLighting #HolidayLighting #ChristmasLightInstallation #WarmWhiteLights #RealHomes #Craftsmanship"),
+("SL_54","Residential","Dormers, Twinkling",
+"Two lit dormers, a wreath by the walk, and warm white tracing every shingle line. Storybook houses like this one are why we love the small installs as much as the big ones. Real home, real install, straight off our crew lead's phone.",
+"#SpruceLights #RealInstall #AuthenticChristmas #CottageChristmas #DormerLights #HolidayLighting #ChristmasLightInstallation #StorybookStyle #RealHomes #CozySeason"),
 ]
 
 for pid, typ, name, cap, tags in posts:
@@ -182,7 +226,8 @@ notes = [
  "January posts are not leftovers. The message from January 4 onward is, the lights came down, and October is already booking. Pair those captions with your early bird offer.",
  "The two commercial installs (SL_41 and SL_42) are deliberate conversation starters for business owners. If someone comments about their storefront, that's your lead. Reply fast and offer a walk through.",
  "Keep the privacy rule forever on this series. No addresses, no street signs, no city names in captions, hashtags or comment replies, even if someone asks where a photo was taken.",
- "These are also your best performing ads. When you boost anything this season, boost these thirteen.",
+ "These are also your best performing ads. When you boost anything this season, boost these twenty-four.",
+ "February slots are deliberate. By then every competitor has gone quiet, so these posts carry the booking message alone. Pair them with your early bird offer and answer comments fast.",
 ]
 for i,tip in enumerate(notes,1):
     p = doc.add_paragraph()
