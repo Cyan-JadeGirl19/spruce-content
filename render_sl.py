@@ -124,4 +124,29 @@ both('SL_35_authentic_trio',
      photo_post(SL, SQ, f'{SLR}/sl_auth_35_feed.jpg', 'Three Trees, One Showstopper Yard', kicker='Authentic Spruce Install'),
      photo_post(SL, ST, f'{SLR}/sl_auth_35_story.jpg', 'Three Trees, One Showstopper Yard', kicker='Authentic Spruce Install'))
 
+both('SL_36_authentic_roofline',
+     photo_post(SL, SQ, f'{SLR}/sl_auth_36_feed.jpg', 'Every Gable. Every Edge.', kicker='Authentic Spruce Install'),
+     photo_post(SL, ST, f'{SLR}/sl_auth_36_story.jpg', 'Every Gable. Every Edge.', kicker='Authentic Spruce Install'))
+both('SL_37_authentic_porch',
+     photo_post(SL, SQ, f'{SLR}/sl_auth_37_feed.jpg', 'Built for Sitting Out Front', kicker='Authentic Spruce Install'),
+     photo_post(SL, ST, f'{SLR}/sl_auth_37_story.jpg', 'Built for Sitting Out Front', kicker='Authentic Spruce Install'))
+both('SL_38_authentic_warmwhite',
+     photo_post(SL, SQ, f'{SLR}/sl_auth_38_feed.jpg', 'Warm White Never Misses', kicker='Authentic Spruce Install'),
+     photo_post(SL, ST, f'{SLR}/sl_auth_38_story.jpg', 'Warm White Never Misses', kicker='Authentic Spruce Install'))
+both('SL_39_authentic_firstnight',
+     photo_post(SL, SQ, f'{SLR}/sl_auth_39_feed.jpg', 'The First Night We Plug It In', kicker='Authentic Spruce Install'),
+     photo_post(SL, ST, f'{SLR}/sl_auth_39_story.jpg', 'The First Night We Plug It In', kicker='Authentic Spruce Install'))
+both('SL_40_authentic_trunkwrap',
+     photo_post(SL, SQ, f'{SLR}/sl_auth_40_feed.jpg', 'Down to the Last Tree Trunk', kicker='Authentic Spruce Install'),
+     photo_post(SL, ST, f'{SLR}/sl_auth_40_story.jpg', 'Down to the Last Tree Trunk', kicker='Authentic Spruce Install'))
+both('SL_41_authentic_bluecanopy',
+     photo_post(SL, SQ, f'{SLR}/sl_auth_41_feed.jpg', 'A Waterfall of Blue, Block Wide', kicker='Authentic Commercial Install'),
+     photo_post(SL, ST, f'{SLR}/sl_auth_41_story.jpg', 'A Waterfall of Blue, Block Wide', kicker='Authentic Commercial Install'))
+both('SL_42_authentic_globes',
+     photo_post(SL, SQ, f'{SLR}/sl_auth_42_feed.jpg', 'A Ceiling of Light', kicker='Authentic Commercial Install'),
+     photo_post(SL, ST, f'{SLR}/sl_auth_42_story.jpg', 'A Ceiling of Light', kicker='Authentic Commercial Install'))
+both('SL_43_authentic_classic',
+     photo_post(SL, SQ, f'{SLR}/sl_auth_43_feed.jpg', 'Classic Red and Green, Done Right', kicker='Authentic Spruce Install'),
+     photo_post(SL, ST, f'{SLR}/sl_auth_43_story.jpg', 'Classic Red and Green, Done Right', kicker='Authentic Spruce Install'))
+
 print('ALL SPRUCE LIGHTS STATIC DONE (v4, photo-first)')
