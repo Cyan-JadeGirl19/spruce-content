@@ -149,4 +149,17 @@ both('SL_43_authentic_classic',
      photo_post(SL, SQ, f'{SLR}/sl_auth_43_feed.jpg', 'Classic Red and Green, Done Right', kicker='Authentic Spruce Install'),
      photo_post(SL, ST, f'{SLR}/sl_auth_43_story.jpg', 'Classic Red and Green, Done Right', kicker='Authentic Spruce Install'))
 
+both('SL_44_authentic_storybook',
+     photo_post(SL, SQ, f'{SLR}/sl_auth_44_feed.jpg', 'A Storybook Christmas', kicker='Authentic Spruce Install'),
+     photo_post(SL, ST, f'{SLR}/sl_auth_44_story.jpg', 'A Storybook Christmas', kicker='Authentic Spruce Install'))
+both('SL_45_authentic_snowflakes',
+     photo_post(SL, SQ, f'{SLR}/sl_auth_45_feed.jpg', 'Snowflakes That Never Melt', kicker='Authentic Spruce Install'),
+     photo_post(SL, ST, f'{SLR}/sl_auth_45_story.jpg', 'Snowflakes That Never Melt', kicker='Authentic Spruce Install'))
+both('SL_46_authentic_columns',
+     photo_post(SL, SQ, f'{SLR}/sl_auth_46_feed.jpg', 'Every Arch, Every Column', kicker='Authentic Spruce Install'),
+     photo_post(SL, ST, f'{SLR}/sl_auth_46_story.jpg', 'Every Arch, Every Column', kicker='Authentic Spruce Install'))
+both('SL_47_authentic_estate',
+     photo_post(SL, SQ, f'{SLR}/sl_auth_47_feed.jpg', 'The Whole Estate, Aglow', kicker='Authentic Spruce Install'),
+     photo_post(SL, ST, f'{SLR}/sl_auth_47_story.jpg', 'The Whole Estate, Aglow', kicker='Authentic Spruce Install'))
+
 print('ALL SPRUCE LIGHTS STATIC DONE (v4, photo-first)')
