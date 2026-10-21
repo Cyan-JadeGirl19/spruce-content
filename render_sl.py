@@ -175,4 +175,14 @@ both('SL_51_authentic_angles',
      photo_post(SL, SQ, f'{SLR}/sl_auth_51_feed.jpg', 'Every Angle Aglow', kicker='Authentic Spruce Install'),
      photo_post(SL, ST, f'{SLR}/sl_auth_51_story.jpg', 'Every Angle Aglow', kicker='Authentic Spruce Install'))
 
+both('SL_52_authentic_porch',
+     photo_post(SL, SQ, f'{SLR}/sl_auth_52_feed.jpg', 'The Porch Run, Garland and All', kicker='Authentic Spruce Install'),
+     photo_post(SL, ST, f'{SLR}/sl_auth_52_story.jpg', 'The Porch Run, Garland and All', kicker='Authentic Spruce Install'))
+both('SL_53_authentic_chimney',
+     photo_post(SL, SQ, f'{SLR}/sl_auth_53_feed.jpg', 'Even the Chimney Dresses Up', kicker='Authentic Spruce Install'),
+     photo_post(SL, ST, f'{SLR}/sl_auth_53_story.jpg', 'Even the Chimney Dresses Up', kicker='Authentic Spruce Install'))
+both('SL_54_authentic_dormers',
+     photo_post(SL, SQ, f'{SLR}/sl_auth_54_feed.jpg', 'Dormers, Twinkling', kicker='Authentic Spruce Install'),
+     photo_post(SL, ST, f'{SLR}/sl_auth_54_story.jpg', 'Dormers, Twinkling', kicker='Authentic Spruce Install'))
+
 print('ALL SPRUCE LIGHTS STATIC DONE (v4, photo-first)')
