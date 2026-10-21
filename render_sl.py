@@ -162,4 +162,17 @@ both('SL_47_authentic_estate',
      photo_post(SL, SQ, f'{SLR}/sl_auth_47_feed.jpg', 'The Whole Estate, Aglow', kicker='Authentic Spruce Install'),
      photo_post(SL, ST, f'{SLR}/sl_auth_47_story.jpg', 'The Whole Estate, Aglow', kicker='Authentic Spruce Install'))
 
+both('SL_48_authentic_warmwhite',
+     photo_post(SL, SQ, f'{SLR}/sl_auth_48_feed.jpg', 'Wrapped in Warm White', kicker='Authentic Spruce Install'),
+     photo_post(SL, ST, f'{SLR}/sl_auth_48_story.jpg', 'Wrapped in Warm White', kicker='Authentic Spruce Install'))
+both('SL_49_authentic_gables',
+     photo_post(SL, SQ, f'{SLR}/sl_auth_49_feed.jpg', 'Bright Gables, Warm Welcome', kicker='Authentic Spruce Install'),
+     photo_post(SL, ST, f'{SLR}/sl_auth_49_story.jpg', 'Bright Gables, Warm Welcome', kicker='Authentic Spruce Install'))
+both('SL_50_authentic_farmhouse',
+     photo_post(SL, SQ, f'{SLR}/sl_auth_50_feed.jpg', 'The Modern Farmhouse Glow', kicker='Authentic Spruce Install'),
+     photo_post(SL, ST, f'{SLR}/sl_auth_50_story.jpg', 'The Modern Farmhouse Glow', kicker='Authentic Spruce Install'))
+both('SL_51_authentic_angles',
+     photo_post(SL, SQ, f'{SLR}/sl_auth_51_feed.jpg', 'Every Angle Aglow', kicker='Authentic Spruce Install'),
+     photo_post(SL, ST, f'{SLR}/sl_auth_51_story.jpg', 'Every Angle Aglow', kicker='Authentic Spruce Install'))
+
 print('ALL SPRUCE LIGHTS STATIC DONE (v4, photo-first)')
