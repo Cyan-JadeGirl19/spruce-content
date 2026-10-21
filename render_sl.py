@@ -108,4 +108,20 @@ both('SL_30_classic_halloween',
      photo_post(SL, SQ, f'{BG}/sl_halloween_v2_sq.jpg', 'Trick or Treat Tonight. Twinkle by December.', kicker='Halloween \u2192 Christmas'),
      photo_post(SL, ST, f'{BG}/sl_halloween_v2_sq.jpg', 'Trick or Treat Tonight. Twinkle by December.', kicker='Halloween \u2192 Christmas'))
 
+both('SL_31_authentic_joy',
+     photo_post(SL, SQ, f'{SLR}/sl_auth_31_feed.jpg', 'Real Home. Real Spruce Magic.', kicker='Authentic Spruce Install'),
+     photo_post(SL, ST, f'{SLR}/sl_auth_31_story.jpg', 'Real Home. Real Spruce Magic.', kicker='Authentic Spruce Install'))
+both('SL_32_authentic_pond',
+     photo_post(SL, SQ, f'{SLR}/sl_auth_32_feed.jpg', 'Even the Waterfall Gets Dressed Up', kicker='Authentic Spruce Install'),
+     photo_post(SL, ST, f'{SLR}/sl_auth_32_story.jpg', 'Even the Waterfall Gets Dressed Up', kicker='Authentic Spruce Install'))
+both('SL_33_authentic_landscape',
+     photo_post(SL, SQ, f'{SLR}/sl_auth_33_feed.jpg', 'Every Level of Your Yard, Lit', kicker='Authentic Spruce Install'),
+     photo_post(SL, ST, f'{SLR}/sl_auth_33_story.jpg', 'Every Level of Your Yard, Lit', kicker='Authentic Spruce Install'))
+both('SL_34_authentic_forest',
+     photo_post(SL, SQ, f'{SLR}/sl_auth_34_feed.jpg', 'Backyard Creek, Front Yard Wow', kicker='Authentic Spruce Install'),
+     photo_post(SL, ST, f'{SLR}/sl_auth_34_story.jpg', 'Backyard Creek, Front Yard Wow', kicker='Authentic Spruce Install'))
+both('SL_35_authentic_trio',
+     photo_post(SL, SQ, f'{SLR}/sl_auth_35_feed.jpg', 'Three Trees, One Showstopper Yard', kicker='Authentic Spruce Install'),
+     photo_post(SL, ST, f'{SLR}/sl_auth_35_story.jpg', 'Three Trees, One Showstopper Yard', kicker='Authentic Spruce Install'))
+
 print('ALL SPRUCE LIGHTS STATIC DONE (v4, photo-first)')
