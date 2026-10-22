@@ -155,10 +155,10 @@ posts = [
 
 for pid, typ, name, cap, tags in posts:
     t = doc.add_table(rows=1, cols=2); t.autofit=False
-    set_grid(t, (1.65, 5.45))
+    set_grid(t, (2.35, 4.75))
     left, right = t.rows[0].cells
-    left.width=Inches(1.65); right.width=Inches(5.45)
-    left.paragraphs[0].add_run().add_picture(f"{TH}/{pid}.jpg", width=Inches(1.5))
+    left.width=Inches(2.35); right.width=Inches(4.75)
+    left.paragraphs[0].add_run().add_picture(f"{TH}/{pid}.jpg", width=Inches(2.2))
     right.text=""
     hp = right.paragraphs[0]
     hr = hp.add_run(f"{pid}  ·  {name}   "); hr.bold=True; hr.font.size=Pt(11); hr.font.color.rgb=PINE
@@ -204,17 +204,17 @@ sched = [
  ("SL_54","Wed Feb 10","Residential","Cottage dormers, wreath at the door"),
 ]
 tbl = doc.add_table(rows=1, cols=4); tbl.autofit = False
-set_grid(tbl, (1.65, 1.05, 1.0, 3.4))
+set_grid(tbl, (2.35, 1.0, 0.95, 2.8))
 hdr = tbl.rows[0].cells
 for i,t in enumerate(("Preview","Date","Type","Post and angle")):
     hdr[i].text=""
     r = hdr[i].paragraphs[0].add_run(t); r.bold=True; r.font.size=Pt(10); r.font.color.rgb=PINE
     cell_bg(hdr[i], LIGHT)
-    hdr[i].width = Inches((1.65,1.05,1.0,3.4)[i])
+    hdr[i].width = Inches((2.35,1.0,0.95,2.8)[i])
 for pid,date,typ,angle in sched:
     row = tbl.add_row().cells
-    for i,w in enumerate((1.65,1.05,1.0,3.4)): row[i].width=Inches(w)
-    row[0].paragraphs[0].add_run().add_picture(f"{TH}/{pid}.jpg", width=Inches(1.5))
+    for i,w in enumerate((2.35,1.0,0.95,2.8)): row[i].width=Inches(w)
+    row[0].paragraphs[0].add_run().add_picture(f"{TH}/{pid}.jpg", width=Inches(2.2))
     row[1].text=""; dr=row[1].paragraphs[0].add_run(date); dr.font.size=Pt(9.5); dr.bold=True; dr.font.color.rgb=GRAY
     row[2].text=""; tr=row[2].paragraphs[0].add_run(typ); tr.font.size=Pt(9.5); tr.bold=True
     tr.font.color.rgb = GOLD if typ=="Commercial" else LIME
