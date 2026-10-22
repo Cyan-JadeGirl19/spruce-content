@@ -151,8 +151,8 @@ posts = [
 for pid, typ, name, cap, tags in posts:
     t = doc.add_table(rows=1, cols=2); t.autofit=False
     left, right = t.rows[0].cells
-    left.width=Inches(2.05); right.width=Inches(5.05)
-    left.paragraphs[0].add_run().add_picture(f"{TH}/{pid}.jpg", width=Inches(1.85))
+    left.width=Inches(1.65); right.width=Inches(5.45)
+    left.paragraphs[0].add_run().add_picture(f"{TH}/{pid}.jpg", width=Inches(1.5))
     right.text=""
     hp = right.paragraphs[0]
     hr = hp.add_run(f"{pid}  ·  {name}   "); hr.bold=True; hr.font.size=Pt(11); hr.font.color.rgb=PINE
