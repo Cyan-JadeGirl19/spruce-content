@@ -37,6 +37,11 @@ def h2(text, before=14):
     p.paragraph_format.space_before = Pt(before); p.paragraph_format.space_after = Pt(6)
     return p
 
+def set_grid(tbl, inches):
+    grid = tbl._tbl.find(qn('w:tblGrid'))
+    for c, w in zip(grid.findall(qn('w:gridCol')), inches):
+        c.set(qn('w:w'), str(int(w*1440)))
+
 def cell_bg(cell, hexfill):
     el = OxmlElement('w:shd'); el.set(qn('w:val'), 'clear'); el.set(qn('w:fill'), hexfill)
     cell._tc.get_or_add_tcPr().append(el)
@@ -150,6 +155,7 @@ posts = [
 
 for pid, typ, name, cap, tags in posts:
     t = doc.add_table(rows=1, cols=2); t.autofit=False
+    set_grid(t, (1.65, 5.45))
     left, right = t.rows[0].cells
     left.width=Inches(1.65); right.width=Inches(5.45)
     left.paragraphs[0].add_run().add_picture(f"{TH}/{pid}.jpg", width=Inches(1.5))
@@ -198,6 +204,7 @@ sched = [
  ("SL_54","Wed Feb 10","Residential","Cottage dormers, wreath at the door"),
 ]
 tbl = doc.add_table(rows=1, cols=4); tbl.autofit = False
+set_grid(tbl, (1.65, 1.05, 1.0, 3.4))
 hdr = tbl.rows[0].cells
 for i,t in enumerate(("Preview","Date","Type","Post and angle")):
     hdr[i].text=""
