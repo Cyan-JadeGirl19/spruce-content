@@ -67,60 +67,6 @@ para("Two things to know before posting. First, the captions and hashtags delibe
 para("December dates get the most eyes, so the calendar starts there and rolls into January, where the "
      "message quietly becomes, the lights came down but next season is already booking.")
 
-# ---------------------------------------------------------------- calendar
-doc.add_page_break()
-h2("The calendar", before=0)
-para("Two posts a week, Mondays and Wednesdays or Fridays. The commercial installs are mixed in on high "
-     "traffic dates to catch business owners scrolling over the holidays.", 10, False, GRAY, after=8)
-
-sched = [
- ("SL_31","Mon Dec 14","Residential","The JOY house, full roofline"),
- ("SL_32","Wed Dec 16","Residential","Snowman and the lit waterfall"),
- ("SL_41","Fri Dec 18","Commercial","Blue canopy over the whole block"),
- ("SL_33","Mon Dec 21","Residential","Tiered landscape, porch to creek"),
- ("SL_42","Tue Dec 22","Commercial","A ceiling of glowing globes"),
- ("SL_35","Wed Dec 23","Residential","Three trees and the reindeer family"),
- ("SL_36","Mon Dec 28","Residential","Every gable traced in warm white"),
- ("SL_37","Wed Dec 30","Residential","The deep porch with garland rails"),
- ("SL_38","Mon Jan 4","Residential","Warm white on brick, wreaths lit"),
- ("SL_39","Wed Jan 6","Residential","Blue hour on the farmhouse roof"),
- ("SL_40","Fri Jan 8","Residential","Gables plus a trunk wrap"),
- ("SL_34","Mon Jan 11","Residential","The creek that glows blue"),
- ("SL_43","Wed Jan 13","Residential","Classic red and green, done right"),
- ("SL_44","Mon Jan 18","Residential","Storybook cottage, dormers lit"),
- ("SL_45","Wed Jan 20","Residential","Hanging snowflakes in the big oak"),
- ("SL_46","Fri Jan 22","Residential","Dormer wreaths, full roofline trace"),
- ("SL_47","Mon Jan 25","Residential","The estate from the long drive"),
- ("SL_48","Wed Jan 27","Residential","House trace plus the giant oak wrap"),
- ("SL_49","Fri Jan 29","Residential","White brick, bright gables"),
- ("SL_50","Mon Feb 1","Residential","Blue hour on the modern farmhouse"),
- ("SL_51","Wed Feb 3","Residential","Every pitch traced, garage included"),
- ("SL_52","Fri Feb 5","Residential","Porch run with garland rails"),
- ("SL_53","Mon Feb 8","Residential","Tall chimney, full gable trace"),
- ("SL_54","Wed Feb 10","Residential","Cottage dormers, wreath at the door"),
-]
-tbl = doc.add_table(rows=1, cols=4); tbl.autofit = False
-hdr = tbl.rows[0].cells
-for i,t in enumerate(("Preview","Date","Type","Post and angle")):
-    hdr[i].text=""
-    r = hdr[i].paragraphs[0].add_run(t); r.bold=True; r.font.size=Pt(10); r.font.color.rgb=PINE
-    cell_bg(hdr[i], LIGHT)
-    hdr[i].width = Inches((1.2,1.15,1.15,3.4)[i])
-for pid,date,typ,angle in sched:
-    row = tbl.add_row().cells
-    for i,w in enumerate((1.2,1.15,1.15,3.4)): row[i].width=Inches(w)
-    row[0].paragraphs[0].add_run().add_picture(f"{TH}/{pid}.jpg", width=Inches(1.05))
-    row[1].text=""; dr=row[1].paragraphs[0].add_run(date); dr.font.size=Pt(9.5); dr.bold=True; dr.font.color.rgb=GRAY
-    row[2].text=""; tr=row[2].paragraphs[0].add_run(typ); tr.font.size=Pt(9.5); tr.bold=True
-    tr.font.color.rgb = GOLD if typ=="Commercial" else LIME
-    row[3].text=""; pr=row[3].paragraphs[0].add_run(f"{pid}  "); pr.bold=True; pr.font.size=Pt(9.5); pr.font.color.rgb=PINE
-    ar=row[3].paragraphs[0].add_run(angle); ar.font.size=Pt(9.5)
-    if typ=="Commercial":
-        cell_bg(row[2], GOLDBG); cell_bg(row[3], GOLDBG)
-
-para("The gold rows are your commercial installs. Those two captions speak to business owners, property "
-     "managers and municipalities rather than homeowners.", 9.5, False, GRAY, before=6)
-
 # ---------------------------------------------------------------- captions
 doc.add_page_break()
 h2("Captions and hashtags", before=0)
@@ -205,8 +151,8 @@ posts = [
 for pid, typ, name, cap, tags in posts:
     t = doc.add_table(rows=1, cols=2); t.autofit=False
     left, right = t.rows[0].cells
-    left.width=Inches(1.5); right.width=Inches(5.4)
-    left.paragraphs[0].add_run().add_picture(f"{TH}/{pid}.jpg", width=Inches(1.35))
+    left.width=Inches(2.05); right.width=Inches(5.05)
+    left.paragraphs[0].add_run().add_picture(f"{TH}/{pid}.jpg", width=Inches(1.85))
     right.text=""
     hp = right.paragraphs[0]
     hr = hp.add_run(f"{pid}  ·  {name}   "); hr.bold=True; hr.font.size=Pt(11); hr.font.color.rgb=PINE
@@ -218,6 +164,60 @@ for pid, typ, name, cap, tags in posts:
     tp.paragraph_format.space_after=Pt(2)
     cell_bg(right, CREAM)
     doc.add_paragraph().paragraph_format.space_after=Pt(0)
+
+# ---------------------------------------------------------------- calendar
+doc.add_page_break()
+h2("The calendar", before=0)
+para("Two posts a week, Mondays and Wednesdays or Fridays. The commercial installs are mixed in on high "
+     "traffic dates to catch business owners scrolling over the holidays.", 10, False, GRAY, after=8)
+
+sched = [
+ ("SL_31","Mon Dec 14","Residential","The JOY house, full roofline"),
+ ("SL_32","Wed Dec 16","Residential","Snowman and the lit waterfall"),
+ ("SL_41","Fri Dec 18","Commercial","Blue canopy over the whole block"),
+ ("SL_33","Mon Dec 21","Residential","Tiered landscape, porch to creek"),
+ ("SL_42","Tue Dec 22","Commercial","A ceiling of glowing globes"),
+ ("SL_35","Wed Dec 23","Residential","Three trees and the reindeer family"),
+ ("SL_36","Mon Dec 28","Residential","Every gable traced in warm white"),
+ ("SL_37","Wed Dec 30","Residential","The deep porch with garland rails"),
+ ("SL_38","Mon Jan 4","Residential","Warm white on brick, wreaths lit"),
+ ("SL_39","Wed Jan 6","Residential","Blue hour on the farmhouse roof"),
+ ("SL_40","Fri Jan 8","Residential","Gables plus a trunk wrap"),
+ ("SL_34","Mon Jan 11","Residential","The creek that glows blue"),
+ ("SL_43","Wed Jan 13","Residential","Classic red and green, done right"),
+ ("SL_44","Mon Jan 18","Residential","Storybook cottage, dormers lit"),
+ ("SL_45","Wed Jan 20","Residential","Hanging snowflakes in the big oak"),
+ ("SL_46","Fri Jan 22","Residential","Dormer wreaths, full roofline trace"),
+ ("SL_47","Mon Jan 25","Residential","The estate from the long drive"),
+ ("SL_48","Wed Jan 27","Residential","House trace plus the giant oak wrap"),
+ ("SL_49","Fri Jan 29","Residential","White brick, bright gables"),
+ ("SL_50","Mon Feb 1","Residential","Blue hour on the modern farmhouse"),
+ ("SL_51","Wed Feb 3","Residential","Every pitch traced, garage included"),
+ ("SL_52","Fri Feb 5","Residential","Porch run with garland rails"),
+ ("SL_53","Mon Feb 8","Residential","Tall chimney, full gable trace"),
+ ("SL_54","Wed Feb 10","Residential","Cottage dormers, wreath at the door"),
+]
+tbl = doc.add_table(rows=1, cols=4); tbl.autofit = False
+hdr = tbl.rows[0].cells
+for i,t in enumerate(("Preview","Date","Type","Post and angle")):
+    hdr[i].text=""
+    r = hdr[i].paragraphs[0].add_run(t); r.bold=True; r.font.size=Pt(10); r.font.color.rgb=PINE
+    cell_bg(hdr[i], LIGHT)
+    hdr[i].width = Inches((1.65,1.05,1.0,3.4)[i])
+for pid,date,typ,angle in sched:
+    row = tbl.add_row().cells
+    for i,w in enumerate((1.65,1.05,1.0,3.4)): row[i].width=Inches(w)
+    row[0].paragraphs[0].add_run().add_picture(f"{TH}/{pid}.jpg", width=Inches(1.5))
+    row[1].text=""; dr=row[1].paragraphs[0].add_run(date); dr.font.size=Pt(9.5); dr.bold=True; dr.font.color.rgb=GRAY
+    row[2].text=""; tr=row[2].paragraphs[0].add_run(typ); tr.font.size=Pt(9.5); tr.bold=True
+    tr.font.color.rgb = GOLD if typ=="Commercial" else LIME
+    row[3].text=""; pr=row[3].paragraphs[0].add_run(f"{pid}  "); pr.bold=True; pr.font.size=Pt(9.5); pr.font.color.rgb=PINE
+    ar=row[3].paragraphs[0].add_run(angle); ar.font.size=Pt(9.5)
+    if typ=="Commercial":
+        cell_bg(row[2], GOLDBG); cell_bg(row[3], GOLDBG)
+
+para("The gold rows are your commercial installs. Those two captions speak to business owners, property "
+     "managers and municipalities rather than homeowners.", 9.5, False, GRAY, before=6)
 
 # ---------------------------------------------------------------- notes
 doc.add_page_break()
