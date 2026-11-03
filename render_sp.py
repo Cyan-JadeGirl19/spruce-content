@@ -77,3 +77,6 @@ both('SP_20_fall_checklist',
      photo_post(SP, ST, f'{P}/sp_05_Spruce57-scaled-1.jpg', 'Your Fall Exterior Checklist', kicker='Wash • Windows • Gutters'))
 
 print('ALL SPRUCE PRO STATIC DONE (v4, photo-first)')
+
+# Did You Know? series (SP_21-24, flyer-style)
+exec(open('/home/user/spruce/render_posts.py').read())
