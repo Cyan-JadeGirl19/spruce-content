@@ -101,6 +101,18 @@ POSTS = [
  ("SP_24_dyk_drone", f'{P}/sp24_drone_facade.jpg',
   "Our drone rig clears gutters and rooflines up to five stories. No ladders leaning on your home.",
   ["Video inspection included", "Safer for your roof, faster for you", "Free quote with every flight"]),
+ ("SP_28_dyk_graffiti", f'{P}/sp28_graffiti_removal.jpg',
+  "Graffiti comes off easier than you think, if you move fast. Fresh paint lifts in one visit. Old cured paint needs a second pass.",
+  ["Brick, concrete and metal", "Discreet, fast scheduling", "Before photos for your insurer"]),
+ ("SP_25_dyk_housewash", f'{P}/sp25_housewash_suds.jpg',
+  "That green tint on your siding is algae, and it spreads. Every rain splash moves it to the panels next door.",
+  ["SoftWash kills it at the root", "Plant and pet safe mix", "Rinse included, no residue"]),
+ ("SP_26_dyk_guards", f'{P}/sp26_guard_tension.jpg',
+  "Gutter guards work by surface tension. Water clings to the curved nose and flows in. Leaves never touch the water.",
+  ["Fits existing gutters", "Handled from the ladder line", "Clog free guarantee"]),
+ ("SP_27_dyk_concrete", f'{P}/sp27_concrete_clean.jpg',
+  "Concrete is porous. Every spill and streak sinks in and darkens it. Cleaning opens the pores back up and seals them clean.",
+  ["Surface cleaner, no zebra stripes", "Oil treatment available", "Fences and patios too"]),
 ]
 
 if __name__ == '__main__':
