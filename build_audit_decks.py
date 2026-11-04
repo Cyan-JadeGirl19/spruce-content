@@ -15,6 +15,7 @@ W, H = Inches(13.333), Inches(7.5)
 SL = dict(
     key="sl", deck="/home/user/SL_Digital_Marketing_Audit_Nov2026.pptx",
     logo=f"{ROOT}/assets/brand/sl_logo.png",
+    logo_w=f"{ROOT}/assets/brand/sl_logo_white.png",
     HEAD="Georgia", BODY="Calibri",
     PINE=RGBColor(0x1E,0x46,0x20), PINE_D=RGBColor(0x12,0x2A,0x14),
     ACC=RGBColor(0xFF,0xC9,0x3C), ACC2=RGBColor(0xB8,0x86,0x0B),
@@ -27,6 +28,7 @@ SL = dict(
 SP = dict(
     key="sp", deck="/home/user/SP_Digital_Marketing_Audit_Nov2026.pptx",
     logo=f"{ROOT}/assets/brand/sp_logo_color.png",
+    logo_w=f"{ROOT}/assets/brand/sp_logo_white.png",
     HEAD="Arial", BODY="Calibri",
     PINE=RGBColor(0x00,0x30,0x3C), PINE_D=RGBColor(0x00,0x21,0x2A),
     ACC=RGBColor(0x1C,0xC8,0xD0), ACC2=RGBColor(0x90,0xD0,0x00),
@@ -86,9 +88,10 @@ def chip(s, x, y, label, color, w=Inches(1.35), size=11):
     r.font.size = Pt(size); r.font.bold = True; r.font.color.rgb = WHITE; r.font.name = "Calibri"
     return sh
 
-def logo_img(s, T, x, y, h):
-    im = Image.open(T["logo"]); w = int(h * im.width / im.height)
-    s.shapes.add_picture(T["logo"], x, y, height=h)
+def logo_img(s, T, x, y, h, white=False):
+    p = T["logo_w"] if white else T["logo"]
+    im = Image.open(p); w = int(h * im.width / im.height)
+    s.shapes.add_picture(p, x, y, height=h)
     return w
 
 def base(prs, T, kicker=None, num=None):
@@ -120,7 +123,7 @@ def divider(prs, T, num_txt, title, sub):
         size=40, bold=True, color=WHITE, font=T["HEAD"])
     txt(s, Inches(3.45), Inches(3.55), Inches(9.0), Inches(0.9), sub,
         size=15, color=RGBColor(0xCF,0xE2,0xD2) if T["key"]=="sl" else RGBColor(0xC5,0xE4,0xE6))
-    lw = logo_img(s, T, W - Inches(2.1), Inches(0.5), Inches(0.7))
+    lw = logo_img(s, T, W - Inches(2.1), Inches(0.5), Inches(0.7), white=True)
     return s
 
 def bullets(s, T, x, y, w, items, size=13.5, gap=8, marker_color=None, tcolor=None):
@@ -174,7 +177,7 @@ def build(T):
         spacing=1.02)
     txt(s, Inches(1.25), Inches(4.15), Inches(10.0), Inches(0.5), T["tagline"],
         size=16, color=RGBColor(0xD8,0xE6,0xDC) if T["key"]=="sl" else RGBColor(0xC9,0xE6,0xE8))
-    logo_img(s, T, Inches(9.4), Inches(0.75), Inches(1.05))
+    logo_img(s, T, Inches(9.4), Inches(0.75), Inches(1.05), white=True)
     txt(s, Inches(1.25), Inches(5.4), Inches(9.0), Inches(0.4),
         f"Prepared {AUDIT_DATE}  ·  External audit: what we verified, what broke, and the fix plan",
         size=12.5, color=RGBColor(0xBF,0xD4,0xC4) if T["key"]=="sl" else RGBColor(0xB8,0xD8,0xDA))
@@ -264,7 +267,7 @@ def build(T):
             ("Nobody — including whoever built them — can say which container is authoritative without checking the accounts.", WHITE),
             ("Fix: crown one container, archive the rest. One focused afternoon.", T["ACC2"]),
         ], size=16, gap=12, marker_color=T["ACC2"], tcolor=WHITE)
-    lw = logo_img(s, T, W - Inches(2.05), Inches(0.5), Inches(0.7))
+    lw = logo_img(s, T, W - Inches(2.05), Inches(0.5), Inches(0.7), white=True)
     # ---------------- 5 ADS divider
     divider(prs, T, "01", "Google Ads", "What the public record shows, what the market does, and the 90-day rebuild")
     # ---------------- 6 ads findings
@@ -580,7 +583,7 @@ def build(T):
     txt(s, Inches(1.15), Inches(6.2), Inches(11.0), Inches(0.8),
         [[(T["name"], {"bold": True, "size": 14, "color": WHITE})],
          [(T["contact"], {"size": 12, "color": T["ACC"]})]], spacing=1.15)
-    logo_img(s, T, W - Inches(2.05), Inches(0.5), Inches(0.7))
+    logo_img(s, T, W - Inches(2.05), Inches(0.5), Inches(0.7), white=True)
     prs.save(T["deck"])
     return T["deck"]
 
